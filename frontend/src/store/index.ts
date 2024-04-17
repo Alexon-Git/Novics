@@ -2,9 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import logger from 'redux-logger'
 import authReducer from './auth/authReducer'
+import modalReducer from './modal/modalReducer'
 
 const RootReducer = combineReducers({
-  authReducer: authReducer
+  authReducer: authReducer,
+  modalReducer: modalReducer
 })
 
 export const store = configureStore({

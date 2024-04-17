@@ -1,58 +1,50 @@
-import { Link } from 'react-router-dom'
-import { INewsCard } from '../../../types/section.interface'
-import HomeNewsCard from '../../ui/card/HomeNewsCard/HomeNewsCard'
+import { Link } from "react-router-dom"
+import HomeDocsCard from "../../ui/card/HomeDocsCard/HomeDocsCard"
+import { IDocsCard } from "../../../types/section.interface"
 
-const HomeNews = () => {
-  const cards: INewsCard[] = [
+const HomeDocs = () => {
+  const docs: IDocsCard[] = [
     {
       id: 0,
-      img: '/mocks/print.png',
-      text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      title: 'Обязательство о неразглашении конфиденциальной информации ',
+      size: '222кб',
+      date: '06.02.2023',
+      url: 'https://vk.com'
     },
     {
       id: 1,
-      img: '/mocks/print.png',
-      text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      title: 'Обязательство о неразглашении конфиденциальной информации ',
+      size: '222кб',
+      date: '06.02.2023',
+      url: 'https://vk.com'
     },
     {
       id: 2,
-      img: '/mocks/print.png',
-      text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      title: 'Обязательство о неразглашении конфиденциальной информации ',
+      size: '222кб',
+      date: '06.02.2023',
+      url: 'https://vk.com'
     },
     {
       id: 3,
-      img: '/mocks/print.png',
-      text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      title: 'Обязательство о неразглашении конфиденциальной информации ',
+      size: '222кб',
+      date: '06.02.2023',
+      url: 'https://vk.com'
     }
   ]
   return (
-    <section id='news' className="my-20">
+    <section id="docs" className="my-20">
       <div className="hero mx-auto container">
-        <div className="flex flex-col gap-4">
-          <h2 className="text-[36px] font-bold">Новости</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 justify-between items-center gap-8">
-            {cards.map((card) => (
-              <HomeNewsCard key={card.id} props={card} />
+        <div className="w-full flex flex-col gap-4">
+          <h2 className="text-[36px] font-bold">Документы</h2>
+          <div className="flex flex-col justify-between items-center gap-8">
+            {docs.map((doc) => (
+              <HomeDocsCard key={doc.id} props={doc} />
             ))}
           </div>
           <Link to="https://vk.com" className="flex justify-end items-center gap-2 opacity-65">
-            <p>Все новости</p>
+            <p>Все документы</p>
             <svg
               width="14"
               height="9"
@@ -74,4 +66,4 @@ const HomeNews = () => {
   )
 }
 
-export default HomeNews
+export default HomeDocs

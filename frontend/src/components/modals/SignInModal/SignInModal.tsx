@@ -1,4 +1,4 @@
-const SignInModal = (props: Props) => {
+const SignInModal = () => {
   return <div>SignInModal</div>
 }
 

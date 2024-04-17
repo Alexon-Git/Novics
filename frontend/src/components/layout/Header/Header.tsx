@@ -8,17 +8,17 @@ export const Links: ILinks[] = [
   },
   {
     id: 1,
-    url: '/news',
+    anchor: '#news',
     title: 'Новости'
   },
   {
     id: 2,
-    url: '/polls',
+    anchor: '#polls',
     title: 'Опросы'
   },
   {
     id: 3,
-    url: '/documents',
+    anchor: '#docs',
     title: 'Документы'
   }
 ]

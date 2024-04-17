@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { INewsCard } from '../../../types/section.interface'
+import { INewsCard } from '../../../../types/section.interface'
 
 const HomeNewsCard = ({ props }: { props: INewsCard }) => {
   return (

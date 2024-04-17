@@ -1,8 +1,8 @@
 const HomeHeader = () => {
   return (
-    <section className="bg-bg-gradient pt-48 pb-8 w-full min-h-[800px] bg-cover bg-no-repeat flex items-center lg:pt-0 lg:pb-0">
+    <section className="bg-bg-gradient pt-32 pb-8 w-full min-h-[800px] bg-cover bg-no-repeat flex items-center lg:pt-0 lg:pb-0">
       <div className="hero mx-auto container">
-        <div className="flex justify-between items-center flex-col gap-24 lg:flex-row-reverse">
+        <div className="flex justify-between items-center flex-col gap-8 lg:gap-24 lg:flex-row-reverse">
           <img src="/mocks/tablet.png" className="w-full max-w-xl drop-shadow-2xl" />
           <div className="text-base-100">
             <h1 className="text-3xl font-bold">

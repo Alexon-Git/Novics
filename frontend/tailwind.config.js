@@ -14,7 +14,13 @@ export default {
     },
     backgroundImage: {
       'bg-gradient': "url('/bg/bg.png')",
-    }
+    },
+    container: {
+      padding: {
+        DEFAULT: '1rem',
+        sm: '0rem',
+      },
+    },
   },
   daisyui: {
     themes: [
