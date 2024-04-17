@@ -1,6 +1,12 @@
+import HomeHeader from '../components/section/HomeHeader/HomeHeader'
+import HomeNews from '../components/section/HomeNews/HomeNews'
+
 const HomePage = () => {
   return (
-    <div>HomePage</div>
+    <>
+      <HomeHeader />
+      <HomeNews />
+    </>
   )
 }
 

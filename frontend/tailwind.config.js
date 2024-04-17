@@ -11,6 +11,9 @@ export default {
     },
     colors: {
       primary: '#0E41E9'
+    },
+    backgroundImage: {
+      'bg-gradient': "url('/bg/bg.png')",
     }
   },
   daisyui: {
@@ -25,7 +28,8 @@ export default {
           info: '#8996FF',
           success: '#DEFFDB',
           warning: '#fff129',
-          error: '#FFDFDB'
+          error: '#FFDFDB',
+          "--rounded-btn": "32px", 
         }
       }
     ]
