@@ -48,11 +48,11 @@ const SignModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel ref={parent} className="modal-box bg-[#797979] text-base-100">
-                <div className="flex justify-between relative">
-                    <button className='text-2xl font-bold' onClick={() => dispatch(openSignInModal())}>Войти</button>
-                    <span className={`text-2xl font-bold absolute left-0 ${!isSignUpModalOpen ? '' : 'translate-x-52'} bottom-0 text-transparent h-1 bg-secondary rounded-full duration-200`}>{!isSignUpModalOpen ? 'Войти' : 'Зарегистрироваться'}</span>
-                    <button className='text-2xl font-bold' onClick={() => dispatch(openSignUpModal())}>Зарегистрироваться</button>
+              <Dialog.Panel ref={parent} className="modal-box w-auto bg-[#797979] text-base-100">
+                <div className="flex justify-between gap-10 relative">
+                    <button className='text-2xl font-bold uppercase z-10' onClick={() => dispatch(openSignInModal())}>Войти</button>
+                    <span className={`text-2xl font-bold absolute uppercase left-0 ${!isSignUpModalOpen ? '' : 'translate-x-32'} -bottom-1 text-transparent h-1 bg-secondary rounded-full duration-200`}>{!isSignUpModalOpen ? 'Войти' : 'Зарегистрироваться'}</span>
+                    <button className='text-2xl font-bold uppercase z-10' onClick={() => dispatch(openSignUpModal())}>Зарегистрироваться</button>
                 </div>
                 {isSignUpModalOpen ? (
                   <>
