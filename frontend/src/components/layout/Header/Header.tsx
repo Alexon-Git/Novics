@@ -25,9 +25,9 @@ export const Links: ILinks[] = [
 
 const Header = ({ children }: { children: React.ReactElement[] }) => {
   return (
-    <header className="absolute top-0 w-full">
-      <div className="relative mx-auto container navbar py-6 z-30">{children}</div>
-    </header>
+    <div className='flex justify-center'>
+      <header className="absolute top-0 navbar container px-0 py-6 z-20">{children}</header>
+    </div>
   )
 }
 

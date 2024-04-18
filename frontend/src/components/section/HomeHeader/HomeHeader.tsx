@@ -1,4 +1,8 @@
+import { useDispatch } from "react-redux"
+import { openSignInModal, openSignUpModal } from "../../../store/modals/modalReducer"
+
 const HomeHeader = () => {
+  const dispatch = useDispatch()
   return (
     <section className="bg-bg-gradient pt-32 pb-8 w-full min-h-[800px] bg-cover bg-no-repeat flex items-center lg:pt-0 lg:pb-0">
       <div className="hero mx-auto container">
@@ -15,10 +19,10 @@ const HomeHeader = () => {
               иностранных студентов.
             </p>
             <div className="flex gap-4">
-              <button className="btn btn-secondary text-base-100 px-6">
+              <button onClick={() => dispatch(openSignInModal())} className="btn btn-secondary text-base-100 px-6">
                 Войти
               </button>
-              <button className="btn btn-outline btn-ghost text-base-100 px-6">
+              <button onClick={() => dispatch(openSignUpModal())} className="btn btn-outline btn-ghost text-base-100 px-6">
                 Зарегестрироваться
               </button>
             </div>

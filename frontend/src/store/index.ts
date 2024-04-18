@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import logger from 'redux-logger'
 import authReducer from './auth/authReducer'
-import modalReducer from './modal/modalReducer'
+import modalReducer from './modals/modalReducer'
 
 const RootReducer = combineReducers({
   authReducer: authReducer,
