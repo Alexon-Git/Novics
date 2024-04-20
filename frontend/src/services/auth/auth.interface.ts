@@ -1,3 +1,5 @@
+import { ERole } from "../../hooks/role.enum"
+
 export interface IUser {
   id: string | number
   firstName: string
@@ -7,7 +9,7 @@ export interface IUser {
   city: string | null
   country: string | null
   timeZone: string | null
-  role: string
+  role: ERole
   isEmailConfirmed: boolean
   isCheckedByAdmin: boolean
 }

@@ -9,6 +9,8 @@ import HeaderRight from './components/layout/Header/HeaderRight/HeaderRight'
 import SignModal from './components/modals/SignModal/SignModal'
 import { useEffect, useRef } from 'react'
 import autoAnimate from '@formkit/auto-animate'
+import Dashboard from './pages/Dashboard'
+import NotFound from './pages/NotFound'
 
 const App = () => {
   const parent = useRef(null)
@@ -26,9 +28,10 @@ const App = () => {
       <SignModal />
       <div ref={parent}>
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/dashboard/:role" element={<ProfilePage />} />
+          <Route path="/dashboard/:role" element={<Dashboard />} />
         </Routes>
       </div>
       <Footer />
