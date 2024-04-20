@@ -13,14 +13,14 @@ export default {
       primary: '#0E41E9'
     },
     backgroundImage: {
-      'bg-gradient': "url('/bg/bg.png')",
+      'bg-gradient': "url('/bg/bg.svg')",
     },
     container: {
       padding: {
         DEFAULT: '1rem',
-        sm: '0rem',
-      },
-    },
+        sm: '0rem'
+      }
+    }
   },
   daisyui: {
     themes: [
@@ -34,8 +34,8 @@ export default {
           info: '#8996FF',
           success: '#DEFFDB',
           warning: '#fff129',
-          error: '#FFDFDB',
-          "--rounded-btn": "32px", 
+          error: '#FF0007',
+          '--rounded-btn': '32px'
         }
       }
     ]

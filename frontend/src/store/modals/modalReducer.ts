@@ -21,7 +21,9 @@ const modalSlice = createSlice({
       state.isSignInModalOpen = true
       state.isSignUpModalOpen = false
     },
-    closeModal: () => initialState
+    closeModal: (state) => {
+      state.isOpen = false
+    }
   }
 })
 

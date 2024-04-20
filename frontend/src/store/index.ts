@@ -1,17 +1,23 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import logger from 'redux-logger'
-import authReducer from './auth/authReducer'
 import modalReducer from './modals/modalReducer'
+import authReducer from './auth/authReducer'
+import { api } from '../services/api'
 
 const RootReducer = combineReducers({
-  authReducer: authReducer,
-  modalReducer: modalReducer
+  auth: authReducer,
+  [api.reducerPath]: api.reducer,
+  modal: modalReducer
 })
 
 export const store = configureStore({
   reducer: RootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...(process.env.NODE_ENV === 'production' ? [logger] : []))
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      ...(process.env.NODE_ENV === 'production' ? [logger] : []),
+      api.middleware
+    )
 })
 
 export type RootStore = ReturnType<typeof store.getState>

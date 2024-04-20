@@ -3,13 +3,14 @@ import { INewsCard } from '../../../../types/section.interface'
 
 const HomeNewsCard = ({ props }: { props: INewsCard }) => {
   return (
-    <Link to={`/news/${props.id}`} className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <img src={props.img} alt="newsImage" className="rounded-[20px]" />
+      <h3 className=' font-bold text-xl'>{props.title}</h3>
       <p>{props.text}</p>
-      <a href={props.link.url} className="font-semibold">
-        {props.link.title}
-      </a>
-    </Link>
+      <Link to={props.url} className="font-semibold">
+        {props.url}
+      </Link>
+    </div>
   )
 }
 

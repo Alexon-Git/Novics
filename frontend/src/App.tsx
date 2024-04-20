@@ -28,6 +28,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/dashboard/:role" element={<ProfilePage />} />
         </Routes>
       </div>
       <Footer />

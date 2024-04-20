@@ -1,11 +1,7 @@
-export interface INewsCard {
+import { INew } from "../services/news/news.interface"
+
+export interface INewsCard extends INew {
   id: string | number
-  img: string
-  text: string
-  link: {
-    url: string
-    title: string
-  }
 }
 
 export interface IPollsCard {

@@ -1,17 +1,6 @@
-export interface IProfile {
-  profileInfo: string | null
-  role: string | null
-}
+import { IUser } from '../../services/auth/auth.interface'
 
 export interface IAuthState {
-  authData: {
-    accessToken: string | null
-    isLoading: boolean
-    error: string | null
-  }
-  profileData: {
-    profile: IProfile,
-    isLoading: boolean
-    error: string | null
-  }
+  user: IUser | null
+  token: string | null
 }

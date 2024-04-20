@@ -1,11 +1,20 @@
 export const Endpoints = {
   AUTH: {
-    SIGNIN: '/signin',
-    SIGNUP: '/signup',
-    LOGOUT: '/logout',
-    REFRESH: '/refresh'
+    SIGNIN: '/auth/signin',
+    SIGNUP: '/auth/signup',
+    EMAILCONFIRMATION: '/auth/email-confirm',
+    LOGOUT: '/auth/logout',
+    REFRESH: '/auth/refresh'
   },
   USER: {
-    PROFILE: '/profile'
+    ALL: '/users',
+    CURRENTUSER: '/users/current-user',
+    UPDATE: '/users/update'
+  },
+  NEWS: {
+    GET: '/news',
+    SEARCH: '/news/search',
+    CREATE: '/news/create',
+    DELETE: '/news/delete'
   }
 }

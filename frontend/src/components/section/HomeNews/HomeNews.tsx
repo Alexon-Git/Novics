@@ -7,42 +7,34 @@ const HomeNews = () => {
     {
       id: 0,
       img: '/mocks/print.png',
+      title: 'Lorem ipsum dolor sit amet consectetur',
       text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      url: 'https://Web-site.com'
     },
     {
       id: 1,
       img: '/mocks/print.png',
+      title: 'Lorem ipsum dolor sit amet consectetur',
       text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      url: 'https://Web-site.com'
     },
     {
       id: 2,
       img: '/mocks/print.png',
+      title: 'Lorem ipsum dolor sit amet consectetur',
       text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      url: 'https://Web-site.com'
     },
     {
       id: 3,
       img: '/mocks/print.png',
+      title: 'Lorem ipsum dolor sit amet consectetur',
       text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-      link: {
-        url: 'https://Web-site.com',
-        title: 'Web-site.com'
-      }
+      url: 'https://Web-site.com'
     }
   ]
   return (
-    <section id='news' className="my-20">
+    <section id="news" className="my-20">
       <div className="hero mx-auto container">
         <div className="flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">Новости</h2>
@@ -51,7 +43,10 @@ const HomeNews = () => {
               <HomeNewsCard key={card.id} props={card} />
             ))}
           </div>
-          <Link to="https://vk.com" className="flex justify-end items-center gap-2 opacity-65">
+          <Link
+            to="https://vk.com"
+            className="flex justify-end items-center gap-2 opacity-65"
+          >
             <p>Все новости</p>
             <svg
               width="14"
