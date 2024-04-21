@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html {
+  scroll-behavior: smooth;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum';
+  -moz-font-feature-settings: 'lnum=1';
+  -ms-font-feature-settings: 'lnum';
+  -webkit-font-feature-settings: 'lnum';
+  -o-font-feature-settings: 'lnum';
+  scrollbar-color: #0E41E9 white !important;
+}
