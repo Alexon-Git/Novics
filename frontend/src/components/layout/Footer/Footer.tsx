@@ -6,8 +6,8 @@ const Footer = () => {
           <h6 className="text-4xl">Контакты</h6>
         </aside>
         <nav className="flex flex-col justify-center items-center gap-4 md:flex-row md:gap-16 lg:justify-self-end text-2xl">
-          <a href="tel:+79876543210">+7 987 654 32 10</a>
-          <a href="email:failmail@gmail.com">failmail@gmail.com</a>
+          <a href="tel:+73832387393">+73832387393</a>
+          <a href="email:dmp@nso.ru">dmp@nso.ru</a>
         </nav>
       </div>
     </footer>

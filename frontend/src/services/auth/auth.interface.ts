@@ -1,17 +1,8 @@
-import { ERole } from "../../hooks/role.enum"
+import { IUser } from '../users/users.interface'
 
-export interface IUser {
-  id: string | number
-  firstName: string
-  lastName: string
-  surName: string
-  email: string
-  city: string | null
-  country: string | null
-  timeZone: string | null
-  role: ERole
-  isEmailConfirmed: boolean
-  isCheckedByAdmin: boolean
+export interface IAuthResponse {
+  user: IUser
+  token: string
 }
 
 export interface ISignUpRequest {
@@ -25,9 +16,4 @@ export interface ISignUpRequest {
 export interface ISignInRequest {
   email: string
   password: string
-}
-
-export interface IUserResponse {
-  user: IUser
-  token: string
 }

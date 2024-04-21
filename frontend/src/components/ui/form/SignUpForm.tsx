@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { ISignUpRequest } from '../../../services/auth/auth.interface'
 import { useForm } from 'react-hook-form'
-import { useSignUpMutation } from '../../../services/auth/auth.service'
 import { hasError } from '../../../utils/hasError'
 import { emailPattern } from './emailPattern'
+import { ISignUpRequest } from '../../../services/auth/auth.interface'
+import { signup } from '../../../store/user/userActions'
+import { useSelector } from 'react-redux'
+import { RootStore } from '../../../store'
 
 const SignUpForm = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>()
@@ -22,13 +24,12 @@ const SignUpForm = () => {
       password: ''
     }
   })
-
-  const [signUp, { isLoading, isError }] = useSignUpMutation()
   const [error, setError] = useState<string>()
+  const isLoading = useSelector((state: RootStore) => state.user.isLoading)
 
   const onSubmit = async (data: ISignUpRequest) => {
     try {
-      await signUp(data).unwrap()
+      // await dispatch(signup(data))
     } catch (err) {
       if (hasError(err)) {
         setError(err.data.error)
