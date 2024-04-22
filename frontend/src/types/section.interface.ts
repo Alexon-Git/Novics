@@ -1,3 +1,4 @@
+import { IDoc } from "../services/docs/docs.interface"
 import { INew } from "../services/news/news.interface"
 
 export interface INewsCard extends INew {
@@ -10,10 +11,6 @@ export interface IPollsCard {
   url: string
 }
 
-export interface IDocsCard {
+export interface IDocsCard extends IDoc {
   id: string | number
-  title: string
-  size: string | number
-  date: string
-  url: string
 }
