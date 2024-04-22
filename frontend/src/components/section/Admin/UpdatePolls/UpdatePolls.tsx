@@ -21,12 +21,14 @@ const UpdatePolls = () => {
           <h2 className="text-[36px] font-bold">
             Изменение ссылок на опросники
           </h2>
-          <div className="flex flex-col justify-between items-center gap-6">
+          <div className="relative flex flex-col justify-between items-center gap-6">
             {polls.map((poll) => (
               <PollUpdate key={poll.id} props={poll} />
             ))}
-            <div className='flex'>
-              <button className='btn btn-primary rounded-[10px]'>Сохранить</button>
+            <div className="w-full flex justify-end">
+              <button className="btn btn-primary rounded-[10px] min-h-11 h-11 px-6">
+                Сохранить
+              </button>
             </div>
           </div>
         </div>

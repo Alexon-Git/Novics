@@ -1,5 +1,5 @@
-import { IUser } from "../../../../services/users/users.interface"
-import SearchedUser from "../../../ui/Admin/SearchedUser"
+import { IUser } from '../../../../services/users/users.interface'
+import SearchedUser from '../../../ui/Admin/SearchedUser'
 
 const SearchByUser = () => {
   const users: IUser[] = [
@@ -14,7 +14,7 @@ const SearchByUser = () => {
       timeZone: null,
       role: 'admin',
       isCheckedByAdmin: true,
-      isEmailConfirmed: false,
+      isEmailConfirmed: false
     },
     {
       id: 1,
@@ -27,7 +27,7 @@ const SearchByUser = () => {
       timeZone: null,
       role: 'moder',
       isCheckedByAdmin: true,
-      isEmailConfirmed: false,
+      isEmailConfirmed: false
     },
     {
       id: 2,
@@ -40,7 +40,7 @@ const SearchByUser = () => {
       timeZone: null,
       role: 'user',
       isCheckedByAdmin: true,
-      isEmailConfirmed: false,
+      isEmailConfirmed: false
     }
   ]
   return (
@@ -48,8 +48,8 @@ const SearchByUser = () => {
       <div className="hero mx-auto container">
         <div className="w-full flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">Поиск по пользователям</h2>
-          <div className="flex items-center justify-between gap-16">
-            <label className="input w-full border-[#BBBBBB] text-[#D5D5D5] bg-transparent rounded-[15px] px-3 h-9 flex items-center gap-2">
+          <div className="flex flex-col lg:items-center lg:justify-between gap-4 lg:flex-row">
+            <label className="input w-full max-w-[500px] border-[#BBBBBB] text-[#D5D5D5] bg-transparent rounded-[15px] px-3 h-9 flex items-center gap-2">
               <svg
                 width="19"
                 height="18"
@@ -80,19 +80,11 @@ const SearchByUser = () => {
                 placeholder="Поиск по пользователям"
               />
             </label>
-            <div role="tablist" className="tabs tabs-boxed">
-              <a role="tab" className="tab">
-                по времени
-              </a>
-              <a role="tab" className="tab tab-active">
-                Администраторы
-              </a>
-              <a role="tab" className="tab">
-                Модераторы
-              </a>
-              <a role="tab" className="tab">
-                Представители
-              </a>
+            <div className="join">
+              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">По времени</button>
+              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Администраторы</button>
+              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Модераторы</button>
+              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Представители</button>
             </div>
           </div>
           <div className="flex flex-col justify-between items-center gap-6">
