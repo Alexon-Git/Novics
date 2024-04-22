@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ISignInRequest } from '../../../services/auth/auth.interface'
-import { useSignInMutation } from '../../../services/auth/auth.service'
 import { emailPattern } from './emailPattern'
 import { hasError } from '../../../utils/hasError'
+import { ISignInRequest } from '../../../services/auth/auth.interface'
+import { useSelector } from 'react-redux'
+import { RootStore } from '../../../store'
 
 const SignInForm = () => {
   const {
@@ -18,13 +19,12 @@ const SignInForm = () => {
       password: ''
     }
   })
-
-  const [signIn, { isLoading, isError }] = useSignInMutation()
   const [error, setError] = useState<string>()
+  const isLoading = useSelector((state: RootStore) => state.user.isLoading)
 
   const onSubmit = async (data: ISignInRequest) => {
     try {
-      await signIn(data).unwrap()
+      // await signIn(data).unwrap()
     } catch (err) {
       if (hasError(err)) {
         setError(err.data.error)
@@ -76,7 +76,7 @@ const SignInForm = () => {
             )}
           </div>
         </div>
-        {error && isError && (
+        {error && (
           <p className="font-medium text-sm text-error">*{error}</p>
         )}
       </div>

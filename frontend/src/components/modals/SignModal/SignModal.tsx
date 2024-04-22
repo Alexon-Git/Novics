@@ -42,7 +42,7 @@ const SignModal = () => {
           <div className="fixed inset-0 bg-base-100/40" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-0 overflow-hidden">
           <div ref={parent} className="flex min-h-full items-center justify-center">
             <Transition.Child
               as={Fragment}

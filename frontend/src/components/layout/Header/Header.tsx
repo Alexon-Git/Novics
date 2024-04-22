@@ -25,9 +25,11 @@ export const Links: ILinks[] = [
 ]
 
 const Header = ({ children }: { children: React.ReactElement[] }) => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation()
   return (
-    <div className={`absolute top-0 ${pathname !== '/' && 'bg-primary'} w-full flex justify-center`}>
+    <div
+      className={`absolute top-0 ${pathname !== '/' && 'bg-primary'} w-full flex justify-center`}
+    >
       <header className="navbar container sm:px-0 py-6 z-20">{children}</header>
     </div>
   )
