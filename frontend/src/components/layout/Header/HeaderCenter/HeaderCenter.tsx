@@ -2,20 +2,20 @@ import { useSelector } from 'react-redux'
 import { Links } from '../Header'
 import { Link, useLocation } from 'react-router-dom'
 import { RootStore } from '../../../../store'
-// import { useEffect, useRef, useState } from 'react'
-// import autoAnimate from '@formkit/auto-animate'
+import { useEffect, useRef, useState } from 'react'
+import autoAnimate from '@formkit/auto-animate'
 
 const HeaderCenter = () => {
   const { pathname } = useLocation()
   const currentUser = useSelector((state: RootStore) => state.user.user)
-  // const [show, setShow] = useState<boolean>(false)
-  // const parent = useRef(null)
+  const [show, setShow] = useState<boolean>(false)
+  const parent = useRef(null)
 
-  // useEffect(() => {
-  //   parent.current && autoAnimate(parent.current)
-  // }, [parent])
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
 
-  // const reveal = () => setShow(!show)
+  const reveal = () => setShow(!show)
   return (
     <>
       <div className="navbar-center hidden gap-8 lg:flex lg:gap-32">
@@ -62,17 +62,62 @@ const HeaderCenter = () => {
           <>
             {currentUser.role === 'admin' ? (
               <>
-                {/* <div ref={parent}>
-                  <strong className="dropdown-label" onClick={reveal}>
-                    Click me to open!
-                  </strong>
-                  {show && <p className="dropdown-content">Lorum ipsum...</p>}
-                </div> */}
+                <div className="relative uppercase px-4" ref={parent}>
+                  <div className="flex gap-8">
+                    <Link
+                      to="/dashboard/admin"
+                      className="text-base-100 text-xl font-semibold"
+                    >
+                      Администратор
+                    </Link>
+                    <button className='-m-5 p-5' onClick={reveal}>
+                      {!show ? (
+                        <svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 22 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M21.8239 5.85666C21.8239 5.6719 21.7508 5.48281 21.609 5.34101C21.3254 5.05742 20.8614 5.05742 20.5778 5.34101L10.8711 15.0477L1.30628 5.48281C1.02268 5.19922 0.55862 5.19922 0.275026 5.48281C-0.00856781 5.7664 -0.00856781 6.23047 0.275026 6.51406L10.3555 16.5988C10.6391 16.8824 11.1032 16.8824 11.3867 16.5988L21.609 6.37656C21.7551 6.23047 21.8239 6.04572 21.8239 5.85666Z"
+                            fill="white"
+                          />
+                        </svg>
+                      ) : (
+                        <div className=" rotate-180">
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M21.8239 5.85666C21.8239 5.6719 21.7508 5.48281 21.609 5.34101C21.3254 5.05742 20.8614 5.05742 20.5778 5.34101L10.8711 15.0477L1.30628 5.48281C1.02268 5.19922 0.55862 5.19922 0.275026 5.48281C-0.00856781 5.7664 -0.00856781 6.23047 0.275026 6.51406L10.3555 16.5988C10.6391 16.8824 11.1032 16.8824 11.3867 16.5988L21.609 6.37656C21.7551 6.23047 21.8239 6.04572 21.8239 5.85666Z"
+                              fill="white"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </button>
+                  </div>
+                  {show && (
+                    <div className="w-full absolute flex flex-col gap-4 bg-primary text-base-100 text-xl font-semibold px-4 py-2 left-0 -bottom-24">
+                      <Link to="/dashboard/moderator">Модератор</Link>
+                      <Link to="/dashboard/user">Представитель</Link>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
                 <h1 className="uppercase text-xl font-semibold">
-                  {currentUser.role}
+                  {currentUser.role === 'admin'
+                    ? 'Администратор'
+                    : currentUser.role === 'moderator'
+                      ? 'Модератор'
+                      : 'Представитель'}
                 </h1>
               </>
             )}
