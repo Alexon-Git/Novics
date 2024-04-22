@@ -94,6 +94,9 @@ const CreateNewForm = () => {
             setUrl(event.target.value)
           }}
         />
+        <div className='w-full flex justify-end'>
+          <button type='submit' className='btn btn-primary rounded-[8px] text-base-100'>Опубликовать</button>
+        </div>
       </form>
     </div>
   )
