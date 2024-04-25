@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 import { emailPattern } from './emailPattern'
 import { hasError } from '../../../utils/hasError'
 import { ISignInRequest } from '../../../services/auth/auth.interface'
-import { useSelector } from 'react-redux'
-import { RootStore } from '../../../store'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { useActions } from '../../../hooks/useActions'
 
 const SignInForm = () => {
   const {
@@ -20,11 +20,12 @@ const SignInForm = () => {
     }
   })
   const [error, setError] = useState<string>()
-  const isLoading = useSelector((state: RootStore) => state.user.isLoading)
+  const isLoading = useTypedSelector((state) => state.user.isLoading)
+  const {signin} = useActions()
 
   const onSubmit = async (data: ISignInRequest) => {
     try {
-      // await signIn(data).unwrap()
+      signin(data)
     } catch (err) {
       if (hasError(err)) {
         setError(err.data.error)
@@ -76,11 +77,10 @@ const SignInForm = () => {
             )}
           </div>
         </div>
-        {error && (
-          <p className="font-medium text-sm text-error">*{error}</p>
-        )}
+        {error && <p className="font-medium text-sm text-error">*{error}</p>}
       </div>
       <button
+        disabled={isLoading}
         type="submit"
         className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl"
       >

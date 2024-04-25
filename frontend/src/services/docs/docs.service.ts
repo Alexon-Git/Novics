@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios'
 import { IDocsCard } from '../../types/section.interface'
 import { instance } from '../../api/api.interceptor'
 import { IDoc } from './docs.interface'
@@ -6,18 +5,23 @@ import { IDoc } from './docs.interface'
 const PATH = 'docs'
 
 export const DocsService = {
-  async getDocs(): Promise<AxiosResponse<IDocsCard[]>> {
-    return await instance.get<IDocsCard[]>(`/${PATH}`)
+  async getDocs() {
+    const { data } = await instance.get<IDocsCard[]>(`/${PATH}`)
+    return data
   },
-  async getDocsWithLimit(
-    limit: string | number
-  ): Promise<AxiosResponse<IDocsCard[]>> {
-    return await instance.get<IDocsCard[]>(`/${PATH}?_limit=${limit}`)
+  async getDocsWithLimit(limit: string | number) {
+    const { data } = await instance.get<IDocsCard[]>(`/${PATH}?_limit=${limit}`)
+    return data
   },
-  async createDoc(data: IDoc): Promise<AxiosResponse<IDocsCard>> {
-    return await instance.post<IDocsCard>(`/${PATH}/create`, data)
+  async createDoc(userData: IDoc) {
+    const { data } = await instance.post<IDocsCard>(`/${PATH}/create`, userData)
+    return data
   },
-  async updateDocById(data: IDocsCard): Promise<AxiosResponse<IDocsCard>> {
-    return await instance.put<IDocsCard>(`/${PATH}/${data.id}`, data)
+  async updateDocById(userData: IDocsCard) {
+    const { data } = await instance.put<IDocsCard>(
+      `/${PATH}/${userData.id}`,
+      userData
+    )
+    return data
   }
 }

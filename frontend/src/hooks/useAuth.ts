@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { RootStore } from '../store'
+import { useTypedSelector } from './useTypedSelector'
 
-export const useIsAuth = () => {
-  const currentUser = useSelector((state: RootStore) => state.user)
+export const useAuth = () => {
+  const currentUser = useTypedSelector((state) => state.user)
   const navigate = useNavigate()
   useEffect(() => {
     if (!currentUser.user) {

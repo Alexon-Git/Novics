@@ -5,16 +5,17 @@ import {
   ISignUpRequest
 } from '../../services/auth/auth.interface'
 import { AuthService } from '../../services/auth/auth.service'
-import { removeFromStorage } from '../../services/auth/auth.helper'
+import { removeFromStorage, saveToStorage } from '../../services/auth/auth.helper'
 import { errorCatch } from '../../api/api.helper'
-import { UserService } from '../../services/users/users.service'
 import { IUser } from '../../services/users/users.interface'
+import { UserService } from '../../services/users/users.service'
 
 export const signup = createAsyncThunk<IAuthResponse, ISignUpRequest>(
   'auth/signup',
   async (data, thunkApi) => {
     try {
       const response = await AuthService.signUp(data)
+      saveToStorage(response)
       return response
     } catch (error) {
       return thunkApi.rejectWithValue(error)
@@ -27,6 +28,7 @@ export const signin = createAsyncThunk<IAuthResponse, ISignInRequest>(
   async (data, thunkApi) => {
     try {
       const response = await AuthService.signIn(data)
+      saveToStorage(response)
       return response
     } catch (error) {
       return thunkApi.rejectWithValue(error)
@@ -39,6 +41,7 @@ export const emailConfirmation = createAsyncThunk<IAuthResponse, string>(
   async (data, thunkApi) => {
     try {
       const response = await AuthService.emailConfirmation(data)
+      saveToStorage(response)
       return response
     } catch (error) {
       return thunkApi.rejectWithValue(error)
@@ -56,7 +59,8 @@ export const checkAuth = createAsyncThunk<IAuthResponse, void>(
   async (_, thunkApi) => {
     try {
       const response = await AuthService.getNewTokens()
-      return response.data
+      saveToStorage(response)
+      return response
     } catch (error) {
       errorCatch(error) === 'jwt expired' ? thunkApi.dispatch(logout()) : null
       return thunkApi.rejectWithValue(error)
@@ -64,11 +68,12 @@ export const checkAuth = createAsyncThunk<IAuthResponse, void>(
   }
 )
 
-export const getCurrentUser = createAsyncThunk<IAuthResponse, void>(
+export const getCurrentUser = createAsyncThunk<IUser, void>(
   '/users/current',
-  async (data, thunkApi) => {
+  async (_, thunkApi) => {
     try {
       const response = await UserService.getCurrentUser()
+      localStorage.setItem('user', JSON.stringify(response))
       return response
     } catch (error) {
       return thunkApi.rejectWithValue(error)
@@ -76,11 +81,12 @@ export const getCurrentUser = createAsyncThunk<IAuthResponse, void>(
   }
 )
 
-export const updateCurrentUser = createAsyncThunk<IAuthResponse, IUser>(
+export const updateCurrentUser = createAsyncThunk<IUser, IUser>(
   '/users/current/update',
   async (data, thunkApi) => {
     try {
       const response = await UserService.updateCurrentUser(data)
+      localStorage.setItem('user', JSON.stringify(response))
       return response
     } catch (error) {
       return thunkApi.rejectWithValue(error)
