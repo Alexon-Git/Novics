@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react'
 import autoAnimate from '@formkit/auto-animate'
 import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
+import EmailConfirmationModal from './components/modals/EmailConfirmationModal/EmailConfirmationModal'
 
 const App = () => {
   const parent = useRef(null)
@@ -26,6 +27,7 @@ const App = () => {
         <HeaderRight />
       </Header>
       <SignModal />
+      <EmailConfirmationModal />
       <div ref={parent}>
         <Routes>
           <Route path="*" element={<NotFound />} />

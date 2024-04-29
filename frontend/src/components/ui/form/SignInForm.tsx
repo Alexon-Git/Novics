@@ -4,6 +4,8 @@ import { ISignInRequest } from '../../../services/auth/auth.interface'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { useActions } from '../../../hooks/useActions'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { closeModal } from '../../../store/modals/modalReducer'
 
 const SignInForm = () => {
   const {
@@ -20,13 +22,17 @@ const SignInForm = () => {
   })
 
   const [localErr, setLocalErr] = useState<string>('')
-  const { isLoading, error } = useTypedSelector((state) => state.user)
+  const { isLoading, error, token } = useTypedSelector((state) => state.user)
+  const dispatch = useDispatch()
   const { signin } = useActions()
 
   const onSubmit = async (data: ISignInRequest) => {
     signin(data)
     if (error) {
       setLocalErr(error)
+    }
+    if (token) {
+      dispatch(closeModal())
     }
   }
 

@@ -4,6 +4,8 @@ import { emailPattern } from './emailPattern'
 import { ISignUpRequest } from '../../../services/auth/auth.interface'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { useActions } from '../../../hooks/useActions'
+import { closeModal } from '../../../store/modals/modalReducer'
+import { useDispatch } from 'react-redux'
 
 const SignUpForm = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>()
@@ -23,13 +25,17 @@ const SignUpForm = () => {
     }
   })
   const [localErr, setLocalErr] = useState<string>('')
-  const { isLoading, error } = useTypedSelector((state) => state.user)
+  const { isLoading, error, token } = useTypedSelector((state) => state.user)
   const { signup } = useActions()
+  const dispatch = useDispatch()
 
   const onSubmit = async (data: ISignUpRequest) => {
     signup(data)
     if (error) {
       setLocalErr(error)
+    }
+    if (token) {
+      dispatch(closeModal())
     }
   }
 
