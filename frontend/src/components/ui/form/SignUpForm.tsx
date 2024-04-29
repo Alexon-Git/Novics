@@ -22,11 +22,15 @@ const SignUpForm = () => {
       password: ''
     }
   })
+  const [localErr, setLocalErr] = useState<string>('')
   const { isLoading, error } = useTypedSelector((state) => state.user)
   const { signup } = useActions()
 
   const onSubmit = async (data: ISignUpRequest) => {
     signup(data)
+    if (error) {
+      setLocalErr(error)
+    }
   }
 
   return (
@@ -104,11 +108,8 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              {...register('password', {
-                required: true,
-                validate: (value) =>
-                  value === passwordConfirmation || 'Пароли не совпадают'
-              })}
+              value={passwordConfirmation}
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
               type="password"
               placeholder="Пароль"
               className={`input ${errors.password && 'input-error'} bg-base-100 w-full rounded-[10px]`}
@@ -121,8 +122,11 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              value={passwordConfirmation}
-              onChange={(event) => setPasswordConfirmation(event.target.value)}
+              {...register('password', {
+                required: true,
+                validate: (value) =>
+                  value === passwordConfirmation || 'Пароли не совпадают'
+              })}
               type="password"
               placeholder="Подтвердите пароль"
               className={`input ${errors.password && 'input-error'} bg-base-100 w-full rounded-[10px]`}
@@ -137,7 +141,11 @@ const SignUpForm = () => {
         {errors.password?.type === 'validate' && (
           <p className="font-medium text-sm text-error">*Пароли не совпадают</p>
         )}
-        {error && <p className="font-medium text-sm text-error">*Провести регистрацию не удалось</p>}
+        {localErr && (
+          <p className="font-medium text-sm text-error">
+            *Провести регистрацию не удалось
+          </p>
+        )}
       </div>
       <button
         disabled={isLoading}

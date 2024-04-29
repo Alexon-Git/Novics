@@ -112,7 +112,7 @@ const HeaderCenter = () => {
               </>
             ) : (
               <>
-                <h1 className="uppercase text-xl font-semibold">
+                <h1 className="uppercase text-xl font-semibold text-base-100">
                   {currentUser.role === 'admin'
                     ? 'Администратор'
                     : currentUser.role === 'moderator'

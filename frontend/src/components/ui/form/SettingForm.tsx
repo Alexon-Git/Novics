@@ -6,7 +6,7 @@ const SettingForm = ({ props }: { props: IUser }) => {
   const {
     handleSubmit,
     register,
-    formState: { errors }
+    // formState: { errors }
   } = useForm<Partial<IUser>>({
     mode: 'onChange',
     reValidateMode: 'onBlur',

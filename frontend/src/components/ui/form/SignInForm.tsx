@@ -3,6 +3,7 @@ import { emailPattern } from './emailPattern'
 import { ISignInRequest } from '../../../services/auth/auth.interface'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { useActions } from '../../../hooks/useActions'
+import { useState } from 'react'
 
 const SignInForm = () => {
   const {
@@ -17,11 +18,16 @@ const SignInForm = () => {
       password: ''
     }
   })
+
+  const [localErr, setLocalErr] = useState<string>('')
   const { isLoading, error } = useTypedSelector((state) => state.user)
   const { signin } = useActions()
 
   const onSubmit = async (data: ISignInRequest) => {
     signin(data)
+    if (error) {
+      setLocalErr(error)
+    }
   }
 
   return (
@@ -68,7 +74,9 @@ const SignInForm = () => {
             )}
           </div>
         </div>
-        {error && <p className="font-medium text-sm text-error">*Войти не удалось</p>}
+        {localErr && (
+          <p className="font-medium text-sm text-error">*Войти не удалось</p>
+        )}
       </div>
       <button
         disabled={isLoading}
