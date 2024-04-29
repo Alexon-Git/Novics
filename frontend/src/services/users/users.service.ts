@@ -5,25 +5,25 @@ const PATH = 'users'
 
 export const UserService = {
   async getCurrentUser() {
-    const { data } = await instance.get<IUser>(`/${PATH}/current`)
-    return data
+    const response = await instance.get<IUser>(`/${PATH}/current`)
+    return response
   },
   async updateCurrentUser(userData: Partial<IUser>) {
-    const { data } = await instance.put<IUser>(
+    const response = await instance.put<IUser>(
       `/${PATH}/current/update`,
       userData
     )
-    return data
+    return response
   },
   async getUsers() {
-    const { data } = await instance.get<IUser[]>(`/${PATH}`)
-    return data
+    const response = await instance.get<IUser[]>(`/${PATH}`)
+    return response
   },
   async updateUserById(userData: Partial<IUser>) {
-    const { data } = await instance.put<IUser>(
+    const response = await instance.put<IUser>(
       `/${PATH}/${userData.id}/update`,
       userData
     )
-    return data
+    return response
   }
 }

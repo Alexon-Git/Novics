@@ -7,37 +7,37 @@ const PATH = 'auth'
 
 export const AuthService = {
   async signUp(userData: ISignUpRequest) {
-    const { data } = await instance.post<IAuthResponse>(
+    const response = await instance.post<IAuthResponse>(
       `/${PATH}/signUp`,
       userData
     )
-    return data
+    return response
   },
   async signIn(userData: ISignInRequest) {
-    const { data } = await instance.post<IAuthResponse>(
+    const response = await instance.post<IAuthResponse>(
       `/${PATH}/signIn`,
       userData
     )
-    return data
+    return response
   },
   async emailConfirmation(userData: string) {
-    const { data } = await instance.post<IAuthResponse>(
+    const response = await instance.post<IAuthResponse>(
       `/${PATH}/emailConfirmation`,
       userData
     )
-    return data
+    return response
   },
   async getNewTokens() {
-    const { data } = await axios.get<IAuthResponse>(
+    const response = await axios.get<IAuthResponse>(
       `${BASEURL}/${PATH}refresh`,
       {
         withCredentials: true
       }
     )
-    return data
+    return response
   },
   async logout() {
-    const { data } = await instance.post(`/${PATH}/logout`)
-    return data
+    const response = await instance.post(`/${PATH}/logout`)
+    return response
   }
 }

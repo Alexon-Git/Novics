@@ -3,11 +3,9 @@ import { useDispatch } from 'react-redux'
 import logger from 'redux-logger'
 import modalReducer from './modals/modalReducer'
 import { userSlice } from './user/userReducer'
-import errorReducer from './Error/errorReducer'
 
 const RootReducer = combineReducers({
   user: userSlice.reducer,
-  error: errorReducer,
   modal: modalReducer
 })
 

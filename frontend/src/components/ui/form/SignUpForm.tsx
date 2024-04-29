@@ -22,12 +22,11 @@ const SignUpForm = () => {
       password: ''
     }
   })
-  const error = useTypedSelector((state) => state.error.error)
-  const isLoading = useTypedSelector((state) => state.user.isLoading)
+  const { isLoading, error } = useTypedSelector((state) => state.user)
   const { signup } = useActions()
 
   const onSubmit = async (data: ISignUpRequest) => {
-      signup(data)
+    signup(data)
   }
 
   return (
@@ -138,7 +137,7 @@ const SignUpForm = () => {
         {errors.password?.type === 'validate' && (
           <p className="font-medium text-sm text-error">*Пароли не совпадают</p>
         )}
-        {error && <p className="font-medium text-sm text-error">*{error}</p>}
+        {error && <p className="font-medium text-sm text-error">*Провести регистрацию не удалось</p>}
       </div>
       <button
         disabled={isLoading}
