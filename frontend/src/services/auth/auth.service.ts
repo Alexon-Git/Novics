@@ -1,28 +1,43 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { IAuthResponse, ISignInRequest, ISignUpRequest } from './auth.interface'
 import { instance } from '../../api/api.interceptor'
 
+const BASEURL = 'http://localhost:8000/api'
 const PATH = 'auth'
 
 export const AuthService = {
-  async signUp(data: ISignUpRequest): Promise<AxiosResponse<IAuthResponse>> {
-    return await instance.post<IAuthResponse>(`/${PATH}/signUp`, data)
+  async signUp(userData: ISignUpRequest) {
+    const response = await instance.post<IAuthResponse>(
+      `/${PATH}/signUp`,
+      userData
+    )
+    return response
   },
-  async signIn(data: ISignInRequest): Promise<AxiosResponse<IAuthResponse>> {
-    return await instance.post<IAuthResponse>(`/${PATH}/signIn`, data)
+  async signIn(userData: ISignInRequest) {
+    const response = await instance.post<IAuthResponse>(
+      `/${PATH}/signIn`,
+      userData
+    )
+    return response
   },
-  async emailConfirmation(data: string): Promise<AxiosResponse<IAuthResponse>> {
-    return await instance.post<IAuthResponse>(`/${PATH}/emailConfirmation`, data)
+  async emailConfirmation(userData: string) {
+    const response = await instance.post<IAuthResponse>(
+      `/${PATH}/emailConfirmation`,
+      userData
+    )
+    return response
   },
-  async getNewTokens(): Promise<AxiosResponse<IAuthResponse>> {
-    return await axios.get<IAuthResponse>(
-      `${process.env.NODE_ENV ? '' : 'http://localhost:8000/api'}/${PATH}/refresh`,
+  async getNewTokens() {
+    const response = await axios.get<IAuthResponse>(
+      `${BASEURL}/${PATH}refresh`,
       {
         withCredentials: true
       }
     )
+    return response
   },
-  async logout(): Promise<void> {
-    return await instance.post(`/${PATH}/logout`)
+  async logout() {
+    const response = await instance.post(`/${PATH}/logout`)
+    return response
   }
 }

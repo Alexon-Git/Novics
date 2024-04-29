@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios'
 import { instance } from '../../api/api.interceptor'
 import { INewsCard } from '../../types/section.interface'
 import { INew } from './news.interface'
@@ -6,18 +5,23 @@ import { INew } from './news.interface'
 const PATH = 'news'
 
 export const NewsService = {
-  async getNews(): Promise<AxiosResponse<INewsCard[]>> {
-    return await instance.get<INewsCard[]>(`/${PATH}`)
+  async getNews() {
+    const { data } = await instance.get<INewsCard[]>(`/${PATH}`)
+    return data
   },
-  async getNewsWithLimit(
-    limit: string | number
-  ): Promise<AxiosResponse<INewsCard[]>> {
-    return await instance.get<INewsCard[]>(`/${PATH}?_limit=${limit}`)
+  async getNewsWithLimit(limit: string | number) {
+    const { data } = await instance.get<INewsCard[]>(`/${PATH}?_limit=${limit}`)
+    return data
   },
-  async createNew(data: INew): Promise<AxiosResponse<INewsCard>> {
-    return await instance.post<INewsCard>(`/${PATH}/create`, data)
+  async createNew(newData: INew) {
+    const { data } = await instance.post<INewsCard>(`/${PATH}/create`, newData)
+    return data
   },
-  async updateDocById(data: INewsCard): Promise<AxiosResponse<INewsCard>> {
-    return await instance.put<INewsCard>(`/${PATH}/${data.id}`, data)
+  async updateDocById(newData: INewsCard) {
+    const { data } = await instance.put<INewsCard>(
+      `/${PATH}/${newData.id}`,
+      newData
+    )
+    return data
   }
 }

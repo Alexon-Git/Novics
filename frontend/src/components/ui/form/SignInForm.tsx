@@ -1,10 +1,11 @@
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { emailPattern } from './emailPattern'
-import { hasError } from '../../../utils/hasError'
 import { ISignInRequest } from '../../../services/auth/auth.interface'
-import { useSelector } from 'react-redux'
-import { RootStore } from '../../../store'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { useActions } from '../../../hooks/useActions'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { closeModal } from '../../../store/modals/modalReducer'
 
 const SignInForm = () => {
   const {
@@ -19,16 +20,19 @@ const SignInForm = () => {
       password: ''
     }
   })
-  const [error, setError] = useState<string>()
-  const isLoading = useSelector((state: RootStore) => state.user.isLoading)
+
+  const [localErr, setLocalErr] = useState<string>('')
+  const { isLoading, error, token } = useTypedSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const { signin } = useActions()
 
   const onSubmit = async (data: ISignInRequest) => {
-    try {
-      // await signIn(data).unwrap()
-    } catch (err) {
-      if (hasError(err)) {
-        setError(err.data.error)
-      }
+    signin(data)
+    if (error) {
+      setLocalErr(error)
+    }
+    if (token) {
+      dispatch(closeModal())
     }
   }
 
@@ -76,11 +80,12 @@ const SignInForm = () => {
             )}
           </div>
         </div>
-        {error && (
-          <p className="font-medium text-sm text-error">*{error}</p>
+        {localErr && (
+          <p className="font-medium text-sm text-error">*Войти не удалось</p>
         )}
       </div>
       <button
+        disabled={isLoading}
         type="submit"
         className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl"
       >

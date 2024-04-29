@@ -1,23 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IInitialState } from './user.interface'
-import { checkAuth, emailConfirmation, getCurrentUser, logout, signin, signup, updateCurrentUser } from './userActions'
+import {
+  checkAuth,
+  emailConfirmation,
+  getCurrentUser,
+  logout,
+  signin,
+  signup,
+  updateCurrentUser
+} from './userActions'
+import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
-  user: {
-    id: '0',
-    firstName: 'John',
-    lastName: 'Doe',
-    surName: 'smith',
-    email: 'john@gmail.com',
-    country: null,
-    city: null,
-    timeZone: null,
-    role: 'admin',
-    isCheckedByAdmin: true,
-    isEmailConfirmed: true,
-  },
-  token: localStorage.getItem('token') || null,
-  isLoading: false,
+  user: getLocal('user'),
+  token: getLocal('token'),
+  // user: {
+  //   id: 21312,
+  //   firstName: 'string',
+  //   lastName: 'string',
+  //   surName: 'string',
+  //   email: 'string',
+  //   city: 'string',
+  //   country: 'string',
+  //   timeZone: 'string',
+  //   role: 'admin',
+  //   isEmailConfirmed: true,
+  //   isCheckedByAdmin: true
+  // },
+  // token: 'wqeqwdqwd123',
+  error: null,
+  isLoading: false
 }
 
 export const userSlice = createSlice({
@@ -34,10 +46,15 @@ export const userSlice = createSlice({
         state.user = payload.user
         state.token = payload.token
       })
-      .addCase(signup.rejected, (state) => {
+      .addCase(signup.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
       .addCase(signin.pending, (state) => {
         state.isLoading = true
@@ -47,10 +64,15 @@ export const userSlice = createSlice({
         state.user = payload.user
         state.token = payload.token
       })
-      .addCase(signin.rejected, (state) => {
+      .addCase(signin.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
       .addCase(emailConfirmation.pending, (state) => {
         state.isLoading = true
@@ -60,10 +82,15 @@ export const userSlice = createSlice({
         state.token = payload.token
         state.user = payload.user
       })
-      .addCase(emailConfirmation.rejected, (state) => {
+      .addCase(emailConfirmation.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
       .addCase(logout.fulfilled, () => initialState)
       .addCase(checkAuth.pending, (state) => {
@@ -74,36 +101,49 @@ export const userSlice = createSlice({
         state.user = payload.user
         state.token = payload.token
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
       .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
-        state.token = payload.token
-        state.user = payload.user
+        state.user = payload
       })
-      .addCase(getCurrentUser.rejected, (state) => {
+      .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
       .addCase(updateCurrentUser.pending, (state) => {
         state.isLoading = true
       })
       .addCase(updateCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
-        state.user = payload.user
-        state.token = payload.token
+        state.user = payload
       })
-      .addCase(updateCurrentUser.rejected, (state) => {
+      .addCase(updateCurrentUser.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
         state.token = null
+        if (action.payload) {
+          state.error = action.payload.errorMessage
+        } else {
+          state.error = action.error.message
+        }
       })
-  },
+  }
 })

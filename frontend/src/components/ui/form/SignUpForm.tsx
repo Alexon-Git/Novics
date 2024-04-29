@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { hasError } from '../../../utils/hasError'
 import { emailPattern } from './emailPattern'
 import { ISignUpRequest } from '../../../services/auth/auth.interface'
-import { signup } from '../../../store/user/userActions'
-import { useSelector } from 'react-redux'
-import { RootStore } from '../../../store'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { useActions } from '../../../hooks/useActions'
+import { closeModal } from '../../../store/modals/modalReducer'
+import { useDispatch } from 'react-redux'
 
 const SignUpForm = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>()
@@ -24,16 +24,18 @@ const SignUpForm = () => {
       password: ''
     }
   })
-  const [error, setError] = useState<string>()
-  const isLoading = useSelector((state: RootStore) => state.user.isLoading)
+  const [localErr, setLocalErr] = useState<string>('')
+  const { isLoading, error, token } = useTypedSelector((state) => state.user)
+  const { signup } = useActions()
+  const dispatch = useDispatch()
 
   const onSubmit = async (data: ISignUpRequest) => {
-    try {
-      // await dispatch(signup(data))
-    } catch (err) {
-      if (hasError(err)) {
-        setError(err.data.error)
-      }
+    signup(data)
+    if (error) {
+      setLocalErr(error)
+    }
+    if (token) {
+      dispatch(closeModal())
     }
   }
 
@@ -112,11 +114,8 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              {...register('password', {
-                required: true,
-                validate: (value) =>
-                  value === passwordConfirmation || 'Пароли не совпадают'
-              })}
+              value={passwordConfirmation}
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
               type="password"
               placeholder="Пароль"
               className={`input ${errors.password && 'input-error'} bg-base-100 w-full rounded-[10px]`}
@@ -129,8 +128,11 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              value={passwordConfirmation}
-              onChange={(event) => setPasswordConfirmation(event.target.value)}
+              {...register('password', {
+                required: true,
+                validate: (value) =>
+                  value === passwordConfirmation || 'Пароли не совпадают'
+              })}
               type="password"
               placeholder="Подтвердите пароль"
               className={`input ${errors.password && 'input-error'} bg-base-100 w-full rounded-[10px]`}
@@ -145,11 +147,16 @@ const SignUpForm = () => {
         {errors.password?.type === 'validate' && (
           <p className="font-medium text-sm text-error">*Пароли не совпадают</p>
         )}
-        {error && isError && (
-          <p className="font-medium text-sm text-error">*{error}</p>
+        {localErr && (
+          <p className="font-medium text-sm text-error">
+            *Провести регистрацию не удалось
+          </p>
         )}
       </div>
-      <button className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl">
+      <button
+        disabled={isLoading}
+        className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl"
+      >
         {!isLoading ? (
           'Зарегистрироваться'
         ) : (

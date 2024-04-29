@@ -4,8 +4,7 @@ import { errorCatch } from './api.helper'
 import { AuthService } from '../services/auth/auth.service'
 
 export const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000/api',
+  baseURL: 'http://localhost:8000/api',
   withCredentials: true
 })
 
