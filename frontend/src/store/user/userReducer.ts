@@ -9,25 +9,25 @@ import {
   signup,
   updateCurrentUser
 } from './userActions'
-import { getLocal } from '../../utils/getLocal'
+// import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
-  user: getLocal('user'),
-  token: getLocal('token'),
-  // user: {
-  //   id: 21312,
-  //   firstName: 'string',
-  //   lastName: 'string',
-  //   surName: 'string',
-  //   email: 'string',
-  //   city: 'string',
-  //   country: 'string',
-  //   timeZone: 'string',
-  //   role: 'admin',
-  //   isEmailConfirmed: true,
-  //   isCheckedByAdmin: true
-  // },
-  // token: 'wqeqwdqwd123',
+  // user: getLocal('user'),
+  // token: getLocal('token'),
+  user: {
+    id: 21312,
+    firstName: 'string',
+    lastName: 'string',
+    surName: 'string',
+    email: 'string',
+    city: 'string',
+    country: 'string',
+    timeZone: 'string',
+    role: 'admin',
+    isEmailConfirmed: true,
+    isCheckedByAdmin: true
+  },
+  token: 'wqeqwdqwd123',
   error: null,
   isLoading: false
 }
