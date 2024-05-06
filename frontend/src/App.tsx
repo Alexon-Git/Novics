@@ -12,6 +12,7 @@ import autoAnimate from '@formkit/auto-animate'
 import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 import EmailConfirmationModal from './components/modals/EmailConfirmationModal/EmailConfirmationModal'
+import AdminConfirmationModal from './components/modals/AdminConfirmationModal/AdminConfirmationModal'
 
 const App = () => {
   const parent = useRef(null)
@@ -28,6 +29,7 @@ const App = () => {
       </Header>
       <SignModal />
       <EmailConfirmationModal />
+      <AdminConfirmationModal />
       <div ref={parent}>
         <Routes>
           <Route path="*" element={<NotFound />} />

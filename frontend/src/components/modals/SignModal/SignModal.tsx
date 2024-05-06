@@ -42,8 +42,11 @@ const SignModal = () => {
           <div className="fixed inset-0 bg-base-100/40" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden">
-          <div ref={parent} className="flex min-h-full items-center justify-center">
+        <div className="fixed inset-0 md:overflow-hidden">
+          <div
+            ref={parent}
+            className="flex min-h-full items-center justify-center md:overflow-hidden"
+          >
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -52,7 +55,7 @@ const SignModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="modal-box w-auto rounded-2xl text-base-100">
+              <Dialog.Panel className="flex flex-col p-10 w-full h-screen md:modal-box md:w-auto md:h-auto md:rounded-2xl text-base-100 md:overflow-hidden">
                 <div className="absolute top-0 left-0 h-full w-full bg-[#797979] z-10 mix-blend-multiply" />
                 <img
                   className="absolute top-0 right-0"
@@ -64,7 +67,7 @@ const SignModal = () => {
                   src="/mocks/signBottom.svg"
                   alt="bottomMock"
                 />
-                <div className="relative flex justify-between gap-10 z-20">
+                <div className="relative flex flex-col md:flex-row justify-between gap-10 z-20">
                   <button
                     className="text-2xl font-bold uppercase z-10"
                     onClick={() => dispatch(openSignInModal())}
@@ -72,7 +75,7 @@ const SignModal = () => {
                     Войти
                   </button>
                   <span
-                    className={`text-2xl font-bold absolute uppercase left-0 ${!isSignUpModalOpen ? '' : 'translate-x-32'} -bottom-1 text-transparent h-1 bg-secondary rounded-full duration-200`}
+                    className={`hidden md:block text-2xl font-bold absolute uppercase left-0 ${!isSignUpModalOpen ? '' : 'translate-x-32'} -bottom-1 text-transparent h-1 bg-secondary rounded-full duration-200`}
                   >
                     {!isSignUpModalOpen ? 'Войти' : 'Зарегистрироваться'}
                   </span>
@@ -83,6 +86,23 @@ const SignModal = () => {
                     Зарегистрироваться
                   </button>
                 </div>
+                <button
+                  onClick={() => dispatch(closeModal())}
+                  className="z-30 absolute top-5 right-5 block md:hidden"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-10 h-10"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
                 {isSignUpModalOpen ? (
                   <>
                     <SignUpForm />

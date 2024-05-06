@@ -4,7 +4,7 @@ import { IDocsCard } from '../../../../types/section.interface'
 const HomeDocsCard = ({ props }: { props: IDocsCard }) => {
   return (
     <div className="w-full bg-neutral p-4 rounded-[9px] flex justify-between items-center">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         <h3 className="font-medium">{props.title}</h3>
         <svg
           width="19"

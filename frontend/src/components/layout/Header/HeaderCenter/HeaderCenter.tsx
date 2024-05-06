@@ -162,7 +162,7 @@ const HeaderCenter = () => {
             ))}
           </ul>
         )}
-        {pathname === '/' && (
+        {/* {pathname === '/' && (
           <label className="input border-[#BBBBBB] text-[#D5D5D5] bg-transparent rounded-[15px] px-3 h-9 flex items-center gap-2">
             <svg
               width="19"
@@ -194,7 +194,7 @@ const HeaderCenter = () => {
               placeholder="Поиск"
             />
           </label>
-        )}
+        )} */}
       </div>
     </>
   )

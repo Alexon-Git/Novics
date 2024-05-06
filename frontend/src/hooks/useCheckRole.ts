@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { RootStore } from '../store'
+import { useTypedSelector } from './useTypedSelector'
 
 export const useCheckRole = (role: string) => {
-  const currentUser = useSelector((state: RootStore) => state.user.user)
+  const currentUser = useTypedSelector((state) => state.user.user)
   const navigate = useNavigate()
   useEffect(() => {
     if (currentUser?.role !== "admin") {

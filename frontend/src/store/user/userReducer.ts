@@ -25,7 +25,7 @@ const initialState: IInitialState = {
     timeZone: 'string',
     role: 'admin',
     isEmailConfirmed: true,
-    isCheckedByAdmin: true
+    isCheckedByAdmin: false
   },
   token: 'wqeqwdqwd123',
   error: null,
