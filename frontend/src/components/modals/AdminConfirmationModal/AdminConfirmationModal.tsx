@@ -1,19 +1,18 @@
-import autoAnimate from '@formkit/auto-animate'
-import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
-import EmailConfirmationForm from '../../ui/form/EmailConfirmationForm'
+import autoAnimate from '@formkit/auto-animate'
+import { Dialog, Transition } from '@headlessui/react'
 
-const EmailConfirmationModal = () => {
+const AdminConfirmationModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const parent = useRef(null)
   const { user } = useTypedSelector((state) => state.user)
 
   useEffect(() => {
-    if (user && !user.isEmailConfirmed) {
+    if (user && user.isEmailConfirmed && !user.isCheckedByAdmin) {
       setIsOpen(true)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -58,16 +57,14 @@ const EmailConfirmationModal = () => {
                   src="/mocks/signTop.svg"
                   alt="topMock"
                 />
-                <img
-                  className="absolute bottom-0 left-0"
-                  src="/mocks/signBottom.svg"
-                  alt="bottomMock"
-                />
-                <div className="relative flex flex-col justify-between gap-10 z-20">
+                <div className="relative flex flex-col justify-between gap-24 z-20">
                   <h3 className="text-2xl font-bold uppercase text-center">
-                    ВВЕДИТЕ КОД ПОДТВЕРЖДЕНИЯ ИЗ ПОЧТЫ
+                    Ваша заявка отправлена на модерацию. Ожидайте пока
+                    администратор добавит вас.
                   </h3>
-                  <EmailConfirmationForm />
+                  <button onClick={() => setIsOpen(false)} className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl">
+                    Хорошо
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -78,4 +75,4 @@ const EmailConfirmationModal = () => {
   )
 }
 
-export default EmailConfirmationModal
+export default AdminConfirmationModal
