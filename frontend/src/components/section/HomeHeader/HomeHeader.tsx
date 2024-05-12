@@ -4,7 +4,7 @@ import {
   openSignUpModal
 } from '../../../store/modals/modalReducer'
 import { RootStore } from '../../../store'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 const HomeHeader = () => {
   const dispatch = useDispatch()
@@ -17,23 +17,25 @@ const HomeHeader = () => {
             src="/mocks/tablet.png"
             className="w-full max-w-xl drop-shadow-2xl"
           />
-          <div className="text-base-100">
-            <h1 className="text-3xl font-bold">
+          <div className="flex flex-col gap-10 text-base-100">
+            <h1 className="text-4xl font-bold">
               Информационная система управления аналитикой данных по иностранным
               обучающимся ВУЗов Новосибирской области
             </h1>
-            <p className="opacity-70 py-6">
+            {/* <p className="opacity-70 py-6">
               Предоставление отчетов и графиков, отображающих результаты анализа
               данных, автоматизация процессов, связанных с обработкой данных
               иностранных студентов.
-            </p>
+            </p> */}
             {currentUser && currentUser?.isCheckedByAdmin ? (
-              <Link
-                className="btn btn-secondary hover:bg-[#FF8648] border-none text-base-100 font-medium px-8"
-                to={`/dashboard/${currentUser.role}`}
-              >
-                Перейти в панель управления
-              </Link>
+              <>
+              </>
+              // <Link
+              //   className="btn btn-secondary hover:bg-[#FF8648] border-none text-base-100 font-medium px-8"
+              //   to={`/dashboard/${currentUser.role}`}
+              // >
+              //   Перейти в панель управления
+              // </Link>
             ) : (
               <div className="flex gap-4">
                 <button

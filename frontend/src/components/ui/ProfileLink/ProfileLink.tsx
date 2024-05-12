@@ -1,15 +1,14 @@
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { RootStore } from '../../../store'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
 
 const ProfileLink = () => {
-  const currentUser = useSelector((state: RootStore) => state.user.user)
+  const currentUser = useTypedSelector((state) => state.user.user)
   return (
     <Link
-      to="/profile"
+      to={`/dashboard/${currentUser?.role}`}
       className="flex items-center gap-4 text-sm text-base-100"
     >
-      <p>{`${currentUser?.firstName} ${currentUser?.lastName}`}</p>
+      <p>Личный кабинет</p>
       <svg
         width="30"
         height="30"
