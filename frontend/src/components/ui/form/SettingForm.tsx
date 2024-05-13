@@ -27,7 +27,7 @@ const SettingForm = ({ props }: { props: IUser }) => {
     updateCurrentUser(data)
   }
   return (
-    <>
+    <div className=' relative'>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
         <div className="w-1/4 flex flex-col justify-between gap-6">
           <label className="flex items-center justify-between font-extralight">
@@ -115,11 +115,11 @@ const SettingForm = ({ props }: { props: IUser }) => {
         onClick={() => {
           logout()
         }}
-        className="btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
+        className="absolute right-0 bottom-0 btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
       >
         Выйти
       </button>
-    </>
+    </div>
   )
 }
 
