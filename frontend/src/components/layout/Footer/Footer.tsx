@@ -2,12 +2,13 @@ const Footer = () => {
   return (
     <footer className="w-full py-5 items-center bg-primary text-base-100 font-bold">
       <div className="mx-auto container flex flex-col justify-center gap-8 lg:gap-0 lg:flex-row lg:justify-between">
-        <aside className="flex items-center justify-center lg:justify-normal">
+        <aside className="flex items-center gap-8 lg:justify-normal">
+          <img src="/mocks/gerb.png" alt="gerb" className="w-16" />
           <h6 className="text-4xl">Контакты</h6>
         </aside>
         <nav className="flex flex-col justify-center items-center gap-4 md:flex-row md:gap-16 lg:justify-self-end text-2xl">
-          <a href="tel:+73832387393">+73832387393</a>
-          <a href="email:dmp@nso.ru">dmp@nso.ru</a>
+          <a href="tel:8(383)238-73-93">8(383) 238-73-93</a>
+          <a href="minobr.nso.ru">minobr.nso.ru</a>
         </nav>
       </div>
     </footer>
