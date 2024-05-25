@@ -4,14 +4,14 @@ import { errorCatch } from './api.helper'
 import { AuthService } from '../services/auth/auth.service'
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'http://novis.ddns.net/api/v1/',
   withCredentials: true
 })
 
 instance.interceptors.request.use(async (config) => {
   const token = getToken()
   config.headers && token
-    ? (config.headers.Authorization = `Bearer ${token}`)
+    ? (config.headers.Authorization = `Token ${token}`)
     : null
   return config
 })

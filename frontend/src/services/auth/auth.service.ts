@@ -2,20 +2,20 @@ import axios from 'axios'
 import { IAuthResponse, ISignInRequest, ISignUpRequest } from './auth.interface'
 import { instance } from '../../api/api.interceptor'
 
-const BASEURL = 'http://localhost:8000/api'
-const PATH = 'auth'
+const BASEURL = 'http://novis.ddns.net/api/v1/'
+const PATH = 'users'
 
 export const AuthService = {
   async signUp(userData: ISignUpRequest) {
     const response = await instance.post<IAuthResponse>(
-      `/${PATH}/signUp`,
+      `/${PATH}`,
       userData
     )
     return response
   },
   async signIn(userData: ISignInRequest) {
     const response = await instance.post<IAuthResponse>(
-      `/${PATH}/signIn`,
+      `/auth/token/login/`,
       userData
     )
     return response

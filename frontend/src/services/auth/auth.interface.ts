@@ -1,14 +1,14 @@
-import { IUser } from '../users/users.interface'
+// import { IUser } from '../users/users.interface'
 
 export interface IAuthResponse {
-  user: IUser
-  token: string
+  id: number | string
+  email: string
 }
 
 export interface ISignUpRequest {
   firstName: string
   lastName: string
-  surName: string
+  patronymic: string
   email: string
   password: string
 }
