@@ -58,7 +58,7 @@ const HeaderCenter = () => {
               </>
             ))}
           </ul>
-        ) : currentUser && currentUser.isCheckedByAdmin ? (
+        ) : currentUser && currentUser.is_active && currentUser.is_email_confirmed ? (
           <>
             {currentUser.role === 'admin' ? (
               <>

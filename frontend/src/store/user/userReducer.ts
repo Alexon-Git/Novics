@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IInitialState } from './user.interface'
+import { IInitialState, ValidationErrors } from './user.interface'
 import {
   getCurrentUser,
   logout,
@@ -13,7 +13,7 @@ import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
   user: getLocal('user'),
-  token: getLocal('token'),
+  token: localStorage.getItem('token'),
   // user: {
   //   id: 21312,
   //   firstName: 'Иван',
@@ -51,54 +51,45 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.user = null
         state.token = null
-        state.error = payload
+        state.error = payload as ValidationErrors
       })
       .addCase(signin.pending, (state) => {
         state.isLoading = true
       })
       .addCase(signin.fulfilled, (state, { payload }) => {
         state.isLoading = false
+        state.error = null
         state.token = payload.auth_token
       })
-      .addCase(signin.rejected, (state, action) => {
+      .addCase(signin.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
       .addCase(sendOtp.pending, (state) => {
         state.isLoading = true
       })
       .addCase(sendOtp.fulfilled, (state) => {
         state.isLoading = false
+        state.error = null
       })
-      .addCase(sendOtp.rejected, (state, action) => {
+      .addCase(sendOtp.rejected, (state, { payload }) => {
         state.isLoading = false
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
       .addCase(verifyOtp.pending, (state) => {
         state.isLoading = true
       })
       .addCase(verifyOtp.fulfilled, (state) => {
         state.isLoading = false
-        state.user ? (state.user.is_active = true) : null
+        state.error = null
+        state.user ? (state.user.is_email_confirmed = true) : null
       })
-      .addCase(verifyOtp.rejected, (state, action) => {
+      .addCase(verifyOtp.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user ? (state.user.is_active = false) : null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
       .addCase(logout.fulfilled, () => initialState)
       .addCase(getCurrentUser.pending, (state) => {
@@ -107,16 +98,14 @@ export const userSlice = createSlice({
       .addCase(getCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
+        localStorage.setItem('user', JSON.stringify(state.user))
+        state.error = null
       })
-      .addCase(getCurrentUser.rejected, (state, action) => {
+      .addCase(getCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
       .addCase(updateCurrentUser.pending, (state) => {
         state.isLoading = true
@@ -124,16 +113,14 @@ export const userSlice = createSlice({
       .addCase(updateCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
+        localStorage.setItem('user', JSON.stringify(state.user))
+        state.error = null
       })
-      .addCase(updateCurrentUser.rejected, (state, action) => {
+      .addCase(updateCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
   }
 })

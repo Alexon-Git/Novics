@@ -8,7 +8,7 @@ const HeaderRight = () => {
   const currentUser = useTypedSelector((state) => state.user.user)
   return (
     <div className="navbar-end">
-      {!currentUser || !currentUser.isCheckedByAdmin || !currentUser.isEmailConfirmed ? <button onClick={() => dispatch(openSignInModal())} className="btn btn-secondary text-base-100 px-6">Личный кабинет</button> : <ProfileLink />}
+      {!currentUser || !currentUser.is_active || !currentUser.is_email_confirmed ? <button onClick={() => dispatch(openSignInModal())} className="btn btn-secondary text-base-100 px-6">Личный кабинет</button> : <ProfileLink />}
     </div>
   )
 }

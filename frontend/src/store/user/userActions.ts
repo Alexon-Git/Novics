@@ -23,10 +23,12 @@ export const signup = createAsyncThunk<
     const response = await UserService.createUser(data)
     return response.data
   } catch (err) {
-    if (!err.response) {
+    const error: AxiosError<ValidationErrors> =
+      err as AxiosError<ValidationErrors>
+    if (!error.response) {
       throw err
     }
-    return rejectWithValue(err.response.data)
+    return rejectWithValue(error.response.data)
   }
 })
 

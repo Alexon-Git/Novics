@@ -42,10 +42,10 @@ const SignModal = () => {
           <div className="fixed inset-0 bg-base-100/40" />
         </Transition.Child>
 
-        <div className="fixed inset-0 md:overflow-hidden">
+        <div className="fixed inset-0 ">
           <div
             ref={parent}
-            className="flex min-h-full items-center justify-center md:overflow-hidden"
+            className="flex min-h-full items-center justify-center "
           >
             <Transition.Child
               as={Fragment}
@@ -55,7 +55,7 @@ const SignModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="flex flex-col p-10 w-full h-screen md:modal-box md:w-auto md:h-auto md:rounded-2xl text-base-100 md:overflow-hidden">
+              <Dialog.Panel className="flex flex-col p-10 w-full overflow-scroll h-screen md:modal-box md:w-auto md:h-auto md:rounded-2xl text-base-100 ">
                 <div className="absolute top-0 left-0 h-full w-full bg-[#797979] z-10 mix-blend-multiply" />
                 <img
                   className="absolute top-0 right-0"

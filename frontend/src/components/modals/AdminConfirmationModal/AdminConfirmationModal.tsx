@@ -9,7 +9,7 @@ const AdminConfirmationModal = () => {
   const { user } = useTypedSelector((state) => state.user)
 
   useEffect(() => {
-    if (user && user.isEmailConfirmed && !user.isCheckedByAdmin) {
+    if (user && !user.is_active && !user.is_email_confirmed) {
       setIsOpen(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,4 +9,5 @@ export interface IUser {
   // country: string | null
   UTC?: string | null
   is_active?: boolean
+  is_email_confirmed?: boolean
 }

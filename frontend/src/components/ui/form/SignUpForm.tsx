@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { emailPattern } from './emailPattern'
 import { ISignUpRequest } from '../../../services/auth/auth.interface'
@@ -24,26 +24,19 @@ const SignUpForm = () => {
       password: ''
     }
   })
-  const { isLoading, error, token, user } = useTypedSelector(
-    (state) => state.user
-  )
-  const { signup, signin, sendOtp } = useActions()
+  const { isLoading, error, user } = useTypedSelector((state) => state.user)
+  const { signup } = useActions()
   const dispatch = useDispatch()
 
   const onSubmit = async (data: ISignUpRequest) => {
     signup(data)
-    const loginData = {
-      email: data.email,
-      password: data.password
-    }
+  }
+
+  useEffect(() => {
     if (user && user.id) {
-      signin(loginData)
-    }
-    if (token && user) {
-      sendOtp(user.id)
       dispatch(closeModal())
     }
-  }
+  }, [user])
 
   return (
     <form
@@ -155,12 +148,14 @@ const SignUpForm = () => {
         )}
         {error && (
           <p className="font-medium text-sm text-error">
-            {error.email && error.email.map((value, index) => (
-              <span key={index}>*{value}</span>
-            ))}
-            {error.password && error.password.map((value, index) => (
-              <span key={index}>*{value}</span>
-            ))}
+            {error.email &&
+              error.email.map((value, index) => (
+                <span key={index}>*{value}</span>
+              ))}
+            {error.password &&
+              error.password.map((value, index) => (
+                <span key={index}>*{value}</span>
+              ))}
           </p>
         )}
       </div>

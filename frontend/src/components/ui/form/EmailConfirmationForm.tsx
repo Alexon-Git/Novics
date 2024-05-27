@@ -15,11 +15,20 @@ const EmailConfirmationForm = () => {
     }
   })
 
-  const { isLoading, error } = useTypedSelector((state) => state.user)
-  const { emailConfirmation } = useActions()
+  const { isLoading, error, user } = useTypedSelector((state) => state.user)
+  const { verifyOtp, getCurrentUser } = useActions()
 
   const onSubmit = async (data: {code: string}) => {
-    emailConfirmation(data.code)
+    const userData = {
+      id: user && user.id ? user.id : -1,
+      code: data.code
+    }
+    if (user && user.id) {
+      verifyOtp(userData)
+    }
+    if (user?.is_email_confirmed) {
+      getCurrentUser()
+    }
   }
 
   return (
