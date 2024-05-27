@@ -6,12 +6,15 @@ export interface IToken {
 
 export interface IAuthResponse {
   id: number | string
+  first_name: string,
+  last_name: string,
+  patronymic: string,
   email: string
 }
 
 export interface ISignUpRequest {
-  firstName: string
-  lastName: string
+  first_name: string
+  last_name: string
   patronymic: string
   email: string
   password: string

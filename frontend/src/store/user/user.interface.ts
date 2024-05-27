@@ -1,4 +1,4 @@
-import { IUser } from "../../services/users/users.interface"
+import { IUser } from '../../services/users/users.interface'
 
 export interface ValidationErrors {
   errorMessage: string
@@ -8,6 +8,9 @@ export interface ValidationErrors {
 export interface IInitialState {
   user: IUser | null
   token: string | null
-  error: string | null | undefined
+  error: null | undefined | {
+    email?: string[]
+    password?: string[]
+  }
   isLoading: boolean
 }

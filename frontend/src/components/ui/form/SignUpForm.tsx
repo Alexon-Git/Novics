@@ -17,24 +17,30 @@ const SignUpForm = () => {
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      surName: '',
+      first_name: '',
+      last_name: '',
+      patronymic: '',
       email: '',
       password: ''
     }
   })
-  const [localErr, setLocalErr] = useState<string>('')
-  const { isLoading, error, token } = useTypedSelector((state) => state.user)
-  const { signup } = useActions()
+  const { isLoading, error, token, user } = useTypedSelector(
+    (state) => state.user
+  )
+  const { signup, signin, sendOtp } = useActions()
   const dispatch = useDispatch()
 
   const onSubmit = async (data: ISignUpRequest) => {
     signup(data)
-    if (error) {
-      setLocalErr(error)
+    const loginData = {
+      email: data.email,
+      password: data.password
     }
-    if (token) {
+    if (user && user.id) {
+      signin(loginData)
+    }
+    if (token && user) {
+      sendOtp(user.id)
       dispatch(closeModal())
     }
   }
@@ -48,14 +54,14 @@ const SignUpForm = () => {
         <div className="flex flex-col gap-8 text-[#A9A9A9]">
           <div>
             <input
-              {...register('firstName', {
+              {...register('first_name', {
                 required: true
               })}
               type="text"
               placeholder="Имя"
-              className={`input ${errors.firstName && 'input-error'} bg-base-100 w-full rounded-[10px]`}
+              className={`input ${errors.first_name && 'input-error'} bg-base-100 w-full rounded-[10px]`}
             />
-            {errors.firstName?.type === 'required' && (
+            {errors.first_name?.type === 'required' && (
               <p className="font-medium text-sm text-error">
                 * это поле обязательно
               </p>
@@ -63,14 +69,14 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              {...register('lastName', {
+              {...register('last_name', {
                 required: true
               })}
               type="text"
               placeholder="Фамилия"
-              className={`input ${errors.lastName && 'input-error'} bg-base-100 w-full rounded-[10px]`}
+              className={`input ${errors.last_name && 'input-error'} bg-base-100 w-full rounded-[10px]`}
             />
-            {errors.lastName?.type === 'required' && (
+            {errors.last_name?.type === 'required' && (
               <p className="font-medium text-sm text-error">
                 * это поле обязательно
               </p>
@@ -78,14 +84,14 @@ const SignUpForm = () => {
           </div>
           <div>
             <input
-              {...register('surName', {
+              {...register('patronymic', {
                 required: true
               })}
               type="text"
               placeholder="Отчество"
-              className={`input ${errors.surName && 'input-error'} bg-base-100 w-full rounded-[10px]`}
+              className={`input ${errors.patronymic && 'input-error'} bg-base-100 w-full rounded-[10px]`}
             />
-            {errors.surName?.type === 'required' && (
+            {errors.patronymic?.type === 'required' && (
               <p className="font-medium text-sm text-error">
                 * это поле обязательно
               </p>
@@ -147,9 +153,14 @@ const SignUpForm = () => {
         {errors.password?.type === 'validate' && (
           <p className="font-medium text-sm text-error">*Пароли не совпадают</p>
         )}
-        {localErr && (
+        {error && (
           <p className="font-medium text-sm text-error">
-            *Провести регистрацию не удалось
+            {error.email && error.email.map((value, index) => (
+              <span key={index}>*{value}</span>
+            ))}
+            {error.password && error.password.map((value, index) => (
+              <span key={index}>*{value}</span>
+            ))}
           </p>
         )}
       </div>

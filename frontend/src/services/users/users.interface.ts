@@ -4,9 +4,9 @@ export interface IUser {
   last_name: string
   patronymic: string
   email: string
-  role: string
-  town: string | null
+  role?: string
+  town?: string | null
   // country: string | null
-  UTC: string | null
-  is_active: boolean
+  UTC?: string | null
+  is_active?: boolean
 }
