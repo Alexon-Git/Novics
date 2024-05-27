@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { useActions } from '../../../hooks/useActions'
+import { useEffect } from 'react'
 
 const EmailConfirmationForm = () => {
   const {
@@ -16,7 +17,7 @@ const EmailConfirmationForm = () => {
   })
 
   const { isLoading, error, user } = useTypedSelector((state) => state.user)
-  const { verifyOtp, getCurrentUser } = useActions()
+  const { verifyOtp, sendOtp, getCurrentUser } = useActions()
 
   const onSubmit = async (data: {code: string}) => {
     const userData = {
@@ -30,6 +31,12 @@ const EmailConfirmationForm = () => {
       getCurrentUser()
     }
   }
+
+  useEffect(() => {
+    if (user && user.id && !user.is_email_confirmed) {
+      sendOtp(user.id)
+    }
+  }, [])
 
   return (
     <form

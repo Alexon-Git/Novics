@@ -1,45 +1,48 @@
 import { Link } from "react-router-dom"
 import HomeDocsCard from "../../ui/card/HomeDocsCard/HomeDocsCard"
-import { IDocsCard } from "../../../types/section.interface"
+import { DocsService } from "../../../services/docs/docs.service"
+import { useQuery } from "@tanstack/react-query"
+// import { IDocsCard } from "../../../types/section.interface"
 
 const HomeDocs = () => {
-  const docs: IDocsCard[] = [
-    {
-      id: 0,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 1,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 2,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 3,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    }
-  ]
+  // const docs: IDocsCard[] = [
+  //   {
+  //     id: 0,
+  //     title: 'Обязательство о неразглашении конфиденциальной информации ',
+  //     size: '222кб',
+  //     date: '06.02.2023',
+  //     url: 'https://vk.com'
+  //   },
+  //   {
+  //     id: 1,
+  //     title: 'Обязательство о неразглашении конфиденциальной информации ',
+  //     size: '222кб',
+  //     date: '06.02.2023',
+  //     url: 'https://vk.com'
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Обязательство о неразглашении конфиденциальной информации ',
+  //     size: '222кб',
+  //     date: '06.02.2023',
+  //     url: 'https://vk.com'
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Обязательство о неразглашении конфиденциальной информации ',
+  //     size: '222кб',
+  //     date: '06.02.2023',
+  //     url: 'https://vk.com'
+  //   }
+  // ]
+  const query = useQuery({ queryKey: ['docs'], queryFn: DocsService.getDocs })
   return (
     <section id="docs" className="my-20">
       <div className="hero mx-auto container">
         <div className="w-full flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">Документы</h2>
           <div className="flex flex-col justify-between items-center gap-8">
-            {docs.map((doc) => (
+            {query.data?.data.map((doc) => (
               <HomeDocsCard key={doc.id} props={doc} />
             ))}
           </div>

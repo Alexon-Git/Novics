@@ -6,22 +6,29 @@ const PATH = 'docs'
 
 export const DocsService = {
   async getDocs() {
-    const { data } = await instance.get<IDocsCard[]>(`/${PATH}`)
-    return data
+    return await instance.get<IDocsCard[]>(`/${PATH}/`)
   },
   async getDocsWithLimit(limit: string | number) {
-    const { data } = await instance.get<IDocsCard[]>(`/${PATH}?_limit=${limit}`)
-    return data
+    return await instance.get<IDocsCard[]>(`/${PATH}?_limit=${limit}/`)
   },
   async createDoc(userData: IDoc) {
-    const { data } = await instance.post<IDocsCard>(`/${PATH}/create`, userData)
-    return data
+    return await instance.post<IDocsCard>(`/${PATH}/`, userData)
   },
   async updateDocById(userData: IDocsCard) {
-    const { data } = await instance.put<IDocsCard>(
-      `/${PATH}/${userData.id}`,
+    return await instance.put<IDocsCard>(
+      `/${PATH}/${userData.id}/`,
       userData
     )
-    return data
-  }
+  },
+  async patchDocById(userData: Partial<IDocsCard>) {
+    return await instance.put<IDocsCard>(
+      `/${PATH}/${userData.id}/`,
+      userData
+    )
+  },
+  async delDocById(userData: IDocsCard) {
+    return await instance.delete<void>(
+      `/${PATH}/${userData.id}/`
+    )
+  },
 }
