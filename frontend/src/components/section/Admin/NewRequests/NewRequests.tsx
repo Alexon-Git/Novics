@@ -12,7 +12,7 @@ const NewRequests = () => {
       town: 'San Francisco',
       UTC: null,
       role: 'admin',
-      is_active: true,
+      is_active: false,
       is_email_confirmed: false,
     },
     {
@@ -24,7 +24,7 @@ const NewRequests = () => {
       town: 'San Francisco',
       UTC: null,
       role: 'moder',
-      is_active: true,
+      is_active: false,
       is_email_confirmed: false,
     },
     {
@@ -36,7 +36,7 @@ const NewRequests = () => {
       town: 'San Francisco',
       UTC: null,
       role: 'user',
-      is_active: true,
+      is_active: false,
       is_email_confirmed: false,
     }
   ]
