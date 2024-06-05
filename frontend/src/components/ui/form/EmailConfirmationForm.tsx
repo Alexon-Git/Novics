@@ -36,6 +36,7 @@ const EmailConfirmationForm = () => {
     if (user && user.id && !user.is_active) {
       sendOtp(user.id)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

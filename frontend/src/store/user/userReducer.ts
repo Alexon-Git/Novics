@@ -9,24 +9,23 @@ import {
   updateCurrentUser,
   verifyOtp
 } from './userActions'
-import { getLocal } from '../../utils/getLocal'
+// import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
-  user: getLocal('user'),
-  token: localStorage.getItem('token'),
-  // user: {
-  //   id: 21312,
-  //   first_name: 'Иван',
-  //   last_name: 'Иванов',
-  //   patronymic: 'Иванович',
-  //   email: 'email@email.com',
-  //   town: 'Новосибирск',
-  //   UTC: '',
-  //   role: 'admin',
-  //   is_email_confirmed: true,
-  //   is_active: true
-  // },
-  // token: 'wqeqwdqwd123',
+  // user: getLocal('user'),
+  // token: localStorage.getItem('token'),
+  user: {
+    id: 21312,
+    first_name: 'Иван',
+    last_name: 'Иванов',
+    patronymic: 'Иванович',
+    email: 'email@email.com',
+    town: 'Новосибирск',
+    UTC: '',
+    role: 'user',
+    is_active: true,
+  },
+  token: 'wqeqwdqwd123',
   error: null,
   isLoading: false
 }
