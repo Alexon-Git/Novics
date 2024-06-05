@@ -22,7 +22,7 @@ const initialState: IInitialState = {
     email: 'email@email.com',
     town: 'Новосибирск',
     UTC: '',
-    role: 'user',
+    role: 'admin',
     is_active: true,
   },
   token: 'wqeqwdqwd123',
