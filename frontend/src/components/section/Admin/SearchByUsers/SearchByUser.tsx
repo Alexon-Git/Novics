@@ -13,7 +13,7 @@ const SearchByUser = () => {
       UTC: null,
       role: 'admin',
       is_active: true,
-      is_email_confirmed: false,
+      
     },
     {
       id: 1,
@@ -25,7 +25,7 @@ const SearchByUser = () => {
       UTC: null,
       role: 'moder',
       is_active: true,
-      is_email_confirmed: false,
+      
     },
     {
       id: 2,
@@ -37,7 +37,7 @@ const SearchByUser = () => {
       UTC: null,
       role: 'user',
       is_active: true,
-      is_email_confirmed: false,
+      
     }
   ]
   return (

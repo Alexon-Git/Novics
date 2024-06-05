@@ -27,13 +27,13 @@ const EmailConfirmationForm = () => {
     if (user && user.id) {
       verifyOtp(userData)
     }
-    if (user?.is_email_confirmed) {
+    if (user?.is_active) {
       getCurrentUser()
     }
   }
 
   useEffect(() => {
-    if (user && user.id && !user.is_email_confirmed) {
+    if (user && user.id && !user.is_active) {
       sendOtp(user.id)
     }
   }, [])

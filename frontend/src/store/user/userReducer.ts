@@ -9,24 +9,24 @@ import {
   updateCurrentUser,
   verifyOtp
 } from './userActions'
-// import { getLocal } from '../../utils/getLocal'
+import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
-  // user: getLocal('user'),
-  // token: localStorage.getItem('token'),
-  user: {
-    id: 21312,
-    first_name: 'Иван',
-    last_name: 'Иванов',
-    patronymic: 'Иванович',
-    email: 'email@email.com',
-    town: 'Новосибирск',
-    UTC: '',
-    role: 'admin',
-    is_email_confirmed: true,
-    is_active: true
-  },
-  token: 'wqeqwdqwd123',
+  user: getLocal('user'),
+  token: localStorage.getItem('token'),
+  // user: {
+  //   id: 21312,
+  //   first_name: 'Иван',
+  //   last_name: 'Иванов',
+  //   patronymic: 'Иванович',
+  //   email: 'email@email.com',
+  //   town: 'Новосибирск',
+  //   UTC: '',
+  //   role: 'admin',
+  //   is_email_confirmed: true,
+  //   is_active: true
+  // },
+  // token: 'wqeqwdqwd123',
   error: null,
   isLoading: false
 }
@@ -83,7 +83,7 @@ export const userSlice = createSlice({
       .addCase(verifyOtp.fulfilled, (state) => {
         state.isLoading = false
         state.error = null
-        state.user ? (state.user.is_email_confirmed = true) : null
+        state.user ? (state.user.is_active = true) : null
       })
       .addCase(verifyOtp.rejected, (state, { payload }) => {
         state.isLoading = false

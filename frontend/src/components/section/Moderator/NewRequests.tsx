@@ -15,7 +15,7 @@ const NewRequests = () => {
         UTC: null,
         role: 'admin',
         is_active: true,
-        is_email_confirmed: true,
+        
       },
       doc: {
         id: '0',
@@ -36,7 +36,7 @@ const NewRequests = () => {
         UTC: null,
         role: 'admin',
         is_active: true,
-        is_email_confirmed: true,
+        
       },
       doc: {
         id: '0',

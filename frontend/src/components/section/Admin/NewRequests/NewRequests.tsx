@@ -13,7 +13,6 @@ const NewRequests = () => {
       UTC: null,
       role: 'admin',
       is_active: false,
-      is_email_confirmed: false,
     },
     {
       id: 1,
@@ -25,7 +24,6 @@ const NewRequests = () => {
       UTC: null,
       role: 'moder',
       is_active: false,
-      is_email_confirmed: false,
     },
     {
       id: 2,
@@ -37,7 +35,7 @@ const NewRequests = () => {
       UTC: null,
       role: 'user',
       is_active: false,
-      is_email_confirmed: false,
+      
     }
   ]
   return (

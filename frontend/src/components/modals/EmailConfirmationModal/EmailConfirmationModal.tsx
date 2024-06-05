@@ -10,7 +10,7 @@ const EmailConfirmationModal = () => {
   const { user } = useTypedSelector((state) => state.user)
 
   useEffect(() => {
-    if (user && !user.is_email_confirmed) {
+    if (user && !user.is_active) {
       setIsOpen(true)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
