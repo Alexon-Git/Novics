@@ -38,9 +38,6 @@ const App = () => {
         <HeaderCenter />
         <HeaderRight />
       </Header>
-      <SignModal />
-      <EmailConfirmationModal />
-      <AdminConfirmationModal />
       <div ref={parent}>
         <Routes>
           <Route path="*" element={<NotFound />} />
@@ -48,6 +45,9 @@ const App = () => {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/dashboard/:role" element={<Dashboard />} />
         </Routes>
+        <SignModal />
+        <EmailConfirmationModal />
+        <AdminConfirmationModal />
       </div>
       <Footer />
     </>

@@ -20,12 +20,12 @@ const initialState: IInitialState = {
     last_name: 'Иванов',
     patronymic: 'Иванович',
     email: 'email@email.com',
-    town: 'Новосибирск',
+    town: '',
     UTC: '',
     role: 'admin',
     is_active: true,
   },
-  token: 'wqeqwdqwd123',
+  token: 'sdfdsf',
   error: null,
   isLoading: false
 }
