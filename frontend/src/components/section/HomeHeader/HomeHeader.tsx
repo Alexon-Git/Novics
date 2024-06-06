@@ -27,7 +27,7 @@ const HomeHeader = () => {
               данных, автоматизация процессов, связанных с обработкой данных
               иностранных студентов.
             </p> */}
-            {currentUser && currentUser?.isCheckedByAdmin ? (
+            {currentUser && currentUser?.is_active ? (
               <>
               </>
               // <Link

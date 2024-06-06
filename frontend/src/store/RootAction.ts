@@ -1,13 +1,21 @@
-import { checkAuth, emailConfirmation, getCurrentUser, logout, signin, signup, updateCurrentUser } from "./user/userActions";
+import {
+  getCurrentUser,
+  logout,
+  sendOtp,
+  signin,
+  signup,
+  updateCurrentUser,
+  verifyOtp
+} from './user/userActions'
 
 const RootAction = {
   signin,
   signup,
-  emailConfirmation,
   logout,
-  checkAuth,
   getCurrentUser,
-  updateCurrentUser
+  updateCurrentUser,
+  sendOtp,
+  verifyOtp
 }
 
 export default RootAction

@@ -1,13 +1,14 @@
-import { IUser } from "../../services/users/users.interface"
+import { IUser } from '../../services/users/users.interface'
 
 export interface ValidationErrors {
-  errorMessage: string
-  field_errors: Record<string, string>
+  email?: string[]
+  password?: string[]
+  non_field_errors?: string[]
 }
 
 export interface IInitialState {
   user: IUser | null
   token: string | null
-  error: string | null | undefined
+  error: null | undefined | ValidationErrors
   isLoading: boolean
 }

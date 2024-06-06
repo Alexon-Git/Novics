@@ -1,16 +1,30 @@
 import { Link } from 'react-router-dom'
 import { IPollsCard } from '../../../types/section.interface'
+import { useState } from 'react'
 
 const PollUpdate = ({ props }: { props: IPollsCard }) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false)
   return (
     <div className="w-full flex justify-between items-center px-4 py-4 border-[1px] border-primary rounded-[20px]">
       <div className="flex items-center gap-8">
-        <h3 className=" font-medium">{props.title}</h3>
-        <Link to={props.url}>
-          {props.url}
-        </Link>
+        {!isEdit && (
+          <>
+            <h3 className=" font-medium">{props.title}</h3>
+            <Link to={props.url}>{props.url}</Link>
+          </>
+        )}
+        {isEdit && (
+          <form>
+            <input
+              type="text"
+              className=" font-medium"
+              placeholder={props.title}
+            />
+            <input type="text" placeholder={props.url} />
+          </form>
+        )}
       </div>
-      <div className="flex items-center gap-4">
+      <button onClick={() => setIsEdit(!isEdit)} className="flex items-center gap-4">
         <svg
           width="22"
           height="21"
@@ -31,7 +45,7 @@ const PollUpdate = ({ props }: { props: IPollsCard }) => {
             strokeLinecap="round"
           />
         </svg>
-      </div>
+      </button>
     </div>
   )
 }

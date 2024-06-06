@@ -1,31 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IInitialState } from './user.interface'
+import { IInitialState, ValidationErrors } from './user.interface'
 import {
-  checkAuth,
-  emailConfirmation,
   getCurrentUser,
   logout,
+  sendOtp,
   signin,
   signup,
-  updateCurrentUser
+  updateCurrentUser,
+  verifyOtp
 } from './userActions'
 // import { getLocal } from '../../utils/getLocal'
 
 const initialState: IInitialState = {
   // user: getLocal('user'),
-  // token: getLocal('token'),
+  // token: localStorage.getItem('token'),
   user: {
     id: 21312,
-    firstName: 'Иван',
-    lastName: 'Иванов',
-    surName: 'Иванович',
+    first_name: 'Иван',
+    last_name: 'Иванов',
+    patronymic: 'Иванович',
     email: 'email@email.com',
-    city: 'Новосибирск',
-    country: 'Россия',
-    timeZone: '',
+    town: 'Новосибирск',
+    UTC: '',
     role: 'admin',
-    isEmailConfirmed: true,
-    isCheckedByAdmin: true
+    is_active: true,
   },
   token: 'wqeqwdqwd123',
   error: null,
@@ -43,90 +41,69 @@ export const userSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, { payload }) => {
         state.isLoading = false
-        state.user = payload.user
-        state.token = payload.token
+        state.user = payload
+        state.error = null
+        localStorage.setItem('user', JSON.stringify(state.user))
       })
-      .addCase(signup.rejected, (state, action) => {
+      .addCase(signup.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload as ValidationErrors
       })
       .addCase(signin.pending, (state) => {
         state.isLoading = true
       })
       .addCase(signin.fulfilled, (state, { payload }) => {
         state.isLoading = false
-        state.user = payload.user
-        state.token = payload.token
+        state.error = null
+        state.token = payload.auth_token
       })
-      .addCase(signin.rejected, (state, action) => {
+      .addCase(signin.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
-      .addCase(emailConfirmation.pending, (state) => {
+      .addCase(sendOtp.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(emailConfirmation.fulfilled, (state, { payload }) => {
+      .addCase(sendOtp.fulfilled, (state) => {
         state.isLoading = false
-        state.token = payload.token
-        state.user = payload.user
+        state.error = null
       })
-      .addCase(emailConfirmation.rejected, (state, action) => {
+      .addCase(sendOtp.rejected, (state, { payload }) => {
         state.isLoading = false
-        state.user = null
-        state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
+      })
+      .addCase(verifyOtp.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(verifyOtp.fulfilled, (state) => {
+        state.isLoading = false
+        state.error = null
+        state.user ? (state.user.is_active = true) : null
+      })
+      .addCase(verifyOtp.rejected, (state, { payload }) => {
+        state.isLoading = false
+        state.user ? (state.user.is_active = false) : null
+        state.error = payload
       })
       .addCase(logout.fulfilled, () => initialState)
-      .addCase(checkAuth.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(checkAuth.fulfilled, (state, { payload }) => {
-        state.isLoading = false
-        state.user = payload.user
-        state.token = payload.token
-      })
-      .addCase(checkAuth.rejected, (state, action) => {
-        state.isLoading = false
-        state.user = null
-        state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
-      })
       .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
+        localStorage.setItem('user', JSON.stringify(state.user))
+        state.error = null
       })
-      .addCase(getCurrentUser.rejected, (state, action) => {
+      .addCase(getCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
       .addCase(updateCurrentUser.pending, (state) => {
         state.isLoading = true
@@ -134,16 +111,14 @@ export const userSlice = createSlice({
       .addCase(updateCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
+        localStorage.setItem('user', JSON.stringify(state.user))
+        state.error = null
       })
-      .addCase(updateCurrentUser.rejected, (state, action) => {
+      .addCase(updateCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.token = null
-        if (action.payload) {
-          state.error = action.payload.errorMessage
-        } else {
-          state.error = action.error.message
-        }
+        state.error = payload
       })
   }
 })

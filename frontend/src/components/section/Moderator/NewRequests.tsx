@@ -7,16 +7,15 @@ const NewRequests = () => {
     {
       user: {
         id: '0',
-        firstName: 'John',
-        lastName: 'Doe',
-        surName: 'smith',
+        first_name: 'John',
+        last_name: 'Doe',
+        patronymic: 'smith',
         email: 'john@gmail.com',
-        country: null,
-        city: null,
-        timeZone: null,
+        town: null,
+        UTC: null,
         role: 'admin',
-        isCheckedByAdmin: true,
-        isEmailConfirmed: true,
+        is_active: true,
+        
       },
       doc: {
         id: '0',
@@ -29,16 +28,15 @@ const NewRequests = () => {
     {
       user: {
         id: '0',
-        firstName: 'John',
-        lastName: 'Doe',
-        surName: 'smith',
+        first_name: 'John',
+        last_name: 'Doe',
+        patronymic: 'smith',
         email: 'different@gmail.com',
-        country: null,
-        city: null,
-        timeZone: null,
+        town: null,
+        UTC: null,
         role: 'admin',
-        isCheckedByAdmin: true,
-        isEmailConfirmed: true,
+        is_active: true,
+        
       },
       doc: {
         id: '0',

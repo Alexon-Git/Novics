@@ -6,22 +6,29 @@ const PATH = 'news'
 
 export const NewsService = {
   async getNews() {
-    const { data } = await instance.get<INewsCard[]>(`/${PATH}`)
-    return data
+    return await instance.get<INewsCard[]>(`/${PATH}/`)
   },
   async getNewsWithLimit(limit: string | number) {
-    const { data } = await instance.get<INewsCard[]>(`/${PATH}?_limit=${limit}`)
-    return data
+    return await instance.get<INewsCard[]>(`/${PATH}?_limit=${limit}/`)
   },
   async createNew(newData: INew) {
-    const { data } = await instance.post<INewsCard>(`/${PATH}/create`, newData)
-    return data
+    return await instance.post<INewsCard>(`/${PATH}/`, newData)
   },
-  async updateDocById(newData: INewsCard) {
-    const { data } = await instance.put<INewsCard>(
-      `/${PATH}/${newData.id}`,
+  async updateNewById(newData: INewsCard) {
+    return await instance.put<INewsCard>(
+      `/${PATH}/${newData.id}/`,
       newData
     )
-    return data
-  }
+  },
+  async patchNewById(newData: Partial<INewsCard>) {
+    return await instance.patch<INewsCard>(
+      `/${PATH}/${newData.id}/`,
+      newData
+    )
+  },
+  async delNewById(newData: INewsCard) {
+    return await instance.delete<void>(
+      `/${PATH}/${newData.id}/`,
+    )
+  },
 }

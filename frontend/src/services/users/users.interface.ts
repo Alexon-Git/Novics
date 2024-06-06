@@ -1,13 +1,12 @@
 export interface IUser {
   id: string | number
-  firstName: string
-  lastName: string
-  surName: string
+  first_name: string
+  last_name: string
+  patronymic: string
   email: string
-  city: string | null
-  country: string | null
-  timeZone: string | null
-  role: string
-  isEmailConfirmed: boolean
-  isCheckedByAdmin: boolean
+  role?: string
+  town?: string | null
+  // country: string | null
+  UTC?: string | null
+  is_active?: boolean
 }

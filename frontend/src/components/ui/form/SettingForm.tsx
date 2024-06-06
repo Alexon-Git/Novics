@@ -11,13 +11,12 @@ const SettingForm = ({ props }: { props: IUser }) => {
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
-      firstName: props.firstName,
-      lastName: props.lastName,
-      surName: props.surName,
+      first_name: props.first_name,
+      last_name: props.last_name,
+      patronymic: props.patronymic,
       email: props.email,
-      city: props.city,
-      country: props.country,
-      timeZone: props.timeZone
+      town: props.town,
+      UTC: props.UTC
     }
   })
 
@@ -33,28 +32,28 @@ const SettingForm = ({ props }: { props: IUser }) => {
           <label className="flex items-center justify-between font-extralight">
             Имя
             <input
-              {...register('firstName')}
+              {...register('first_name')}
               type="text"
               className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.firstName}
+              placeholder={props.first_name}
             />
           </label>
           <label className="flex items-center justify-between font-extralight">
             Фамилия
             <input
-              {...register('lastName')}
+              {...register('last_name')}
               type="text"
               className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.lastName}
+              placeholder={props.last_name}
             />
           </label>
           <label className="flex items-center justify-between font-extralight">
             Отчество
             <input
-              {...register('surName')}
+              {...register('patronymic')}
               type="text"
               className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.surName}
+              placeholder={props.patronymic}
             />
           </label>
           <label className="flex items-center justify-between font-extralight">
@@ -69,28 +68,19 @@ const SettingForm = ({ props }: { props: IUser }) => {
           <label className="flex items-center justify-between font-extralight">
             Город
             <input
-              {...register('city')}
+              {...register('town')}
               type="text"
               className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.city ? props.city : 'Ваш город'}
-            />
-          </label>
-          <label className="flex items-center justify-between font-extralight">
-            Страна
-            <input
-              {...register('country')}
-              type="text"
-              className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.country ? props.country : 'Страна'}
+              placeholder={props.town ? props.town : 'Ваш город'}
             />
           </label>
           <label className="flex items-center justify-between font-extralight">
             Часовой пояс
             <input
-              {...register('timeZone')}
+              {...register('UTC')}
               type="text"
               className="input input-bordered rounded-none input-ghost h-8 min-h-8"
-              placeholder={props.timeZone ? props.timeZone : 'Часовой пояс'}
+              placeholder={props.UTC ? props.UTC : 'Часовой пояс'}
             />
           </label>
         </div>
