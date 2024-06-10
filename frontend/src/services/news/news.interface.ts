@@ -1,5 +1,5 @@
 export interface INew {
-  img: string
+  image: string | File | null
   date: string
   title: string
   text: string

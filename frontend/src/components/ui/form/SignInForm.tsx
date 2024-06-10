@@ -19,13 +19,13 @@ const SignInForm = () => {
       password: ''
     }
   })
-  const { isLoading, error, token } = useTypedSelector((state) => state.user)
+  const { isLoading, error, user } = useTypedSelector((state) => state.user)
   const dispatch = useDispatch()
   const { signin } = useActions()
 
   const onSubmit = async (data: ISignInRequest) => {
     signin(data)
-    if (token) {
+    if (user) {
       dispatch(closeModal())
     }
   }

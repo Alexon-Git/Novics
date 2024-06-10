@@ -10,5 +10,5 @@ export const saveToStorage = (data: IToken) => {
 }
 
 export const removeFromStorage = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('user')
 }

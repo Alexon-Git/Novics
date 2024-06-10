@@ -1,14 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
-  IAuthResponse,
   ISignInRequest,
   ISignUpRequest,
-  IToken
 } from '../../services/auth/auth.interface'
 import { AuthService } from '../../services/auth/auth.service'
 import {
   removeFromStorage,
-  saveToStorage
 } from '../../services/auth/auth.helper'
 import { IUser } from '../../services/users/users.interface'
 import { UserService } from '../../services/users/users.service'
@@ -16,11 +13,12 @@ import { AxiosError } from 'axios'
 import { ValidationErrors } from './user.interface'
 
 export const signup = createAsyncThunk<
-  IAuthResponse,
+  IUser,
   ISignUpRequest
 >('auth/signup', async (data, { rejectWithValue }) => {
   try {
-    const response = await UserService.createUser(data)
+    const response = await AuthService.signup(data)
+    localStorage.setItem('user', JSON.stringify(response.data))
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
@@ -33,7 +31,7 @@ export const signup = createAsyncThunk<
 })
 
 export const signin = createAsyncThunk<
-  IToken,
+  IUser,
   ISignInRequest,
   {
     rejectValue: ValidationErrors
@@ -41,7 +39,8 @@ export const signin = createAsyncThunk<
 >('auth/signin', async (data, { rejectWithValue }) => {
   try {
     const response = await AuthService.login(data)
-    saveToStorage(response.data)
+    localStorage.setItem('user', JSON.stringify(response.data))
+    // saveToStorage(response.data)
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
@@ -55,11 +54,11 @@ export const signin = createAsyncThunk<
 
 export const sendOtp = createAsyncThunk<
   void,
-  string | number,
+  void,
   { rejectValue: ValidationErrors }
->('auth/sendOtp', async (id, { rejectWithValue }) => {
+>('auth/sendOtp', async (_, { rejectWithValue }) => {
   try {
-    const response = await UserService.sendOtp(id)
+    const response = await AuthService.sendActivate()
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
@@ -72,12 +71,13 @@ export const sendOtp = createAsyncThunk<
 })
 
 export const verifyOtp = createAsyncThunk<
-  void,
-  { id: string | number; code: string | number },
+  IUser,
+  { otp_code: string },
   { rejectValue: ValidationErrors }
->('auth/verifyOtp', async ({ id, code }, { rejectWithValue }) => {
+>('auth/verifyOtp', async ({ otp_code }, { rejectWithValue }) => {
   try {
-    const response = await UserService.verifyOtp(id, code)
+    const response = await AuthService.verifyActivate(otp_code)
+    localStorage.setItem('user', JSON.stringify(response.data))
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
@@ -118,7 +118,8 @@ export const getCurrentUser = createAsyncThunk<
   }
 >('/users/current', async (_, { rejectWithValue }) => {
   try {
-    const response = await UserService.getCurrentUser()
+    const response = await AuthService.info()
+    localStorage.setItem('user', JSON.stringify(response.data))
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
@@ -139,6 +140,7 @@ export const updateCurrentUser = createAsyncThunk<
 >('/users/current/update', async (data, { rejectWithValue }) => {
   try {
     const response = await UserService.updateCurrentUser(data)
+    localStorage.setItem('user', JSON.stringify(response.data))
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =

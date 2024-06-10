@@ -8,7 +8,7 @@ export interface ValidationErrors {
 
 export interface IInitialState {
   user: IUser | null
-  token: string | null
+  // token: string | null
   error: null | undefined | ValidationErrors
   isLoading: boolean
 }

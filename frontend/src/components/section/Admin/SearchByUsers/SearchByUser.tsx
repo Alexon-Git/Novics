@@ -1,45 +1,15 @@
-import { IUser } from '../../../../services/users/users.interface'
+import autoAnimate from '@formkit/auto-animate'
+import { useQuery } from '@tanstack/react-query'
+import { useRef, useEffect } from 'react'
+import { UserService } from '../../../../services/users/users.service'
 import SearchedUser from '../../../ui/Admin/SearchedUser'
 
 const SearchByUser = () => {
-  const users: IUser[] = [
-    {
-      id: 0,
-      first_name: 'John',
-      last_name: 'Doe',
-      patronymic: 'Smith',
-      email: 'john@gmail.com',
-      town: 'San Francisco',
-      UTC: null,
-      role: 'admin',
-      is_active: true,
-      
-    },
-    {
-      id: 1,
-      first_name: 'John',
-      last_name: 'Doe',
-      patronymic: 'Smith',
-      email: 'john@gmail.com',
-      town: 'San Francisco',
-      UTC: null,
-      role: 'moder',
-      is_active: true,
-      
-    },
-    {
-      id: 2,
-      first_name: 'John',
-      last_name: 'Doe',
-      patronymic: 'Smith',
-      email: 'john@gmail.com',
-      town: 'San Francisco',
-      UTC: null,
-      role: 'user',
-      is_active: true,
-      
-    }
-  ]
+  const parent = useRef(null)
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+  const query = useQuery({ queryKey: ['users'], queryFn: UserService.getUsers })
   return (
     <section className="my-20">
       <div className="hero mx-auto container">
@@ -85,7 +55,7 @@ const SearchByUser = () => {
             </div>
           </div>
           <div className="flex flex-col justify-between items-center gap-6">
-            {users.map((user) => (
+            {query.data?.data.map((user) => (
               <SearchedUser key={user.id} props={user} />
             ))}
           </div>

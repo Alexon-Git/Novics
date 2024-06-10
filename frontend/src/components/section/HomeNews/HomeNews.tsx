@@ -5,45 +5,11 @@ import { useQuery } from '@tanstack/react-query'
 import { NewsService } from '../../../services/news/news.service'
 
 const HomeNews = () => {
-  // const cards: INewsCard[] = [
-  //   {
-  //     id: 0,
-  //     date: '08 мая 2024',
-  //     img: '/mocks/firstNew.jpg',
-  //     title: 'Новосибирская область вошла в число регионов с наибольшим числом победителей и призеров всероссийской олимпиады школьников в 2024 году',
-  //     text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-  //     url: 'https://minobr.nso.ru/news'
-  //   },
-  //   {
-  //     id: 1,
-  //     date: '08 мая 2024',
-  //     img: '/mocks/secondNew.jpeg',
-  //     title: 'Виктор Демидов из СУНЦ НГУ завоевал серебряную медаль на 58-й Международной Менделеевской олимпиаде по химии в Китае',
-  //     text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-  //     url: 'https://minobr.nso.ru/news'
-  //   },
-  //   {
-  //     id: 2,
-  //     date: '08 мая 2024',
-  //     img: '/mocks/thirdNew.webp',
-  //     title: 'Представители Российской Федерации и Киргизской Республики обсудили сотрудничество в сфере образования',
-  //     text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-  //     url: 'https://minobr.nso.ru/news'
-  //   },
-  //   {
-  //     id: 3,
-  //     date: '08 мая 2024',
-  //     img: '/mocks/fourNew.jpg',
-  //     title: 'Более 70 волонтёров Новосибирской области будут помогать в организации Всемирного фестиваля молодёжи',
-  //     text: 'Lorem ipsum dolor sit amet consectetur. Amet quam nullam egestas nunc orci vitae est.',
-  //     url: 'https://minobr.nso.ru/news'
-  //   }
-  // ]
-  const query = useQuery({ queryKey: ['news'], queryFn: NewsService.getNews })
+  const query = useQuery({ queryKey: ['news'], queryFn: () => NewsService.getNewsWithLimit(4) })
   return (
     <section id="news" className="my-20">
       <div className="hero mx-auto container">
-        <div className="flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">Новости</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 justify-between gap-8">
             {query.data?.data.map((card) => (

@@ -8,35 +8,31 @@ const EmailConfirmationForm = () => {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm<{ code: string }>({
+  } = useForm<{ otp_code: string }>({
     mode: 'onChange',
     reValidateMode: 'onBlur',
     defaultValues: {
-      code: ''
+      otp_code: ''
     }
   })
 
   const { isLoading, error, user } = useTypedSelector((state) => state.user)
-  const { verifyOtp, sendOtp, getCurrentUser } = useActions()
+  const { verifyOtp, sendOtp } = useActions()
 
-  const onSubmit = async (data: {code: string}) => {
-    const userData = {
-      id: user && user.id ? user.id : -1,
-      code: data.code
-    }
-    if (user && user.id) {
-      verifyOtp(userData)
-    }
-    if (user?.is_active) {
-      getCurrentUser()
-    }
+  const onSubmit = async (data: { otp_code: string }) => {
+    // if (user && user.id) {
+      verifyOtp(data)
+    // }
+    // if (user?.is_active) {
+    //   getCurrentUser()
+    // }
   }
 
   useEffect(() => {
     if (user && user.id && !user.is_active) {
-      sendOtp(user.id)
+      sendOtp()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -46,24 +42,24 @@ const EmailConfirmationForm = () => {
     >
       <div className="flex flex-col gap-3 py-12 text-[#A9A9A9]">
         <input
-          {...register('code', {
+          {...register('otp_code', {
             required: true
           })}
           type="text"
           placeholder="--- ---"
-          className={`input ${errors.code && 'input-error'} bg-base-100 w-full rounded-[10px]`}
+          className={`input ${errors.otp_code && 'input-error'} bg-base-100 w-full rounded-[10px]`}
         />
-        {errors.code?.type === 'required' && (
+        {errors.otp_code?.type === 'required' && (
           <p className="font-medium text-sm text-error">
             * это поле обязательно
           </p>
         )}
       </div>
       {error && (
-          <p className="font-medium text-sm text-error">
-            *Введен неправильный код
-          </p>
-        )}
+        <p className="font-medium text-sm text-error">
+          *Введен неправильный код
+        </p>
+      )}
       <button
         disabled={isLoading}
         className="w-full btn btn-secondary text-base-100 rounded-[12px] font-medium text-xl"

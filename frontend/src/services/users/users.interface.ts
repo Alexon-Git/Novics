@@ -6,7 +6,6 @@ export interface IUser {
   email: string
   role?: string
   town?: string | null
-  // country: string | null
   UTC?: string | null
   is_active?: boolean
 }

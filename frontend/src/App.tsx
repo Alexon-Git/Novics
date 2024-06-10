@@ -13,12 +13,12 @@ import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
 import EmailConfirmationModal from './components/modals/EmailConfirmationModal/EmailConfirmationModal'
 import AdminConfirmationModal from './components/modals/AdminConfirmationModal/AdminConfirmationModal'
-import { useTypedSelector } from './hooks/useTypedSelector'
+// import { useTypedSelector } from './hooks/useTypedSelector'
 import { useActions } from './hooks/useActions'
 
 const App = () => {
   const parent = useRef(null)
-  const { user, token } = useTypedSelector((state) => state.user)
+  // const { user } = useTypedSelector((state) => state.user)
   const { getCurrentUser } = useActions()
 
   useEffect(() => {
@@ -26,9 +26,7 @@ const App = () => {
   }, [parent])
 
   useEffect(() => {
-    if (!user && token) {
       getCurrentUser()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (

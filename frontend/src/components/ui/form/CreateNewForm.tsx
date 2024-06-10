@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { SyntheticEvent, useState } from 'react'
+import { NewsService } from '../../../services/news/news.service'
+import { INew } from '../../../services/news/news.interface'
 
 const CreateNewForm = () => {
   const [file, setFile] = useState<File | null>()
@@ -11,6 +14,27 @@ const CreateNewForm = () => {
     if (event.target.files) {
       setFile(event.target.files[0])
       setFileUrl(URL.createObjectURL(event.target.files[0]))
+    }
+  }
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: NewsService.createNew,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['news'] })
+    }
+  })
+
+  const submit = (event: SyntheticEvent) => {
+    event.preventDefault()
+    const formData = new FormData()
+    if (file && title && text && url) {
+      formData.append("image", file)
+      formData.append("title", title)
+      formData.append("text", text)
+      formData.append("url", url)
+      console.log(formData)
+      mutation.mutate(formData as Partial<INew>)
     }
   }
   return (
@@ -48,7 +72,7 @@ const CreateNewForm = () => {
         <h3 className="text-xl font-bold">{title}</h3>
         <p>{text}</p>
       </div>
-      <form className="w-full flex flex-col gap-4">
+      <form onSubmit={submit} className="w-full flex flex-col gap-4">
         <label
           className="w-full flex justify-between items-center px-4 py-2 border-[1px] border-[#DEDEDE] rounded-[10px] cursor-pointer"
           htmlFor="fileUpload"
@@ -94,8 +118,13 @@ const CreateNewForm = () => {
             setUrl(event.target.value)
           }}
         />
-        <div className='w-full flex justify-end'>
-          <button type='submit' className='btn btn-primary rounded-[8px] text-base-100'>Опубликовать</button>
+        <div className="w-full flex justify-end">
+          <button
+            type="submit"
+            className="btn btn-primary rounded-[8px] text-base-100"
+          >
+            Опубликовать
+          </button>
         </div>
       </form>
     </div>
