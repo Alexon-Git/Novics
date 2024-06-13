@@ -9,6 +9,10 @@ export const UserService = {
     //! user_list
     return await instance.get<IUser[]>(`/${PATH}/list`)
   },
+  async getUsersWithFilters(filter: string) {
+    //! user_list_with_filters
+    return await instance.get<IUser[]>(`/${PATH}/list?filter=${filter}`)
+  },
   async updateCurrentUser(userData: Partial<IUser>) {
     //! user_me_update
     return await instance.put<IUser>(`/${PATH}/me`, userData)

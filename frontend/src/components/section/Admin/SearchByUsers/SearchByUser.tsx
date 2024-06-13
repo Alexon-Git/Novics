@@ -1,15 +1,52 @@
 import autoAnimate from '@formkit/auto-animate'
 import { useQuery } from '@tanstack/react-query'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { UserService } from '../../../../services/users/users.service'
 import SearchedUser from '../../../ui/Admin/SearchedUser'
 
+type TypeFilter = {
+  id: string | number
+  title: string
+  value: string
+}
+
 const SearchByUser = () => {
   const parent = useRef(null)
+  const [filter, setFilter] = useState<string>(
+    localStorage.getItem('filter') || 'new'
+  )
+  const FILTERS: TypeFilter[] = [
+    {
+      id: '0',
+      title: 'По времени',
+      value: 'new'
+    },
+    {
+      id: '1',
+      title: 'Администраторы',
+      value: 'admin'
+    },
+    {
+      id: '2',
+      title: 'Модераторы',
+      value: 'moderator'
+    },
+    {
+      id: '3',
+      title: 'Представители',
+      value: 'user'
+    }
+  ]
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
   }, [parent])
-  const query = useQuery({ queryKey: ['users'], queryFn: UserService.getUsers })
+  useEffect(() => {
+    localStorage.setItem('filter', filter)
+  }, [filter])
+  const query = useQuery({
+    queryKey: ['usersWithFilter', filter],
+    queryFn: () => UserService.getUsersWithFilters(filter)
+  })
   return (
     <section className="my-20">
       <div className="hero mx-auto container">
@@ -48,16 +85,29 @@ const SearchByUser = () => {
               />
             </label>
             <div className="join">
-              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">По времени</button>
-              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Администраторы</button>
-              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Модераторы</button>
-              <button className="btn btn-outline btn-ghost join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9">Представители</button>
+              {FILTERS.map((item) => (
+                <button
+                  key={item.id}
+                  className={`btn join-item border-[#DDDDDD] hover:bg-primary min-h-9 h-9 ${
+                    filter === item.value
+                      ? 'btn-primary'
+                      : 'btn-outline btn-ghost'
+                  }`}
+                  onClick={() => setFilter(item.value)}
+                >
+                  {item.title}
+                </button>
+              ))}
             </div>
           </div>
-          <div className="flex flex-col justify-between items-center gap-6">
-            {query.data?.data.map((user) => (
-              <SearchedUser key={user.id} props={user} />
-            ))}
+          <div ref={parent} className="flex flex-col justify-between items-center gap-6">
+            {query.isSuccess &&
+              query.data.data.map((user) => (
+                <SearchedUser key={user.id} props={user} />
+              ))}
+            {query.isLoading && (
+              <span className="loading loading-spinner text-primary"></span>
+            )}
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@ const AdminRequest = ({ props }: { props: IUser }) => {
   const mutation = useMutation({
     mutationFn: UserService.updateUserById,
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['usersWithFilter'] })
     }
   })
   return (

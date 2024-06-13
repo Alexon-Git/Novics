@@ -11,7 +11,7 @@ const SearchedUser = ({ props }: { props: IUser }) => {
         <span className="underline">
           {props.role === 'admin'
             ? 'Администратор'
-            : props.role === 'moder'
+            : props.role === 'moderator'
               ? 'Модератор'
               : 'Представитель'}
         </span>
