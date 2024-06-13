@@ -104,6 +104,7 @@ const SettingForm = ({ props }: { props: IUser }) => {
       <button
         onClick={() => {
           logout()
+          location.reload()
         }}
         className="absolute right-0 bottom-0 btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
       >

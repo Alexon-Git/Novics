@@ -9,23 +9,23 @@ import {
   updateCurrentUser,
   verifyOtp
 } from './userActions'
-// import { getLocal } from '../../utils/getLocal'
+import { getLocal } from '../../utils/getLocal'
+import { removeFromStorage } from '../../services/auth/auth.helper'
 
 const initialState: IInitialState = {
-  // user: getLocal('user'),
+  user: getLocal('user'),
   // token: localStorage.getItem('token'),
-  user: {
-    id: 21312,
-    first_name: 'Иван',
-    last_name: 'Иванов',
-    patronymic: 'Иванович',
-    email: 'email@email.com',
-    town: '',
-    UTC: '',
-    role: 'admin',
-    is_active: true,
-  },
-  token: 'sdfdsf',
+  // user: {
+  //   id: 21312,
+  //   first_name: 'Иван',
+  //   last_name: 'Иванов',
+  //   patronymic: 'Иванович',
+  //   email: 'email@email.com',
+  //   town: '',
+  //   UTC: '',
+  //   role: 'admin',
+  //   is_active: true,
+  // },
   error: null,
   isLoading: false
 }
@@ -48,7 +48,6 @@ export const userSlice = createSlice({
       .addCase(signup.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
-        state.token = null
         state.error = payload as ValidationErrors
       })
       .addCase(signin.pending, (state) => {
@@ -57,12 +56,11 @@ export const userSlice = createSlice({
       .addCase(signin.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.error = null
-        state.token = payload.auth_token
+        state.user = payload
       })
       .addCase(signin.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
-        state.token = null
         state.error = payload
       })
       .addCase(sendOtp.pending, (state) => {
@@ -79,10 +77,10 @@ export const userSlice = createSlice({
       .addCase(verifyOtp.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(verifyOtp.fulfilled, (state) => {
+      .addCase(verifyOtp.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.error = null
-        state.user ? (state.user.is_active = true) : null
+        state.user = payload
       })
       .addCase(verifyOtp.rejected, (state, { payload }) => {
         state.isLoading = false
@@ -96,14 +94,14 @@ export const userSlice = createSlice({
       .addCase(getCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
-        localStorage.setItem('user', JSON.stringify(state.user))
         state.error = null
+        localStorage.setItem('user', JSON.stringify(payload))
       })
       .addCase(getCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
-        state.token = null
         state.error = payload
+        removeFromStorage()
       })
       .addCase(updateCurrentUser.pending, (state) => {
         state.isLoading = true
@@ -111,13 +109,11 @@ export const userSlice = createSlice({
       .addCase(updateCurrentUser.fulfilled, (state, { payload }) => {
         state.isLoading = false
         state.user = payload
-        localStorage.setItem('user', JSON.stringify(state.user))
         state.error = null
       })
       .addCase(updateCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
-        state.token = null
         state.error = payload
       })
   }

@@ -12,6 +12,8 @@ const EmailConfirmationModal = () => {
   useEffect(() => {
     if (user && !user.is_active) {
       setIsOpen(true)
+    } else {
+      setIsOpen(false)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])

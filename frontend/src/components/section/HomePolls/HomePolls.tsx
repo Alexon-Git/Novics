@@ -31,7 +31,7 @@ const HomePolls = () => {
   return (
     <section id="polls" className="my-20">
       <div className="hero mx-auto container">
-        <div className="flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">Опросы</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-between items-center gap-8">
             {query.data?.data.map((poll) => (

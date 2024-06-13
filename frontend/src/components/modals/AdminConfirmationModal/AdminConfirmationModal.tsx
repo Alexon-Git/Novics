@@ -13,7 +13,7 @@ const AdminConfirmationModal = () => {
       setIsOpen(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user])
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
