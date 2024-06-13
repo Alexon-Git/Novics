@@ -4,7 +4,7 @@ import { INewsCard } from '../../../../types/section.interface'
 const HomeNewsCard = ({ props }: { props: INewsCard }) => {
   return (
     <Link to={props.url} className="flex flex-col gap-4">
-      <img src={`http://localhost:8000/api${props.image}`} alt="newsImage" className="rounded-[20px] h-[185px] object-cover" />
+      <img src={`https://novis.ddns.net/${props.image}`} alt="newsImage" className="rounded-[20px] h-[185px] object-cover" />
       <div className='flex items-center gap-2 text-base'>
         <svg
           xmlns="http://www.w3.org/2000/svg"

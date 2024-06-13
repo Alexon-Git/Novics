@@ -10,6 +10,7 @@ import {
   verifyOtp
 } from './userActions'
 import { getLocal } from '../../utils/getLocal'
+import { removeFromStorage } from '../../services/auth/auth.helper'
 
 const initialState: IInitialState = {
   user: getLocal('user'),
@@ -94,11 +95,13 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.user = payload
         state.error = null
+        localStorage.setItem('user', JSON.stringify(payload))
       })
       .addCase(getCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.error = payload
+        removeFromStorage()
       })
       .addCase(updateCurrentUser.pending, (state) => {
         state.isLoading = true

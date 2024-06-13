@@ -16,8 +16,10 @@ export const UserService = {
   async updateUserById(data: Partial<IUser>) {
     //! update_user_by_id
     return await instance.put<void>(
-      `/${PATH}/set`,
-      data
+      `/${PATH}/set/${data.id}`,
+      {
+        role: data.role
+      }
     )
   },
   async delUserById(id: string | number) {

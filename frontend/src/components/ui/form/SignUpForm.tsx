@@ -148,14 +148,9 @@ const SignUpForm = () => {
         )}
         {error && (
           <p className="font-medium text-sm text-error">
-            {error.email &&
-              error.email.map((value, index) => (
-                <span key={index}>*{value}</span>
-              ))}
-            {error.password &&
-              error.password.map((value, index) => (
-                <span key={index}>*{value}</span>
-              ))}
+            {error &&
+                <>*{error.message}</>
+            }
           </p>
         )}
       </div>

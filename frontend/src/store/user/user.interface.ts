@@ -1,9 +1,7 @@
 import { IUser } from '../../services/users/users.interface'
 
 export interface ValidationErrors {
-  email?: string[]
-  password?: string[]
-  non_field_errors?: string[]
+  message: string
 }
 
 export interface IInitialState {

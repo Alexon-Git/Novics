@@ -5,6 +5,7 @@ import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { useActions } from '../../../hooks/useActions'
 import { useDispatch } from 'react-redux'
 import { closeModal } from '../../../store/modals/modalReducer'
+import { useEffect } from 'react'
 
 const SignInForm = () => {
   const {
@@ -25,10 +26,13 @@ const SignInForm = () => {
 
   const onSubmit = async (data: ISignInRequest) => {
     signin(data)
-    if (user) {
+  }
+
+  useEffect(() => {
+    if (user && user.id) {
       dispatch(closeModal())
     }
-  }
+  }, [user])
 
   return (
     <form
@@ -76,15 +80,9 @@ const SignInForm = () => {
         </div>
         {error && (
           <p className="font-medium text-sm text-error">
-            {error.email && error.email.map((value, index) => (
-              <span key={index}>*{value}</span>
-            ))}
-            {error.password && error.password.map((value, index) => (
-              <span key={index}>*{value}</span>
-            ))}
-            {error.non_field_errors && error.non_field_errors.map((value, index) => (
-              <span key={index}>*{value}</span>
-            ))}
+            {error &&
+                <>*{error.message}</>
+            }
           </p>
         )}
       </div>

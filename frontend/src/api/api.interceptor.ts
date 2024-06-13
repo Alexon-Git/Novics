@@ -4,7 +4,7 @@ import axios from 'axios'
 // import { AuthService } from '../services/auth/auth.service'
 
 export const instance = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: 'https://novis.ddns.net/api/',
   withCredentials: true
 })
 
