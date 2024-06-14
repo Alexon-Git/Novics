@@ -11,7 +11,7 @@ export const instance = axios.create({
 // instance.interceptors.request.use(async (config) => {
 //   const token = getToken()
 //   config.headers && token
-//     ? (config.headers.Authorization = `Token ${token}`)
+//     ? (config.headers.Authorization = `Token Bearer ${token}`)
 //     : null
 //   return config
 // })

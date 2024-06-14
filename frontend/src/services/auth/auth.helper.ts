@@ -6,9 +6,10 @@ export const getToken = () => {
 }
 
 export const saveToStorage = (data: IToken) => {
-  localStorage.setItem('token', data.auth_token)
+  localStorage.setItem('token', data.token)
 }
 
 export const removeFromStorage = () => {
   localStorage.removeItem('user')
+  localStorage.removeItem('token')
 }

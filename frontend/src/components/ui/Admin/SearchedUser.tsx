@@ -13,7 +13,9 @@ const SearchedUser = ({ props }: { props: IUser }) => {
             ? 'Администратор'
             : props.role === 'moderator'
               ? 'Модератор'
-              : 'Представитель'}
+              : props.role === 'user'
+                ? 'Представитель'
+                : 'Нет роли'}
         </span>
         <svg
           width="22"
