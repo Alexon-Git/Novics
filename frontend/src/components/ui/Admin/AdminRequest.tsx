@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { IUser } from '../../../services/users/users.interface'
-import { UserService } from '../../../services/users/users.service'
+import { RoleService } from '../../../services/role/role.service'
 
 const AdminRequest = ({ props }: { props: IUser }) => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: UserService.updateUserById,
+    mutationFn: RoleService.setRoleById,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       queryClient.invalidateQueries({ queryKey: ['usersWithFilter'] })

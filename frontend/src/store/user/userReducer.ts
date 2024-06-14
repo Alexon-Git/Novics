@@ -97,10 +97,10 @@ export const userSlice = createSlice({
         state.error = null
         localStorage.setItem('user', JSON.stringify(payload))
       })
-      .addCase(getCurrentUser.rejected, (state, { payload }) => {
+      .addCase(getCurrentUser.rejected, (state) => {
         state.isLoading = false
         state.user = null
-        state.error = payload
+        state.error = null
         removeFromStorage()
       })
       .addCase(updateCurrentUser.pending, (state) => {

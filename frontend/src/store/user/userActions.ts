@@ -118,7 +118,7 @@ export const getCurrentUser = createAsyncThunk<
   }
 >('/users/current', async (_, { rejectWithValue }) => {
   try {
-    const response = await AuthService.info()
+    const response = await UserService.getCurrentUser()
     localStorage.setItem('user', JSON.stringify(response.data))
     return response.data
   } catch (err) {

@@ -1,30 +1,80 @@
 import { Link } from 'react-router-dom'
 import { IPollsCard } from '../../../types/section.interface'
-import { useState } from 'react'
+import { SyntheticEvent, useEffect, useRef, useState } from 'react'
+import autoAnimate from '@formkit/auto-animate'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { PollsService } from '../../../services/polls/polls.service'
 
 const PollUpdate = ({ props }: { props: IPollsCard }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [newTitle, setNewTitle] = useState<string>(props.title)
+  const [newUrl, setNewUrl] = useState<string>(props.url)
+  const parent = useRef(null)
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: PollsService.updatePollById,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['polls'] })
+    }
+  })
+  const submit = (event: SyntheticEvent) => {
+    event.preventDefault()
+    mutation.mutate({
+      id: props.id,
+      title: newTitle,
+      url: newUrl
+    })
+    setIsEdit(false)
+  }
   return (
     <div className="w-full flex justify-between items-center px-4 py-4 border-[1px] border-primary rounded-[20px]">
-      <div className="flex items-center gap-8">
+      <div ref={parent} className="flex items-center gap-8">
         {!isEdit && (
           <>
-            <h3 className=" font-medium">{props.title}</h3>
+            <h3 className="font-medium">{props.title}</h3>
             <Link to={props.url}>{props.url}</Link>
           </>
         )}
         {isEdit && (
-          <form>
-            <input
-              type="text"
-              className=" font-medium"
-              placeholder={props.title}
-            />
-            <input type="text" placeholder={props.url} />
+          <form onSubmit={submit} className="flex items-center gap-4">
+            <label className="flex gap-2 items-center" htmlFor="pollTitle">
+              Название
+              <textarea
+                id="pollTitle"
+                className="input input-primary rounded-lg font-medium p-2"
+                placeholder={props.title}
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+              />
+            </label>
+            <label className="flex gap-2 items-center" htmlFor="pollUrl">
+              Ссылка
+              <input
+                id="pollUrl"
+                type="text"
+                className="input input-primary rounded-lg font-medium p-2"
+                placeholder={props.url}
+                value={newUrl}
+                onChange={(e) => setNewUrl(e.target.value)}
+              />
+            </label>
+            <button
+              type="submit"
+              className="btn btn-primary rounded-[10px] px-6"
+            >
+              Сохранить
+            </button>
           </form>
         )}
       </div>
-      <button onClick={() => setIsEdit(!isEdit)} className="flex items-center gap-4">
+      <button
+        onClick={() => setIsEdit(!isEdit)}
+        className="flex items-center gap-4"
+      >
         <svg
           width="22"
           height="21"

@@ -1,8 +1,8 @@
 import autoAnimate from '@formkit/auto-animate'
 import { useQuery } from '@tanstack/react-query'
 import { useRef, useEffect, useState } from 'react'
-import { UserService } from '../../../../services/users/users.service'
 import SearchedUser from '../../../ui/Admin/SearchedUser'
+import { RoleService } from '../../../../services/role/role.service'
 
 type TypeFilter = {
   id: string | number
@@ -45,13 +45,18 @@ const SearchByUser = () => {
   }, [filter])
   const query = useQuery({
     queryKey: ['usersWithFilter', filter],
-    queryFn: () => UserService.getUsersWithFilters(filter)
+    queryFn: () => RoleService.getUsersWithFilters(filter)
   })
   return (
     <section className="my-20">
       <div className="hero mx-auto container">
         <div className="w-full flex flex-col gap-4">
-          <h2 className="text-[36px] font-bold">Поиск по пользователям</h2>
+          <h2 className="text-[36px] font-bold">
+            Поиск по пользователям{' '}
+            {query.isLoading && (
+              <span className="loading loading-spinner text-primary"></span>
+            )}
+          </h2>
           <div className="flex flex-col lg:items-center lg:justify-between gap-4 lg:flex-row">
             <label className="input w-full max-w-[500px] border-[#BBBBBB] text-[#D5D5D5] bg-transparent rounded-[15px] px-3 h-9 flex items-center gap-2">
               <svg
@@ -100,7 +105,10 @@ const SearchByUser = () => {
               ))}
             </div>
           </div>
-          <div ref={parent} className="flex flex-col justify-between items-center gap-6">
+          <div
+            ref={parent}
+            className="flex flex-col justify-between items-center gap-6"
+          >
             {query.isSuccess &&
               query.data.data.map((user) => (
                 <SearchedUser key={user.id} props={user} />
