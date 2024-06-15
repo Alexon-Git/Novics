@@ -1,14 +1,39 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { IUser } from '../../../services/users/users.interface'
-import { UserService } from '../../../services/users/users.service'
+import { RoleService } from '../../../services/role/role.service'
+import { Bounce, toast } from 'react-toastify'
 
 const AdminRequest = ({ props }: { props: IUser }) => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: UserService.updateUserById,
+    mutationFn: RoleService.setRoleById,
+    onError: (error) => {
+      toast.error(`Ошибка изменения роли ${props.first_name} (${error.message})`, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+    },
     onSuccess: () => {
-      // Invalidate and refetch
+      toast.success(`Роль ${props.first_name} ${props.last_name} успешно изменена!`, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
       queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['usersWithFilter'] })
     }
   })
   return (

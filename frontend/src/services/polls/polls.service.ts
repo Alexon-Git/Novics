@@ -13,21 +13,16 @@ export const PollsService = {
   async createPoll(PollData: IPollsCard) {
     return await instance.post<IPollsCard>(`/${PATH}`, PollData)
   },
-  async updatePollById(PollData: IPollsCard) {
-    return await instance.put<IPollsCard>(
-      `/${PATH}/${PollData.id}`,
-      PollData
-    )
-  },
-  async patchPollById(PollData: Partial<IPollsCard>) {
+  async updatePollById(PollData: Partial<IPollsCard>) {
     return await instance.patch<IPollsCard>(
-      `/${PATH}/${PollData.id}`,
+      `/${PATH}`,
       PollData
     )
   },
-  async delPollById(PollData: IPollsCard) {
+  async delPollById(PollData: Partial<IPollsCard>) {
     return await instance.delete<void>(
-      `/${PATH}/${PollData.id}`,
+      `/${PATH}`,
+      PollData
     )
   },
 }

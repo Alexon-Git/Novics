@@ -15,10 +15,11 @@ import EmailConfirmationModal from './components/modals/EmailConfirmationModal/E
 import AdminConfirmationModal from './components/modals/AdminConfirmationModal/AdminConfirmationModal'
 // import { useTypedSelector } from './hooks/useTypedSelector'
 import { useActions } from './hooks/useActions'
+import 'react-toastify/dist/ReactToastify.css'
+import { Bounce, ToastContainer } from 'react-toastify'
 
 const App = () => {
   const parent = useRef(null)
-  // const { user } = useTypedSelector((state) => state.user)
   const { getCurrentUser } = useActions()
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const App = () => {
   }, [parent])
 
   useEffect(() => {
-      getCurrentUser()
+    getCurrentUser()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
@@ -46,6 +47,20 @@ const App = () => {
         <SignModal />
         <EmailConfirmationModal />
         <AdminConfirmationModal />
+        <ToastContainer
+          stacked
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
       </div>
       <Footer />
     </>

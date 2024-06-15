@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SyntheticEvent, useState } from 'react'
 import { NewsService } from '../../../services/news/news.service'
 import { INew } from '../../../services/news/news.interface'
+import { Bounce, toast } from 'react-toastify'
 
 const CreateNewForm = () => {
   const [file, setFile] = useState<File | null>()
@@ -19,8 +20,31 @@ const CreateNewForm = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: NewsService.createNew,
+    onError: () => {
+      toast.error('Ошибка загрузки новости!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+    },
     onSuccess: () => {
-      // Invalidate and refetch
+      toast.success('Новость успешно загружена!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
       queryClient.invalidateQueries({ queryKey: ['news'] })
     }
   })
@@ -29,14 +53,14 @@ const CreateNewForm = () => {
     event.preventDefault()
     const formData = new FormData()
     if (file && title && text && url) {
-      formData.append("image", file)
-      formData.append("title", title)
-      formData.append("text", text)
-      formData.append("url", url)
-      console.log(formData)
+      formData.append('image', file)
+      formData.append('title', title)
+      formData.append('text', text)
+      formData.append('url', url)
       mutation.mutate(formData as Partial<INew>)
     }
   }
+  
   return (
     <div className="w-full flex justify-between gap-48">
       <div className="w-1/2 flex flex-col gap-4">
@@ -87,6 +111,7 @@ const CreateNewForm = () => {
         <input
           id="fileUpload"
           onChange={handleFileChange}
+          required
           type="file"
           className="hidden"
         />
@@ -98,6 +123,7 @@ const CreateNewForm = () => {
           onChange={(event) => {
             setTitle(event.target.value)
           }}
+          required
         />
         <textarea
           placeholder="Текст новости"
@@ -108,6 +134,7 @@ const CreateNewForm = () => {
           onChange={(event) => {
             setText(event.target.value)
           }}
+          required
         ></textarea>
         <input
           type="text"
@@ -117,6 +144,7 @@ const CreateNewForm = () => {
           onChange={(event) => {
             setUrl(event.target.value)
           }}
+          required
         />
         <div className="w-full flex justify-end">
           <button

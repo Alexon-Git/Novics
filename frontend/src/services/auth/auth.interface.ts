@@ -1,7 +1,7 @@
 // import { IUser } from '../users/users.interface'
 
 export interface IToken {
-  auth_token: string
+  token: string
 }
 
 export interface IAuthResponse {

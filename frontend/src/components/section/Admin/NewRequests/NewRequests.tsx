@@ -1,17 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 // import { IUser } from '../../../../services/users/users.interface'
 import AdminRequest from '../../../ui/Admin/AdminRequest'
-import { UserService } from '../../../../services/users/users.service'
 import { useEffect, useRef } from 'react'
 import autoAnimate from '@formkit/auto-animate'
 import AdminRequestSkelet from '../../../ui/Admin/AdminRequestSkelet'
+import { RoleService } from '../../../../services/role/role.service'
 
 const NewRequests = () => {
   const parent = useRef(null)
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
   }, [parent])
-  const query = useQuery({ queryKey: ['users'], queryFn: UserService.getUsers })
+  const query = useQuery({ queryKey: ['users'], queryFn: RoleService.getUsers })
   return (
     <section className="my-20">
       <div className="hero mx-auto container">

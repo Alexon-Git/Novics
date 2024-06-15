@@ -17,10 +17,6 @@ export const AuthService = {
     const response = await instance.delete<void>(`/${PATH}/logout`)
     return response
   },
-  async info() {
-    const response = await instance.get<IUser>(`/${PATH}/info`)
-    return response
-  },
   async sendActivate() {
     const response = await instance.post<void>(`/${PATH}/activate`)
     return response

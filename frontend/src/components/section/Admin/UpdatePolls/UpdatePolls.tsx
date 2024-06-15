@@ -1,35 +1,44 @@
-import { IPollsCard } from '../../../../types/section.interface'
+import { useEffect, useRef } from 'react'
 import PollUpdate from '../../../ui/Admin/PollUpdate'
+import autoAnimate from '@formkit/auto-animate'
+import { useQuery } from '@tanstack/react-query'
+import { PollsService } from '../../../../services/polls/polls.service'
+import AdminRequestSkelet from '../../../ui/Admin/AdminRequestSkelet'
 
 const UpdatePolls = () => {
-  const polls: IPollsCard[] = [
-    {
-      id: 0,
-      title: 'poll',
-      url: 'url'
-    },
-    {
-      id: 1,
-      title: 'poll2',
-      url: 'url'
-    }
-  ]
+  const query = useQuery({
+    queryKey: ['polls'],
+    queryFn: () => PollsService.getPolls()
+  })
+  const parent = useRef(null)
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
   return (
     <section className="my-20">
       <div className="hero mx-auto container">
         <div className="w-full flex flex-col gap-4">
           <h2 className="text-[36px] font-bold">
             Изменение ссылок на опросники
+            {query.isLoading && (
+              <span className="loading loading-spinner text-primary"></span>
+            )}
           </h2>
-          <div className="relative flex flex-col justify-between items-center gap-6">
-            {polls.map((poll) => (
-              <PollUpdate key={poll.id} props={poll} />
-            ))}
-            <div className="w-full flex justify-end">
-              <button className="btn btn-primary rounded-[10px] min-h-11 h-11 px-6">
-                Сохранить
-              </button>
-            </div>
+          <div
+            ref={parent}
+            className="relative flex flex-col justify-between items-center gap-6"
+          >
+            {query.isSuccess &&
+              query.data?.data.map((poll) => (
+                <PollUpdate key={poll.id} props={poll} />
+              ))}
+            {query.isLoading && (
+              <>
+                <AdminRequestSkelet />
+                <AdminRequestSkelet />
+                <AdminRequestSkelet />
+              </>
+            )}
           </div>
         </div>
       </div>
