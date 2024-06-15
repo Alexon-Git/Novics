@@ -11,6 +11,7 @@ import {
 } from './userActions'
 import { getLocal } from '../../utils/getLocal'
 import { removeFromStorage } from '../../services/auth/auth.helper'
+import { Bounce, toast } from 'react-toastify'
 
 const initialState: IInitialState = {
   user: getLocal('user'),
@@ -110,11 +111,33 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.user = payload
         state.error = null
+        toast.success(`Ваши данные успешно изменены!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(updateCurrentUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.user = null
         state.error = payload
+        toast.error(state.error?.message, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
   }
 })

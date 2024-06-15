@@ -14,7 +14,7 @@ export const RoleService = {
   },
   async setRoleById(data: Partial<IUser>) {
     //! update_user_by_id
-    return await instance.put<void>(
+    return await instance.put(
       `/${PATH}/set/${data.id}`,
       {
         role: data.role

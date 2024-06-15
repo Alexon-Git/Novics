@@ -4,6 +4,7 @@ import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import autoAnimate from '@formkit/auto-animate'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PollsService } from '../../../services/polls/polls.service'
+import { Bounce, toast } from 'react-toastify'
 
 const PollUpdate = ({ props }: { props: IPollsCard }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -16,8 +17,31 @@ const PollUpdate = ({ props }: { props: IPollsCard }) => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: PollsService.updatePollById,
+    onError: () => {
+      toast.error('Ошибка отправки запроса', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+    },
     onSuccess: () => {
-      // Invalidate and refetch
+      toast.success('Опрос успешно обновлен!', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       queryClient.invalidateQueries({ queryKey: ['polls'] })
     }
   })
