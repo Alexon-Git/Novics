@@ -1,8 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { ICountry } from '../../services/country/country.interface'
+import { IUniversity } from '../../services/university/university.interface'
 
 export interface IFile {
   file: File | null | undefined
-  country: string
+  country: ICountry
+  university: IUniversity
   education: string
   count: number | string
   form: string

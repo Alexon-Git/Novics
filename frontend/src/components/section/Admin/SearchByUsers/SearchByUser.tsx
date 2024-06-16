@@ -2,7 +2,7 @@ import autoAnimate from '@formkit/auto-animate'
 import { useQuery } from '@tanstack/react-query'
 import { useRef, useEffect, useState } from 'react'
 import SearchedUser from '../../../ui/Admin/SearchedUser'
-import { RoleService } from '../../../../services/role/role.service'
+import { UserService } from '../../../../services/users/users.service'
 
 type TypeFilter = {
   id: string | number
@@ -45,7 +45,7 @@ const SearchByUser = () => {
   }, [filter])
   const query = useQuery({
     queryKey: ['usersWithFilter', filter],
-    queryFn: () => RoleService.getUsersWithFilters(filter)
+    queryFn: () => UserService.getUsersWithFilters(filter)
   })
   return (
     <section className="my-20">

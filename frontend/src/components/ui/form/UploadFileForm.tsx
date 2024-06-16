@@ -1,25 +1,37 @@
 import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/20/solid'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { IFile, addFile, removeFile } from '../../../store/Docs/DocsReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootStore } from '../../../store'
 import autoAnimate from '@formkit/auto-animate'
+import { useQuery } from '@tanstack/react-query'
+import { CountryService } from '../../../services/country/country.service'
+import { ICountry } from '../../../services/country/country.interface'
+import { IUniversity } from '../../../services/university/university.interface'
+import { UniversityService } from '../../../services/university/university.service'
 
 const UploadFileForm = () => {
   const dispath = useDispatch()
   const files = useSelector((state: RootStore) => state.docs.docs)
-  const countries: string[] = ['Россия', 'Казахстан']
+  const countries = useQuery({
+    queryKey: ['countries'],
+    queryFn: CountryService.getCountries
+  })
+  const universities = useQuery({
+    queryKey: ['universities'],
+    queryFn: UniversityService.getUniversities
+  })
   const [file, setFile] = useState<File | null>()
-  const [country, setCountry] = useState<string>('')
-  const [query, setQuery] = useState<string>('')
-  const filteredCountry =
-    query === ''
-      ? countries
-      : countries.filter((item) => {
-          return item.toLowerCase().includes(query.toLowerCase())
-        })
+  const [country, setCountry] = useState<ICountry>()
+  const [university, setUniversity] = useState<IUniversity>()
+  // const [query, setQuery] = useState<string>('')
+  // const filteredCountry =
+  //   query === ''
+  //     ? countries
+  //     : countries.data?.data.filter((item) => {
+  //         return item.name.toLowerCase().includes(query.toLowerCase())
+  //       })
   const [education, setEducation] = useState<string>('')
   const [count, setCount] = useState<number | string>('')
   const [form, setForm] = useState<string>('')
@@ -27,6 +39,7 @@ const UploadFileForm = () => {
   const document: IFile = {
     file,
     country,
+    university,
     education,
     count,
     form,
@@ -72,77 +85,141 @@ const UploadFileForm = () => {
           className="absolute -top-6 left-0 input input-bordered rounded-[7px]"
         />
         <div className="flex justify-between px-6 py-10">
-          <div>
-            <h3 className="text-xl">Страна</h3>
-            <Combobox value={country} onChange={setCountry}>
-              <div className="relative mt-1">
-                <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-                  <Combobox.Input
-                    className="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
-                    onChange={(event) => setQuery(event.target.value)}
-                  />
-                  <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                    <ChevronUpDownIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
+          <div className="flex flex-col gap-8">
+            <div>
+              <h3 className="text-xl">Страна</h3>
+              <Combobox value={country} onChange={setCountry}>
+                <div className="relative mt-1">
+                  <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                    <Combobox.Input
+                      className="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
+                      // onChange={(event) => setQuery(event.target.value)}
                     />
-                  </Combobox.Button>
-                </div>
-                <Transition
-                  as={Fragment}
-                  leave="transition ease-in duration-100"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                  afterLeave={() => setQuery('')}
-                >
-                  <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
-                    {filteredCountry.length === 0 && query !== '' ? (
-                      <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                        Ничего не найдено
-                      </div>
-                    ) : (
-                      filteredCountry.map((item) => (
-                        <Combobox.Option
-                          key={item}
-                          className={({ active }) =>
-                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                              active
-                                ? 'bg-teal-600 text-white'
-                                : 'text-gray-900'
-                            }`
-                          }
-                          value={item}
-                        >
-                          {({ selected, active }) => (
-                            <>
-                              <span
-                                className={`block truncate ${
-                                  selected ? 'font-medium' : 'font-normal'
-                                }`}
-                              >
-                                {item}
-                              </span>
-                              {selected ? (
+                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronDownIcon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </Combobox.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    // afterLeave={() => setQuery('')}
+                  >
+                    <Combobox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+                      {countries.isSuccess &&
+                        countries.data?.data.map((item) => (
+                          <Combobox.Option
+                            key={item.name}
+                            className={({ active }) =>
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active
+                                  ? 'bg-teal-600 text-white'
+                                  : 'text-gray-900'
+                              }`
+                            }
+                            value={item}
+                          >
+                            {({ selected, active }) => (
+                              <>
                                 <span
-                                  className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                    active ? 'text-white' : 'text-teal-600'
+                                  className={`block truncate ${
+                                    selected ? 'font-medium' : 'font-normal'
                                   }`}
                                 >
-                                  <CheckIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
+                                  {item.name}
                                 </span>
-                              ) : null}
-                            </>
-                          )}
-                        </Combobox.Option>
-                      ))
-                    )}
-                  </Combobox.Options>
-                </Transition>
-              </div>
-            </Combobox>
+                                {selected ? (
+                                  <span
+                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                      active ? 'text-white' : 'text-teal-600'
+                                    }`}
+                                  >
+                                    <CheckIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                  </Transition>
+                </div>
+              </Combobox>
+            </div>
+            <div>
+              <h3 className="text-xl">ВУЗ</h3>
+              <Combobox value={university} onChange={setUniversity}>
+                <div className="relative mt-1">
+                  <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                    <Combobox.Input
+                      className="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
+                      // onChange={(event) => setQuery(event.target.value)}
+                    />
+                    <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronDownIcon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </Combobox.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    // afterLeave={() => setQuery('')}
+                  >
+                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+                      {universities.isSuccess &&
+                        universities.data?.data.map((item) => (
+                          <Combobox.Option
+                            key={item.abbreviation}
+                            className={({ active }) =>
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active
+                                  ? 'bg-teal-600 text-white'
+                                  : 'text-gray-900'
+                              }`
+                            }
+                            value={item}
+                          >
+                            {({ selected, active }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? 'font-medium' : 'font-normal'
+                                  }`}
+                                >
+                                  {item.abbreviation}
+                                </span>
+                                {selected ? (
+                                  <span
+                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                      active ? 'text-white' : 'text-teal-600'
+                                    }`}
+                                  >
+                                    <CheckIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                  </Transition>
+                </div>
+              </Combobox>
+            </div>
           </div>
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
@@ -288,7 +365,8 @@ const UploadFileForm = () => {
             key={index}
             className="flex justify-between bg-[#EAEAEA] p-4 rounded-md"
           >
-            <p>{el.country}</p>
+            <p>{el.country.name}</p>
+            <p>{el.university.abbreviation}</p>
             <p>{el.education}</p>
             <p>{el.form}</p>
             <p>{el.level}</p>
@@ -329,11 +407,11 @@ const UploadFileForm = () => {
             </button>
           </div>
         ))}
-        {files && files.length > 0 && <button
-          className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg text-nowrap"
-        >
-          Выгрузить документ
-        </button>}
+        {files && files.length > 0 && (
+          <button className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg text-nowrap">
+            Выгрузить документ
+          </button>
+        )}
       </div>
     </form>
   )

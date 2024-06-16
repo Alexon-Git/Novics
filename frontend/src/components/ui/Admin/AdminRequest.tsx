@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { IUser } from '../../../services/users/users.interface'
-import { RoleService } from '../../../services/role/role.service'
 import { Bounce, toast } from 'react-toastify'
+import { UserService } from '../../../services/users/users.service'
 
 const AdminRequest = ({ props }: { props: IUser }) => {
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: RoleService.setRoleById,
+    mutationFn: UserService.setRoleById,
     onError: (error) => {
       toast.error(`Ошибка изменения роли ${props.first_name} (${error.message})`, {
         position: 'bottom-right',
