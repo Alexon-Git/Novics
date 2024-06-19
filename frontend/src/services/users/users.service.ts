@@ -13,6 +13,10 @@ export const UserService = {
     //! user_list_with_filters
     return await instance.get<IUser[]>(`/${PATH}/list?filter=${filter}`)
   },
+  async getUsersWithFiltersAndSearch(filter: string, query: string) {
+    //! user_list_with_filters_and_search
+    return await instance.get<IUser[]>(`/${PATH}/list?filter=${filter}&search=${query}`)
+  },
   async getCurrentUser() {
     //! get_current_user
     return await instance.get<IUser>(`/${PATH}/me`)

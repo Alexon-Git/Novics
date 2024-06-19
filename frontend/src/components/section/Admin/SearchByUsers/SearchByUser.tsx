@@ -12,6 +12,7 @@ type TypeFilter = {
 
 const SearchByUser = () => {
   const parent = useRef(null)
+  const [searchQuery, setSearchQuery] = useState<string>('')
   const [filter, setFilter] = useState<string>(
     localStorage.getItem('filter') || 'new'
   )
@@ -44,8 +45,8 @@ const SearchByUser = () => {
     localStorage.setItem('filter', filter)
   }, [filter])
   const query = useQuery({
-    queryKey: ['usersWithFilter', filter],
-    queryFn: () => UserService.getUsersWithFilters(filter)
+    queryKey: ['usersWithFilter', filter, searchQuery],
+    queryFn: () => UserService.getUsersWithFiltersAndSearch(filter, searchQuery)
   })
   return (
     <section className="my-20">
@@ -87,6 +88,8 @@ const SearchByUser = () => {
                 type="text"
                 className="grow text-sm placeholder:text-[#D5D5D5]"
                 placeholder="Поиск по пользователям"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
               />
             </label>
             <div className="join">
@@ -113,6 +116,9 @@ const SearchByUser = () => {
               query.data.data.map((user) => (
                 <SearchedUser key={user.id} props={user} />
               ))}
+            {query.isSuccess && query.data.data.length === 0 && (
+              <>Ничего не найдено</>
+            )}
             {query.isLoading && (
               <span className="loading loading-spinner text-primary"></span>
             )}

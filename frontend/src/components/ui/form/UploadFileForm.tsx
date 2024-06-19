@@ -1,53 +1,101 @@
-import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+// import { Combobox, Transition } from '@headlessui/react'
+// import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { IFile, addFile, removeFile } from '../../../store/Docs/DocsReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootStore } from '../../../store'
+// import { IFile, addFile, removeFile } from '../../../store/Docs/DocsReducer'
+// import { useDispatch, useSelector } from 'react-redux'
+// import { RootStore } from '../../../store'
 import autoAnimate from '@formkit/auto-animate'
-import { useQuery } from '@tanstack/react-query'
-import { CountryService } from '../../../services/country/country.service'
-import { ICountry } from '../../../services/country/country.interface'
-import { IUniversity } from '../../../services/university/university.interface'
-import { UniversityService } from '../../../services/university/university.service'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+// import { CountryService } from '../../../services/country/country.service'
+// import { ICountry } from '../../../services/country/country.interface'
+// import { IUniversity } from '../../../services/university/university.interface'
+// import { UniversityService } from '../../../services/university/university.service'
+import { TablesService } from '../../../services/tables/tables.service'
+import { Bounce, toast } from 'react-toastify'
 
 const UploadFileForm = () => {
-  const dispath = useDispatch()
-  const files = useSelector((state: RootStore) => state.docs.docs)
-  const countries = useQuery({
-    queryKey: ['countries'],
-    queryFn: CountryService.getCountries
+  // const dispath = useDispatch()
+  // const files = useSelector((state: RootStore) => state.docs.docs)
+  const queryClient = useQueryClient()
+  // const countries = useQuery({
+  //   queryKey: ['countries'],
+  //   queryFn: CountryService.getCountries
+  // })
+  // const universities = useQuery({
+  //   queryKey: ['universities'],
+  //   queryFn: UniversityService.getUniversities
+  // })
+  const mutationFile = useMutation({
+    mutationFn: TablesService.createTable,
+    onError: () => {
+      toast.error('Ошибка загрузки документа!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+    },
+    onSuccess: () => {
+      toast.success('Документ успешно загружена!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    }
   })
-  const universities = useQuery({
-    queryKey: ['universities'],
-    queryFn: UniversityService.getUniversities
-  })
-  const [file, setFile] = useState<File | null>()
-  const [country, setCountry] = useState<ICountry>()
-  const [university, setUniversity] = useState<IUniversity>()
-  // const [query, setQuery] = useState<string>('')
-  // const filteredCountry =
-  //   query === ''
-  //     ? countries
-  //     : countries.data?.data.filter((item) => {
-  //         return item.name.toLowerCase().includes(query.toLowerCase())
+  // const [file, setFile] = useState<File | null>()
+  // const [country, setCountry] = useState<ICountry>()
+  // const [university, setUniversity] = useState<IUniversity>()
+  // const [queryUniversity, setQueryUniversity] = useState<string>('')
+  // const filteredUniversity: IUniversity[] | undefined =
+  //   queryUniversity === '' && universities.isSuccess
+  //     ? universities.data?.data
+  //     : universities.data?.data.filter((item) => {
+  //         return (
+  //           item.abbreviation
+  //             .toLowerCase()
+  //             .includes(queryUniversity.toLowerCase()) ||
+  //           item.name.toLowerCase().includes(queryUniversity.toLowerCase())
+  //         )
   //       })
-  const [education, setEducation] = useState<string>('')
-  const [count, setCount] = useState<number | string>('')
-  const [form, setForm] = useState<string>('')
-  const [level, setLevel] = useState<string>('')
-  const document: IFile = {
-    file,
-    country,
-    university,
-    education,
-    count,
-    form,
-    level
-  }
+  // const [queryCountry, setQueryCountry] = useState<string>('')
+  // const filteredCountry: ICountry[] | undefined =
+  //   queryCountry === '' && countries.isSuccess
+  //     ? countries.data?.data
+  //     : countries.data?.data.filter((item) => {
+  //         return item.name.toLowerCase().includes(queryCountry.toLowerCase())
+  //       })
+  // const [education, setEducation] = useState<string>('')
+  // const [count, setCount] = useState<number | string>('')
+  // const [form, setForm] = useState<string>('')
+  // const [level, setLevel] = useState<string>('')
+  // const document: IFile = {
+  //   file,
+  //   country,
+  //   university,
+  //   education,
+  //   count,
+  //   form,
+  //   level
+  // }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setFile(event.target.files[0])
+      // setFile(event.target.files[0])
+      const formData = new FormData()
+      formData.append('table', event.target.files[0])
+      mutationFile.mutate(formData)
       // setFileUrl(URL.createObjectURL(event.target.files[0]))
     }
   }
@@ -63,7 +111,7 @@ const UploadFileForm = () => {
         htmlFor="fileUpload"
       >
         <p className="text-[#A9A9A9] font-medium p-4">
-          {file?.name ? file.name : 'Выберите файл'}
+          {(mutationFile.isSuccess && mutationFile.data.data?.name) || 'Выберите файл'}
         </p>
         <label
           htmlFor="fileUpload"
@@ -78,7 +126,10 @@ const UploadFileForm = () => {
         type="file"
         className="hidden"
       />
-      <div className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]">
+      {mutationFile.isSuccess && (
+        mutationFile.data.data
+      )}
+      {/* <div className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]">
         <input
           type="text"
           value={file?.name ? file.name : 'Выберите файл'}
@@ -93,7 +144,11 @@ const UploadFileForm = () => {
                   <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
                       className="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
-                      // onChange={(event) => setQuery(event.target.value)}
+                      onChange={(event) => {
+                        setQueryCountry(event.target.value)
+                        setCountry(undefined)
+                      }}
+                      value={country?.name}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronDownIcon
@@ -107,11 +162,12 @@ const UploadFileForm = () => {
                     leave="transition ease-in duration-100"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
-                    // afterLeave={() => setQuery('')}
+                    afterLeave={() => setQueryCountry('')}
                   >
                     <Combobox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
                       {countries.isSuccess &&
-                        countries.data?.data.map((item) => (
+                        filteredCountry &&
+                        filteredCountry.map((item) => (
                           <Combobox.Option
                             key={item.name}
                             className={({ active }) =>
@@ -160,7 +216,11 @@ const UploadFileForm = () => {
                   <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
                       className="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
-                      // onChange={(event) => setQuery(event.target.value)}
+                      onChange={(event) => {
+                        setQueryUniversity(event.target.value)
+                        setUniversity(undefined)
+                      }}
+                      value={university?.abbreviation}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronDownIcon
@@ -174,11 +234,12 @@ const UploadFileForm = () => {
                     leave="transition ease-in duration-100"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
-                    // afterLeave={() => setQuery('')}
+                    afterLeave={() => setQueryUniversity('')}
                   >
-                    <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+                    <Combobox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
                       {universities.isSuccess &&
-                        universities.data?.data.map((item) => (
+                        filteredUniversity &&
+                        filteredUniversity.map((item) => (
                           <Combobox.Option
                             key={item.abbreviation}
                             className={({ active }) =>
@@ -230,6 +291,7 @@ const UploadFileForm = () => {
                     id="hight"
                     type="radio"
                     name="educ"
+                    required
                     className="radio radio-primary"
                     onChange={() => setEducation('Высшее образование')}
                   />
@@ -240,6 +302,7 @@ const UploadFileForm = () => {
                     id="optional"
                     type="radio"
                     name="educ"
+                    required
                     className="radio radio-primary"
                     onChange={() =>
                       setEducation(
@@ -256,6 +319,7 @@ const UploadFileForm = () => {
               <input
                 type="text"
                 value={count}
+                required
                 onChange={(event) => setCount(event.target.value)}
                 className="input input-bordered rounded-[7px]"
               />
@@ -269,6 +333,7 @@ const UploadFileForm = () => {
                   id="full"
                   type="radio"
                   name="form"
+                  required
                   className="radio radio-primary"
                   onChange={() => setForm('Очная')}
                 />
@@ -279,6 +344,7 @@ const UploadFileForm = () => {
                   id="nonFull"
                   type="radio"
                   name="form"
+                  required
                   className="radio radio-primary"
                   onChange={() => setForm('Заочная')}
                 />
@@ -289,6 +355,7 @@ const UploadFileForm = () => {
                   id="full-nonFull"
                   type="radio"
                   name="form"
+                  required
                   className="radio radio-primary"
                   onChange={() => setForm('Очно-заочная')}
                 />
@@ -304,6 +371,7 @@ const UploadFileForm = () => {
                   id="bacalavr"
                   type="radio"
                   name="level"
+                  required
                   className="radio radio-primary"
                   onChange={() => setLevel('Бакалавриат')}
                 />
@@ -314,6 +382,7 @@ const UploadFileForm = () => {
                   id="spec"
                   type="radio"
                   name="level"
+                  required
                   className="radio radio-primary"
                   onChange={() => setLevel('Специалитет')}
                 />
@@ -324,6 +393,7 @@ const UploadFileForm = () => {
                   id="mag"
                   type="radio"
                   name="level"
+                  required
                   className="radio radio-primary"
                   onChange={() => setLevel('Магистратура')}
                 />
@@ -334,6 +404,7 @@ const UploadFileForm = () => {
                   id="asp"
                   type="radio"
                   name="level"
+                  required
                   className="radio radio-primary"
                   onChange={() => setLevel('Аспирантура')}
                 />
@@ -365,8 +436,8 @@ const UploadFileForm = () => {
             key={index}
             className="flex justify-between bg-[#EAEAEA] p-4 rounded-md"
           >
-            <p>{el.country.name}</p>
-            <p>{el.university.abbreviation}</p>
+            <p>{el.country && el.country.name}</p>
+            <p>{el.university && el.university.abbreviation}</p>
             <p>{el.education}</p>
             <p>{el.form}</p>
             <p>{el.level}</p>
@@ -412,7 +483,7 @@ const UploadFileForm = () => {
             Выгрузить документ
           </button>
         )}
-      </div>
+      </div> */}
     </form>
   )
 }
