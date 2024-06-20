@@ -9,6 +9,7 @@ import { IUniversity } from '../../../services/university/university.interface'
 import { UniversityService } from '../../../services/university/university.service'
 import { TablesService } from '../../../services/tables/tables.service'
 import { Bounce, toast } from 'react-toastify'
+import { ITable, ITableResponse } from '../../../services/tables/tables.inteface'
 
 const UploadFileForm = () => {
   const queryClient = useQueryClient()
@@ -47,11 +48,43 @@ const UploadFileForm = () => {
         theme: 'light',
         transition: Bounce
       })
-      localStorage.setItem('currentTable', JSON.stringify(data.data.table))
-      setTable(data.data.table)
+      localStorage.setItem('currentTable', JSON.stringify(data.data))
+      setTable(data.data)
       queryClient.invalidateQueries({ queryKey: ['notes'] })
     }
   })
+  // const mutationNote = useMutation({
+  //   mutationFn: TablesService.addNoteToTable,
+  //   onError: () => {
+  //     toast.error('Ошибка загрузки документа!', {
+  //       position: 'bottom-right',
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Bounce
+  //     })
+  //   },
+  //   onSuccess: (data) => {
+  //     toast.success('Документ успешно загружена!', {
+  //       position: 'bottom-right',
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: 'light',
+  //       transition: Bounce
+  //     })
+  //     localStorage.setItem('currentTable', JSON.stringify(data.data))
+  //     setTable(data.data)
+  //     queryClient.invalidateQueries({ queryKey: ['notes'] })
+  //   }
+  // })
   const [country, setCountry] = useState<ICountry>()
   const [university, setUniversity] = useState<IUniversity>()
   const [queryUniversity, setQueryUniversity] = useState<string>('')
@@ -73,7 +106,7 @@ const UploadFileForm = () => {
       : countries.data?.data.filter((item) => {
           return item.name.toLowerCase().includes(queryCountry.toLowerCase())
         })
-  const [table, setTable] = useState()
+  const [table, setTable] = useState<ITableResponse>()
   const [education, setEducation] = useState<string>('')
   const [count, setCount] = useState<number | string>('')
   const [form, setForm] = useState<string>('')
@@ -89,8 +122,7 @@ const UploadFileForm = () => {
 
   useEffect(() => {
     const currentTable = localStorage.getItem('currentTable')
-    if (currentTable) 
-      setTable(JSON.parse(currentTable))
+    if (currentTable) setTable(JSON.parse(currentTable))
   }, [])
 
   useEffect(() => {
@@ -102,10 +134,7 @@ const UploadFileForm = () => {
         className="w-full min-h-[189px] relative flex px-4 py-2 border-[1px] border-[#DEDEDE] rounded-[10px] cursor-pointer"
         htmlFor="fileUpload"
       >
-        <p className="text-[#A9A9A9] font-medium p-4">
-          {(mutationFile.isSuccess && table.) ||
-            'Выберите файл'}
-        </p>
+        <p className="text-[#A9A9A9] font-medium p-4">'Выберите файл'</p>
         <label
           htmlFor="fileUpload"
           className="absolute right-0 bottom-0 text-base-100 bg-primary text-xl font-semibold rounded-lg px-4 py-2 cursor-pointer"
@@ -122,7 +151,7 @@ const UploadFileForm = () => {
       <div className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]">
         <input
           type="text"
-          value={file?.name ? file.name : 'Выберите файл'}
+          value={'Выберите файл'}
           className="absolute -top-6 left-0 input input-bordered rounded-[7px]"
         />
         <div className="flex justify-between px-6 py-10">
@@ -404,7 +433,6 @@ const UploadFileForm = () => {
           </div>
         </div>
         <button
-          onClick={() => dispath(addFile(document))}
           className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg"
         >
           Добавить запись
@@ -421,17 +449,16 @@ const UploadFileForm = () => {
           <h3>Уровень обучения</h3>
           <h3>Количество</h3>
         </div>
-        {files?.map((el, index) => (
+        {table && table.table?.map((el, index) => (
           <div
             key={index}
             className="flex justify-between bg-[#EAEAEA] p-4 rounded-md"
           >
-            <p>{el.country && el.country.name}</p>
-            <p>{el.university && el.university.abbreviation}</p>
-            <p>{el.education}</p>
-            <p>{el.form}</p>
-            <p>{el.level}</p>
-            <p>{el.count}</p>
+            <p>{el.country && el.country}</p>
+            <p>{el.education_type}</p>
+            <p>{el.education_form}</p>
+            <p>{el.education_level}</p>
+            <p>{el.students_amount}</p>
             <svg
               width="22"
               height="21"
@@ -452,7 +479,7 @@ const UploadFileForm = () => {
                 strokeLinecap="round"
               />
             </svg>
-            <button onClick={() => dispath(removeFile(index))}>
+            <button >
               <svg
                 width="24"
                 height="26"
@@ -468,7 +495,7 @@ const UploadFileForm = () => {
             </button>
           </div>
         ))}
-        {files && files.length > 0 && (
+        {table && table.table.length > 0 && (
           <button className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg text-nowrap">
             Выгрузить документ
           </button>

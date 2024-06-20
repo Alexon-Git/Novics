@@ -1,25 +1,25 @@
 import { instance } from '../../api/api.interceptor'
-
+import { ITableResponse, ITable } from './tables.inteface'
 const PATH = 'tables'
 
 export const TablesService = {
   async getTables() {
-    return await instance.get<IDocsCard[]>(`/${PATH}`)
+    return await instance.get<ITableResponse[]>(`/${PATH}`)
   },
   async getTablesWithLimit(limit: string | number) {
-    return await instance.get<IDocsCard[]>(`/${PATH}?_limit=${limit}`)
+    return await instance.get<ITableResponse[]>(`/${PATH}?_limit=${limit}`)
   },
-  async createTable(data) {
-    return await instance.post(`/${PATH}/my`, data)
+  async createTable(data: FormData) {
+    return await instance.post<ITableResponse>(`/${PATH}/my`, data)
   },
-  async addNoteToTable(data: IDocsCard, id: string | number) {
-    return await instance.post<IDocsCard>(
+  async addNoteToTable(data: Partial<ITable>, id: string | number) {
+    return await instance.post<ITableResponse>(
       `/${PATH}/${id}/notes/add`,
       data
     )
   },
-  async patchNoteById(data: Partial<IDocsCard>, tableId: string | number, noteId: string | number) {
-    return await instance.patch<IDocsCard>(
+  async patchNoteById(data: Partial<ITable>, tableId: string | number, noteId: string | number) {
+    return await instance.patch<ITableResponse>(
       `/${PATH}/${tableId}/notes/${noteId}`,
       data
     )
