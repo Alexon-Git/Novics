@@ -4,17 +4,23 @@ const PATH = 'tables'
 
 export const TablesService = {
   async getTables() {
-    return await instance.get<ITableResponse[]>(`/${PATH}`)
+    return await instance.get<ITableResponse[]>(`/${PATH}/list`)
   },
   async getTablesWithLimit(limit: string | number) {
-    return await instance.get<ITableResponse[]>(`/${PATH}?_limit=${limit}`)
+    return await instance.get<ITableResponse[]>(`/${PATH}/list?_limit=${limit}`)
+  },
+  async getTablesWithFilter(filter: string) {
+    return await instance.get<ITableResponse[]>(`/${PATH}/list?filter=${filter}`)
+  },
+  async getMyTablesWithFilter(filter: string) {
+    return await instance.get<ITableResponse[]>(`/${PATH}/my?filter=${filter}`)
   },
   async createTable(data: FormData) {
     return await instance.post<ITableResponse>(`/${PATH}/my`, data)
   },
-  async addNoteToTable(data: Partial<ITable>, id: string | number) {
+  async addNoteToTable(data: Partial<ITable>) {
     return await instance.post<ITableResponse>(
-      `/${PATH}/${id}/notes/add`,
+      `/${PATH}/${data.id}/notes/add`,
       data
     )
   },

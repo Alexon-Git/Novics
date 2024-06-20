@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { IUser } from '../../../services/users/users.interface'
-import { IDocsCard } from '../../../types/section.interface'
+import { ITableResponse } from '../../../services/tables/tables.inteface';
 
-const ModeratorRequest = ({ user, doc }: { user: IUser; doc: IDocsCard }) => {
+const ModeratorRequest = ({props} : {props: ITableResponse}) => {
   return (
     <div className="w-full flex justify-between items-center px-4 py-4 bg-neutral rounded-[9px]">
       <div className="flex items-center gap-4 font-light">
@@ -22,10 +21,10 @@ const ModeratorRequest = ({ user, doc }: { user: IUser; doc: IDocsCard }) => {
             fill="black"
           />
         </svg>
-        <h3>{`${doc.title} ${doc.date}`}</h3>
-        <h4>{user.email}</h4>
+        <h3>{`${props.title} ${props.date}`}</h3>
+        {/* <h4>{user.email}</h4> */}
       </div>
-      <Link to={doc.url} className=" btn btn-primary rounded-[5px] h-[31px] min-h-[31px] px-2 text-base text-base-100">
+      <Link to={props.file} className=" btn btn-primary rounded-[5px] h-[31px] min-h-[31px] px-2 text-base text-base-100">
         Скачать{' '}
         <svg
           width="21"
