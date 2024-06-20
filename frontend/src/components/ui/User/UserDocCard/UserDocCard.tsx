@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
-import { IDocsCard } from '../../../../types/section.interface'
 import { DocumentTextIcon } from '@heroicons/react/24/outline'
+import { ITableResponse } from '../../../../services/tables/tables.inteface'
 
-const UserDocCard = ({ props }: { props: IDocsCard }) => {
+const UserDocCard = ({ props }: { props: ITableResponse }) => {
   return (
     <div className="w-full bg-base-100 p-4 rounded-[9px] flex justify-between items-center">
       <div className="flex flex-col md:flex-row items-center gap-4">
         <DocumentTextIcon className='h-6 w-6' />
         <h3 className="font-medium">{props.title} {props.date}</h3>
       </div>
-      <Link className='flex gap-2 items-center bg-primary text-base-100 font-medium rounded-md px-2 py-1' to={props.url}>
+      <Link className='flex gap-2 items-center bg-primary text-base-100 font-medium rounded-md px-2 py-1' to={props.file}>
         Скачать
         <svg
           width="24"

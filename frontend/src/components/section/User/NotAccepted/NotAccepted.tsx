@@ -4,42 +4,17 @@ import { CalendarIcon } from '@heroicons/react/20/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
 import { Fragment } from 'react/jsx-runtime'
-import { IDocsCard } from '../../../../types/section.interface'
 import UserDocCard from '../../../ui/User/UserDocCard/UserDocCard'
+import { TablesService } from '../../../../services/tables/tables.service'
+import { useQuery } from '@tanstack/react-query'
 
 const NotAccepted = () => {
   const settings: string[] = ['Более новые', 'Более старые', 'От А до Я']
-  const [selected, setSelected] = useState<string>(settings[0])
-  const docs: IDocsCard[] = [
-    {
-      id: 0,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 1,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 2,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    },
-    {
-      id: 3,
-      title: 'Обязательство о неразглашении конфиденциальной информации ',
-      size: '222кб',
-      date: '06.02.2023',
-      url: 'https://vk.com'
-    }
-  ]
+  const [selectedUnapproved, setSelectedUnapproved] = useState<string>(settings[0])
+  const query = useQuery({
+    queryKey: ['myNotesUnapproved'],
+    queryFn: () => TablesService.getMyTablesWithFilter('unapproved')
+  })
   return (
     <section className="my-20">
       <div className="hero mx-auto container">
@@ -48,7 +23,7 @@ const NotAccepted = () => {
           <div className="flex flex-col gap-6 bg-[#FFDFDB] rounded-[15px] p-4 pb-8">
             <div className="flex justify-between items-center">
               <h3 className=" text-2xl font-medium">Не принятые</h3>
-              <Listbox value={selected} onChange={setSelected}>
+              <Listbox value={selectedUnapproved} onChange={setSelectedUnapproved}>
                 <div className="relative mt-1">
                   <Listbox.Button className="relative w-full cursor-default rounded-lg bg-base-100 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-base-100/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                     <span className="flex gap-2 items-center truncate pr-8">
@@ -56,7 +31,7 @@ const NotAccepted = () => {
                         className="h-5 w-5 text-gray-400"
                         aria-hidden="true"
                       />
-                      {selected}
+                      {selectedUnapproved}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronDownIcon
@@ -110,9 +85,17 @@ const NotAccepted = () => {
                 </div>
               </Listbox>
             </div>
-            {docs.map((doc) => (
-              <UserDocCard key={doc.id} props={doc} />
-            ))}
+            {query.data?.data.length === 0 && <>Нет результата</>}
+            {query.isSuccess &&
+              query.data?.data.map((doc) => (
+                <UserDocCard key={doc.id} props={doc} />
+              ))}
+            {query.isPending && (
+              <div role="status">
+                <span className="loading loading-spinner text-base-100"></span>
+                <span className="sr-only">Loading...</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
