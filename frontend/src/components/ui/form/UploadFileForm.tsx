@@ -1,30 +1,25 @@
-// import { Combobox, Transition } from '@headlessui/react'
-// import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Combobox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect, useRef, useState } from 'react'
-// import { IFile, addFile, removeFile } from '../../../store/Docs/DocsReducer'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { RootStore } from '../../../store'
 import autoAnimate from '@formkit/auto-animate'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-// import { CountryService } from '../../../services/country/country.service'
-// import { ICountry } from '../../../services/country/country.interface'
-// import { IUniversity } from '../../../services/university/university.interface'
-// import { UniversityService } from '../../../services/university/university.service'
+import { CountryService } from '../../../services/country/country.service'
+import { ICountry } from '../../../services/country/country.interface'
+import { IUniversity } from '../../../services/university/university.interface'
+import { UniversityService } from '../../../services/university/university.service'
 import { TablesService } from '../../../services/tables/tables.service'
 import { Bounce, toast } from 'react-toastify'
 
 const UploadFileForm = () => {
-  // const dispath = useDispatch()
-  // const files = useSelector((state: RootStore) => state.docs.docs)
   const queryClient = useQueryClient()
-  // const countries = useQuery({
-  //   queryKey: ['countries'],
-  //   queryFn: CountryService.getCountries
-  // })
-  // const universities = useQuery({
-  //   queryKey: ['universities'],
-  //   queryFn: UniversityService.getUniversities
-  // })
+  const countries = useQuery({
+    queryKey: ['countries'],
+    queryFn: CountryService.getCountries
+  })
+  const universities = useQuery({
+    queryKey: ['universities'],
+    queryFn: UniversityService.getUniversities
+  })
   const mutationFile = useMutation({
     mutationFn: TablesService.createTable,
     onError: () => {
@@ -40,7 +35,7 @@ const UploadFileForm = () => {
         transition: Bounce
       })
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success('Документ успешно загружена!', {
         position: 'bottom-right',
         autoClose: 5000,
@@ -52,54 +47,51 @@ const UploadFileForm = () => {
         theme: 'light',
         transition: Bounce
       })
+      localStorage.setItem('currentTable', JSON.stringify(data.data.table))
+      setTable(data.data.table)
       queryClient.invalidateQueries({ queryKey: ['notes'] })
     }
   })
-  // const [file, setFile] = useState<File | null>()
-  // const [country, setCountry] = useState<ICountry>()
-  // const [university, setUniversity] = useState<IUniversity>()
-  // const [queryUniversity, setQueryUniversity] = useState<string>('')
-  // const filteredUniversity: IUniversity[] | undefined =
-  //   queryUniversity === '' && universities.isSuccess
-  //     ? universities.data?.data
-  //     : universities.data?.data.filter((item) => {
-  //         return (
-  //           item.abbreviation
-  //             .toLowerCase()
-  //             .includes(queryUniversity.toLowerCase()) ||
-  //           item.name.toLowerCase().includes(queryUniversity.toLowerCase())
-  //         )
-  //       })
-  // const [queryCountry, setQueryCountry] = useState<string>('')
-  // const filteredCountry: ICountry[] | undefined =
-  //   queryCountry === '' && countries.isSuccess
-  //     ? countries.data?.data
-  //     : countries.data?.data.filter((item) => {
-  //         return item.name.toLowerCase().includes(queryCountry.toLowerCase())
-  //       })
-  // const [education, setEducation] = useState<string>('')
-  // const [count, setCount] = useState<number | string>('')
-  // const [form, setForm] = useState<string>('')
-  // const [level, setLevel] = useState<string>('')
-  // const document: IFile = {
-  //   file,
-  //   country,
-  //   university,
-  //   education,
-  //   count,
-  //   form,
-  //   level
-  // }
+  const [country, setCountry] = useState<ICountry>()
+  const [university, setUniversity] = useState<IUniversity>()
+  const [queryUniversity, setQueryUniversity] = useState<string>('')
+  const filteredUniversity: IUniversity[] | undefined =
+    queryUniversity === '' && universities.isSuccess
+      ? universities.data?.data
+      : universities.data?.data.filter((item) => {
+          return (
+            item.abbreviation
+              .toLowerCase()
+              .includes(queryUniversity.toLowerCase()) ||
+            item.name.toLowerCase().includes(queryUniversity.toLowerCase())
+          )
+        })
+  const [queryCountry, setQueryCountry] = useState<string>('')
+  const filteredCountry: ICountry[] | undefined =
+    queryCountry === '' && countries.isSuccess
+      ? countries.data?.data
+      : countries.data?.data.filter((item) => {
+          return item.name.toLowerCase().includes(queryCountry.toLowerCase())
+        })
+  const [table, setTable] = useState()
+  const [education, setEducation] = useState<string>('')
+  const [count, setCount] = useState<number | string>('')
+  const [form, setForm] = useState<string>('')
+  const [level, setLevel] = useState<string>('')
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      // setFile(event.target.files[0])
       const formData = new FormData()
-      formData.append('table', event.target.files[0])
+      formData.append('file', event.target.files[0])
       mutationFile.mutate(formData)
-      // setFileUrl(URL.createObjectURL(event.target.files[0]))
     }
   }
   const parent = useRef(null)
+
+  useEffect(() => {
+    const currentTable = localStorage.getItem('currentTable')
+    if (currentTable) 
+      setTable(JSON.parse(currentTable))
+  }, [])
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -111,7 +103,8 @@ const UploadFileForm = () => {
         htmlFor="fileUpload"
       >
         <p className="text-[#A9A9A9] font-medium p-4">
-          {(mutationFile.isSuccess && mutationFile.data.data?.name) || 'Выберите файл'}
+          {(mutationFile.isSuccess && table.) ||
+            'Выберите файл'}
         </p>
         <label
           htmlFor="fileUpload"
@@ -126,10 +119,7 @@ const UploadFileForm = () => {
         type="file"
         className="hidden"
       />
-      {mutationFile.isSuccess && (
-        mutationFile.data.data
-      )}
-      {/* <div className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]">
+      <div className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]">
         <input
           type="text"
           value={file?.name ? file.name : 'Выберите файл'}
@@ -483,7 +473,7 @@ const UploadFileForm = () => {
             Выгрузить документ
           </button>
         )}
-      </div> */}
+      </div>
     </form>
   )
 }

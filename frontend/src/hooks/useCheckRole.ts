@@ -6,11 +6,8 @@ export const useCheckRole = (role: string) => {
   const currentUser = useTypedSelector((state) => state.user.user)
   const navigate = useNavigate()
   useEffect(() => {
-    if (currentUser?.role !== "admin") {
-      if (!currentUser || currentUser.role !== role) {
-        navigate('/')
-      }
-    }
+    if (currentUser?.role !== 'admin')
+      if (!currentUser || currentUser.role !== role) navigate('/')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
