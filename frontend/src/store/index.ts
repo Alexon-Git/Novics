@@ -14,7 +14,6 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import DocsReducer from './Docs/DocsReducer'
 
 const persistConfig = {
   key: 'root',
@@ -26,7 +25,6 @@ const persistConfig = {
 const RootReducer = combineReducers({
   user: userSlice.reducer,
   modal: modalReducer,
-  docs: DocsReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)

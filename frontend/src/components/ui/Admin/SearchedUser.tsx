@@ -3,7 +3,6 @@ import { IUser } from '../../../services/users/users.interface'
 import autoAnimate from '@formkit/auto-animate'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { UserService } from '../../../services/users/users.service'
-import { RoleService } from '../../../services/role/role.service'
 
 const SearchedUser = ({ props }: { props: IUser }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -16,7 +15,7 @@ const SearchedUser = ({ props }: { props: IUser }) => {
   }, [parent])
   const queryClient = useQueryClient()
   const mutationRole = useMutation({
-    mutationFn: RoleService.setRoleById,
+    mutationFn: UserService.setRoleById,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       queryClient.invalidateQueries({ queryKey: ['usersWithFilter'] })

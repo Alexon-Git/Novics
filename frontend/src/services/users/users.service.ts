@@ -5,13 +5,25 @@ import { IUser } from './users.interface'
 const PATH = 'user'
 
 export const UserService = {
+  async getUsers() {
+    //! user_list
+    return await instance.get<IUser[]>(`/${PATH}/list`)
+  },
+  async getUsersWithFilters(filter: string) {
+    //! user_list_with_filters
+    return await instance.get<IUser[]>(`/${PATH}/list?filter=${filter}`)
+  },
+  async getUsersWithFiltersAndSearch(filter: string, query: string) {
+    //! user_list_with_filters_and_search
+    return await instance.get<IUser[]>(`/${PATH}/list?filter=${filter}&search=${query}`)
+  },
   async getCurrentUser() {
     //! get_current_user
-    return await instance.get<IUser>(`/${PATH}/info`)
+    return await instance.get<IUser>(`/${PATH}/me`)
   },
   async updateCurrentUser(data: Partial<IUser>) {
     //! user_me_update
-    return await instance.patch<IUser>(`/${PATH}/info`, data)
+    return await instance.patch<IUser>(`/${PATH}/me`, data)
   },
   async getUserById(id: string | number) {
     //! get_user_by_id
@@ -22,6 +34,15 @@ export const UserService = {
     return await instance.patch<IUser>(
       `/${PATH}/${data.id}`,
       data
+    )
+  },
+  async setRoleById(data: Partial<IUser>) {
+    //! update_user_by_id
+    return await instance.patch<IUser>(
+      `/${PATH}/${data.id}`,
+      {
+        role: data.role
+      }
     )
   },
   async delUserById(id: string | number) {

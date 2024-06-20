@@ -99,6 +99,7 @@ export const logout = createAsyncThunk<
   try {
     const response = await AuthService.logout()
     removeFromStorage()
+    location.reload()
     return response.data
   } catch (err) {
     const error: AxiosError<ValidationErrors> =
