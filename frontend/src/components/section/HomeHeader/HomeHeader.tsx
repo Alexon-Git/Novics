@@ -28,15 +28,14 @@ const HomeHeader = () => {
               иностранных студентов.
             </p> */}
             {currentUser && currentUser?.is_active ? (
-              <>
-              </>
+              <></>
+            ) : (
               // <Link
               //   className="btn btn-secondary hover:bg-[#FF8648] border-none text-base-100 font-medium px-8"
               //   to={`/dashboard/${currentUser.role}`}
               // >
               //   Перейти в панель управления
               // </Link>
-            ) : (
               <div className="flex gap-4">
                 <button
                   onClick={() => dispatch(openSignInModal())}
