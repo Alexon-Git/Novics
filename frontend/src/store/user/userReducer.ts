@@ -25,7 +25,7 @@ const initialState: IInitialState = {
   //   town: '',
   //   UTC: '',
   //   role: 'admin',
-  //   is_active: true,
+  //   is_active: true
   // },
   error: null,
   isLoading: false
