@@ -7,7 +7,7 @@ import Accepted from '../../section/User/Accepted/Accepted'
 
 const ModeratorDashboard = () => {
   useAuth()
-  useCheckRole('moderator')
+  useCheckRole(['moderator'])
   return (
     <div className="py-20">
       <NewRequests />

@@ -6,7 +6,7 @@ import UpdatePolls from '../../section/Admin/UpdatePolls/UpdatePolls'
 
 const AdminDashboard = () => {
   useAuth()
-  useCheckRole('admin')
+  useCheckRole(['admin'])
   return (
     <div className='py-20'>
       <NewRequests />
