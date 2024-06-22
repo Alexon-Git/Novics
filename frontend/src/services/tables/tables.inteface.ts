@@ -17,3 +17,18 @@ export interface ITableResponse {
   approved: boolean | null
   notes: ITable[]
 }
+
+export interface IModeratorTable extends ITableResponse {
+  creator: string
+}
+
+export interface INoteRequest {
+  tableId: string | number
+  noteId: string | number
+  university: string
+  country: string
+  education_type: string
+  education_form: string
+  education_level: string
+  students_amount: string | number
+}
