@@ -67,10 +67,11 @@ const HeaderCenter = () => {
                     <Link
                       to="/dashboard/admin"
                       className="text-base-100 text-xl font-semibold"
+                      onClick={() => setShow(false)}
                     >
                       Администратор
                     </Link>
-                    <button className='-m-5 p-5' onClick={reveal}>
+                    <button className="-m-5 p-5" onClick={reveal}>
                       {!show ? (
                         <svg
                           width="22"
@@ -104,8 +105,12 @@ const HeaderCenter = () => {
                   </div>
                   {show && (
                     <div className="w-full absolute flex flex-col gap-4 bg-primary text-base-100 text-xl font-semibold px-4 py-2 left-0 -bottom-24">
-                      <Link to="/dashboard/moderator">Модератор</Link>
-                      <Link to="/dashboard/user">Представитель</Link>
+                      <Link to="/dashboard/moderator" onClick={reveal}>
+                        Модератор
+                      </Link>
+                      <Link to="/dashboard/user" onClick={reveal}>
+                        Представитель
+                      </Link>
                     </div>
                   )}
                 </div>
