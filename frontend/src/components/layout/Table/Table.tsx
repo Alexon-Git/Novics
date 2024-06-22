@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import autoAnimate from '@formkit/auto-animate'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Table() {
-  const [isActive, setIsActive] = useState('uni')
+  const [isActive, setIsActive] = useState<string>('uni')
+  const parent = useRef(null)
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
   return (
     <section>
       <div className="hero mx-auto container my-20">
         <div className="w-full flex flex-col">
-          <div className="mb-1">
+          <div ref={parent} className="mb-1">
             {isActive != 'partTime' ? (
               <div className="border bg-[#AEFF9A] py-4 font-bold text-[20px] text-center">
                 Количество обучающихся в разрезе вузов по состоянию на
@@ -21,13 +26,13 @@ export default function Table() {
                 <tr>
                   <th
                     className={`border ${isActive != 'partTime' ? 'bg-[#EBECFF]' : ''}`}
-                    rowSpan="2"
+                    rowSpan={2}
                   >
                     №
                   </th>
                   <th
                     className={`border w-[23%] ${isActive != 'partTime' ? 'bg-[#EBECFF]' : ''}`}
-                    rowSpan="2"
+                    rowSpan={2}
                   >
                     {isActive != 'uni' ? 'Страна' : 'Вуз'}
                   </th>
@@ -40,7 +45,7 @@ export default function Table() {
                       : 'Всего обучается на 01.10.2021г.,чел.'}
                   </th>
                   {isActive != 'partTime' ? (
-                    <th rowSpan="2" className="border bg-[#EBECFF]">
+                    <th rowSpan={2} className="border bg-[#EBECFF]">
                       Всего
                     </th>
                   ) : (
@@ -49,7 +54,7 @@ export default function Table() {
                 </tr>
                 <tr>
                   {isActive == 'partTime' ? (
-                    <th rowSpan="2" className="border bg-[#EBECFF]">
+                    <th rowSpan={2} className="border bg-[#EBECFF]">
                       Всего
                     </th>
                   ) : (
@@ -101,29 +106,28 @@ export default function Table() {
               </tbody>
             </table>
           </div>
-          <div className="flex">
+
+          <div className="flex join rounded-none">
             <button
-              onClick={() => setIsActive<string>('uni')}
-              className={`px-4 py-2 border font-semibold text-[20px] text-[#999] ${
-                isActive === 'uni' ? 'text-[#0E41E9] border-[#0E41E9]' : ''
+              onClick={() => setIsActive('uni')}
+              className={`join-item btn btn-outline px-4 py-2 font-semibold text-[20px] text-[#999] duration-200 ${
+                isActive === 'uni' ? 'btn-active btn-primary' : ''
               }`}
             >
               Количество студентов в вузах
             </button>
             <button
               onClick={() => setIsActive('countries')}
-              className={`px-4 py-2 border font-semibold text-[20px] text-[#999] ${
-                isActive === 'countries'
-                  ? 'text-[#0E41E9] border-[#0E41E9]'
-                  : ''
+              className={`join-item btn btn-outline px-4 py-2 font-semibold text-[20px] text-[#999] duration-200 ${
+                isActive === 'countries' ? 'btn-active btn-primary' : ''
               }`}
             >
               Количество студентов по странам
             </button>
             <button
               onClick={() => setIsActive('partTime')}
-              className={`px-4 py-2 border font-semibold text-[20px] text-[#999] ${
-                isActive === 'partTime' ? 'text-[#0E41E9] border-[#0E41E9]' : ''
+              className={`join-item btn btn-outline px-4 py-2 font-semibold text-[20px] text-[#999] duration-200 ${
+                isActive === 'partTime' ? 'btn-active btn-primary' : ''
               }`}
             >
               Очное обучение в разрезе стран
