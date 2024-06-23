@@ -17,7 +17,7 @@ const HeaderCenter = () => {
     'admin'
   ])
   const [currentDashboard, setCurrentDashboard] = useState<string>(
-    currentUser.role
+    currentUser?.role ? currentUser.role : ''
   )
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
