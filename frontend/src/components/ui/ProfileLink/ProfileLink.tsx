@@ -28,7 +28,7 @@ const ProfileLink = () => {
         </svg>
       </Link>
       <Link
-        to={`/dashboard/${currentUser?.role}`}
+        to={`/dashboard/${currentUser?.role === 'supervisor' ? 'user' : currentUser?.role}`}
         className="flex items-center gap-4 text-sm text-base-100"
       >
         <p>Личный кабинет</p>

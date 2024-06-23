@@ -1,17 +1,16 @@
-import { useSelector } from 'react-redux'
 import { Links } from '../Header'
 import { Link, useLocation } from 'react-router-dom'
-import { RootStore } from '../../../../store'
 import { useEffect, useRef, useState } from 'react'
 import autoAnimate from '@formkit/auto-animate'
+import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 
 const HeaderCenter = () => {
   const { pathname } = useLocation()
-  const currentUser = useSelector((state: RootStore) => state.user.user)
+  const currentUser = useTypedSelector((state) => state.user.user)
   const [show, setShow] = useState<boolean>(false)
   const parent = useRef(null)
   const containerRef = useRef(null)
-  const [unactiveRoles, setUnactiveRoles] = useState([
+  const [unactiveRoles, setUnactiveRoles] = useState<string[]>([
     'user',
     'moderator',
     'admin'
@@ -37,7 +36,7 @@ const HeaderCenter = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        !((containerRef.current as HTMLElement).contains(event.target as Node))
       ) {
         setShow(false)
       }
