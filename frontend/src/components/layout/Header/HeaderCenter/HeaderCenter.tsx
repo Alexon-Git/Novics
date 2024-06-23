@@ -10,15 +10,50 @@ const HeaderCenter = () => {
   const currentUser = useSelector((state: RootStore) => state.user.user)
   const [show, setShow] = useState<boolean>(false)
   const parent = useRef(null)
-
+  const containerRef = useRef(null)
+  const [unactiveRoles, setUnactiveRoles] = useState([
+    'user',
+    'moderator',
+    'admin'
+  ])
+  const [currentDashboard, setCurrentDashboard] = useState<string>(
+    currentUser.role
+  )
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
   }, [parent])
 
-  const reveal = () => setShow(!show)
+  useEffect(() => {
+    setUnactiveRoles((roles) =>
+      roles.filter((item) => item !== currentDashboard)
+    )
+  }, [currentDashboard])
+  const handleDashboard = (s: string) => {
+    setUnactiveRoles([...unactiveRoles, currentDashboard])
+    setCurrentDashboard(s)
+    setShow(false)
+  }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setShow(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [containerRef])
   return (
     <>
-      <div className="navbar-center hidden gap-8 lg:flex lg:gap-32">
+      <div
+        ref={containerRef}
+        className="navbar-center hidden gap-8 lg:flex lg:gap-32"
+      >
         {pathname === '/' ? (
           <ul className="menu menu-horizontal text-base-100 px-1">
             {Links.map((link) => (
@@ -63,15 +98,21 @@ const HeaderCenter = () => {
             {currentUser.role === 'admin' ? (
               <>
                 <div className="relative uppercase px-4" ref={parent}>
-                  <div className="flex gap-8">
+                  <div
+                    className={`flex gap-8 ${currentDashboard === 'moderator' ? 'lg:min-w-[200px] ' : ''}`}
+                  >
                     <Link
-                      to="/dashboard/admin"
+                      to={`/dashboard/${currentDashboard || currentUser.role}`}
                       className="text-base-100 text-xl font-semibold"
                       onClick={() => setShow(false)}
                     >
-                      Администратор
+                      {currentDashboard === 'admin'
+                        ? 'Администратор'
+                        : currentDashboard === 'user'
+                          ? 'Представитель'
+                          : 'Модератор'}
                     </Link>
-                    <button className="-m-5 p-5" onClick={reveal}>
+                    <button className="-m-5 p-5" onClick={() => setShow(!show)}>
                       {!show ? (
                         <svg
                           width="22"
@@ -105,12 +146,21 @@ const HeaderCenter = () => {
                   </div>
                   {show && (
                     <div className="w-full absolute flex flex-col gap-4 bg-primary text-base-100 text-xl font-semibold px-4 py-2 left-0 -bottom-24">
-                      <Link to="/dashboard/moderator" onClick={reveal}>
-                        Модератор
-                      </Link>
-                      <Link to="/dashboard/user" onClick={reveal}>
-                        Представитель
-                      </Link>
+                      {unactiveRoles.map((role, index) => {
+                        return (
+                          <Link
+                            key={index}
+                            to={`/dashboard/${role}`}
+                            onClick={() => handleDashboard(role)}
+                          >
+                            {role === 'admin'
+                              ? 'Администратор'
+                              : role === 'moderator'
+                                ? 'Модератор'
+                                : 'Представитель'}
+                          </Link>
+                        )
+                      })}
                     </div>
                   )}
                 </div>
