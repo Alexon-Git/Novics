@@ -6,6 +6,7 @@ export const useCheckRole = (roles: string[]) => {
   const currentUser = useTypedSelector((state) => state.user.user)
   const navigate = useNavigate()
   useEffect(() => {
+    
     if (
       !currentUser ||
       (currentUser.role &&
