@@ -13,7 +13,7 @@ const UserDashboard = () => {
   const TEMPLATES: Record<TemplateKeys, JSX.Element> = {
     supervisor: <Table />,
     user: <UploadFile />,
-    admin: <UploadFile />
+    admin: <Table />
   }
   return (
     <div className="py-20">

@@ -1,8 +1,16 @@
 import autoAnimate from '@formkit/auto-animate'
 import { useEffect, useRef, useState } from 'react'
+import getDate from '../../../utils/getDate'
+import { TablesService } from '../../../services/tables/tables.service'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Table() {
   const [isActive, setIsActive] = useState<string>('uni')
+  const [currentDate] = useState<string>(getDate())
+  const query = useQuery({
+    queryKey: ['genTable'],
+    queryFn: TablesService.getGenTable
+  })
   const parent = useRef(null)
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -15,7 +23,7 @@ export default function Table() {
             {isActive != 'partTime' ? (
               <div className="border bg-[#AEFF9A] py-4 font-bold text-[20px] text-center">
                 Количество обучающихся в разрезе вузов по состоянию на
-                01.10.2024г.
+                {' ' + currentDate}
               </div>
             ) : (
               <></>
@@ -41,8 +49,8 @@ export default function Table() {
                     colSpan={isActive != 'partTime' ? 4 : 5}
                   >
                     {isActive != 'partTime'
-                      ? 'Количество обучающихся по состоянию на 01.10.2024г.'
-                      : 'Всего обучается на 01.10.2021г.,чел.'}
+                      ? `Количество обучающихся по состоянию на ${currentDate}`
+                      : `Всего обучается на ${currentDate},чел.`}
                   </th>
                   {isActive != 'partTime' ? (
                     <th rowSpan={2} className="border bg-[#EBECFF]">
@@ -69,28 +77,76 @@ export default function Table() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="text-center py-2">
-                  <td className="border py-2">0000</td>
-                  <td
-                    className={`border px-4 ${isActive != 'uni' ? 'text-center' : 'text-left'}`}
-                  >
-                    1111
-                  </td>
-                  <td
-                    className={`border ${isActive === 'partTime' ? 'bg-[#EBECFF]' : ''}`}
-                  >
-                    2222
-                  </td>
-                  <td className="border">33333</td>
-                  <td className="border">4444</td>
-                  <td className="border">55555</td>
-                  <td
-                    className={`border border-[#000] font-bold ${isActive != 'partTime' ? 'text-[#FF3A3A]' : ''}`}
-                  >
-                    66666
-                  </td>
-                </tr>
-                <tr className="text-center font-bold">
+                {isActive === 'uni' && query.data?.data.sheet_1.map((row, index) => (
+                  <tr key={index} className="text-center py-2">
+                    <td className="border py-2">{row[0]}</td>
+                    <td
+                      className={`border px-4 ${isActive != 'uni' ? 'text-center' : 'text-left'}`}
+                    >
+                      {row[1]}
+                    </td>
+                    <td
+                      className={`border`}
+                    >
+                      {row[2]}
+                    </td>
+                    <td className="border">{row[3]}</td>
+                    <td className="border">{row[4]}</td>
+                    <td className="border">{row[5]}</td>
+                    <td
+                      className={`border border-[#000] font-bold`}
+                    >
+                      {row[6]}
+                    </td>
+                  </tr>
+                ))}
+                {isActive === 'countries' && query.data?.data.sheet_2.map((row, index) => (
+                  <tr key={index} className="text-center py-2">
+                    <td className="border py-2">{row[0]}</td>
+                    <td
+                      className={`border px-4 text-left`}
+                    >
+                      {row[1]}
+                    </td>
+                    <td
+                      className={`border`}
+                    >
+                      {row[2]}
+                    </td>
+                    <td className="border">{row[3]}</td>
+                    <td className="border">{row[4]}</td>
+                    <td className="border">{row[5]}</td>
+                    <td
+                      className={`border border-[#000] font-bold`}
+                    >
+                      {row[6]}
+                    </td>
+                  </tr>
+                ))}
+                {isActive === 'partTime' && query.data?.data.sheet_3.map((row, index) => (
+                  <tr key={index} className="text-center py-2">
+                    <td className="border py-2">{row[0]}</td>
+                    <td
+                      className={`border px-4 text-left`}
+                    >
+                      {row[1]}
+                    </td>
+                    <td
+                      className={`border ${isActive === 'partTime' ? 'bg-[#EBECFF]' : ''}`}
+                    >
+                      {row[2]}
+                    </td>
+                    <td className="border">{row[3]}</td>
+                    <td className="border">{row[4]}</td>
+                    <td className="border">{row[5]}</td>
+                    <td
+                      className={`border border-[#000] font-bold ${isActive != 'partTime' ? 'text-[#FF3A3A]' : ''}`}
+                    >
+                      {row[6]}
+                    </td>
+                  </tr>
+                ))}
+                {/* <tr className="text-center font-bold">
                   <td className="border"></td>
                   <td className="border">ИТОГО</td>
                   <td
@@ -102,7 +158,7 @@ export default function Table() {
                   <td className="border">14</td>
                   <td className="border">14</td>
                   <td className="border">1</td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>

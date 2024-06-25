@@ -27,7 +27,7 @@ const HomeDocsCard = ({ props }: { props: IDocsCard }) => {
         <p className=' font-light'>{`(${props.size})`}</p>
         <div className="px-2 bg-accent text-base-100 font-medium rounded-[11px]">{props.date}</div>
       </div>
-      <Link to={props.url}>
+      <Link to={`https://novis.ddns.net${props.url}`}>
         <svg
           width="24"
           height="25"

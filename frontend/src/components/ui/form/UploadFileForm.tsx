@@ -52,6 +52,7 @@ const UploadFileForm = () => {
       localStorage.setItem('currentTable', JSON.stringify(data.data))
       setTable(data.data)
       queryClient.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.invalidateQueries({ queryKey: ['genTable'] })
       queryClient.invalidateQueries({ queryKey: ['myNotesApproved'] })
       queryClient.invalidateQueries({ queryKey: ['myNotesUnapproved'] })
     }
@@ -86,6 +87,9 @@ const UploadFileForm = () => {
       localStorage.setItem('currentTable', JSON.stringify(data.data))
       setTable(data.data)
       queryClient.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.invalidateQueries({ queryKey: ['genTable'] })
+      queryClient.invalidateQueries({ queryKey: ['myNotesApproved'] })
+      queryClient.invalidateQueries({ queryKey: ['myNotesUnapproved'] })
     }
   })
   const [country, setCountry] = useState<ICountry>()

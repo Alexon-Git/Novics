@@ -32,3 +32,9 @@ export interface INoteRequest {
   education_level: string
   students_amount: string | number
 }
+
+export interface IGenTable {
+  sheet_1: string[]
+  sheet_2: string[]
+  sheet_3: string[]
+}
