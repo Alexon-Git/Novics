@@ -3,11 +3,15 @@ import {
   ITableResponse,
   ITable,
   INoteRequest,
-  IModeratorTable
+  IModeratorTable,
+  IGenTable
 } from './tables.inteface'
 const PATH = 'tables'
 
 export const TablesService = {
+  async getGenTable() {
+    return await instance.get<IGenTable>(`/${PATH}/gen`)
+  },
   async getTables() {
     return await instance.get<ITableResponse[]>(`/${PATH}/list`)
   },

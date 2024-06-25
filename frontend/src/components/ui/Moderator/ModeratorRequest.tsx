@@ -34,6 +34,7 @@ const ModeratorRequest = ({ props }: { props: IModeratorTable }) => {
         transition: Bounce
       })
       queryClient.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.invalidateQueries({ queryKey: ['genTable'] })
       queryClient.invalidateQueries({ queryKey: ['myNotesApproved'] })
       queryClient.invalidateQueries({ queryKey: ['myNotesUnapproved'] })
     }
