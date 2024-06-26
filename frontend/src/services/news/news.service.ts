@@ -20,9 +20,9 @@ export const NewsService = {
       newData
     )
   },
-  async patchNewById(newData: Partial<INewsCard>) {
+  async patchNewById({newData, id}: {newData: Partial<INewsCard>, id: string | number}) {
     return await instance.patch<INewsCard>(
-      `/${PATH}/${newData.id}`,
+      `/${PATH}/${id}`,
       newData
     )
   },

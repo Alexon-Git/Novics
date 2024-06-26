@@ -9,7 +9,7 @@ const UserDocCard = ({ props }: { props: ITableResponse }) => {
         <DocumentTextIcon className='h-6 w-6' />
         <h3 className="font-medium">{props.title} {props.date}</h3>
       </div>
-      <Link className='flex gap-2 items-center bg-primary text-base-100 font-medium rounded-md px-2 py-1' to={`https://novis.ddns.net${props.file}`}>
+      <Link className='flex gap-2 items-center bg-primary text-base-100 font-medium rounded-md px-2 py-1' to={`https://novis.ddns.net${props.file}`} download>
         Скачать
         <svg
           width="24"
