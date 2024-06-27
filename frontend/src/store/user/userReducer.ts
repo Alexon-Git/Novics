@@ -59,7 +59,7 @@ export const userSlice = createSlice({
         })
       })
       .addCase(signup.rejected, (state, { payload }) => {
-        Cookies.remove('csrf_token')
+        Cookies.remove('csrftoken')
         Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
@@ -96,7 +96,7 @@ export const userSlice = createSlice({
         })
       })
       .addCase(signin.rejected, (state, { payload }) => {
-        Cookies.remove('csrf_token')
+        Cookies.remove('csrftoken')
         Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
@@ -170,7 +170,7 @@ export const userSlice = createSlice({
         localStorage.setItem('user', JSON.stringify(payload))
       })
       .addCase(getCurrentUser.rejected, (state) => {
-        Cookies.remove('csrf_token')
+        Cookies.remove('csrftoken')
         Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
@@ -197,7 +197,7 @@ export const userSlice = createSlice({
         })
       })
       .addCase(updateCurrentUser.rejected, (state, { payload }) => {
-        Cookies.remove('csrf_token')
+        Cookies.remove('csrftoken')
         Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
