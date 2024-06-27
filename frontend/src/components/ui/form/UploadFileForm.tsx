@@ -130,7 +130,7 @@ const UploadFileForm = () => {
   useEffect(() => {
     const currentTable = localStorage.getItem('currentTable')
     if (currentTable) setTable(JSON.parse(currentTable))
-  }, [])
+  }, [table])
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -147,6 +147,12 @@ const UploadFileForm = () => {
       education_form: form,
       students_amount: count
     })
+    setUniversity(undefined)
+    setCountry(undefined)
+    setEducation('')
+    setLevel('')
+    setForm('')
+    setCount(0)
   }
   return (
     <div className="flex flex-col gap-12">
@@ -339,6 +345,7 @@ const UploadFileForm = () => {
                     name="educ"
                     required
                     className="radio radio-primary"
+                    checked={education === 'ВО'}
                     onChange={() => setEducation('ВО')}
                   />
                   Высшее образование
@@ -350,11 +357,8 @@ const UploadFileForm = () => {
                     name="educ"
                     required
                     className="radio radio-primary"
-                    onChange={() =>
-                      setEducation(
-                        'ДПО'
-                      )
-                    }
+                    checked={education === 'ДПО'}
+                    onChange={() => setEducation('ДПО')}
                   />
                   Дополнительное профессиональное образование
                 </label>
@@ -366,7 +370,7 @@ const UploadFileForm = () => {
                 type="text"
                 value={count}
                 required
-                onChange={(event) => setCount(event.target.value)}
+                onChange={(event) => setCount(event.target.value.replace(/^0+/, ""))}
                 className="input input-bordered rounded-[7px]"
               />
             </div>
@@ -381,6 +385,7 @@ const UploadFileForm = () => {
                   name="form"
                   required
                   className="radio radio-primary"
+                  checked={form === 'Очная'}
                   onChange={() => setForm('Очная')}
                 />
                 Очная
@@ -392,6 +397,7 @@ const UploadFileForm = () => {
                   name="form"
                   required
                   className="radio radio-primary"
+                  checked={form === 'Заочная'}
                   onChange={() => setForm('Заочная')}
                 />
                 Заочная
@@ -403,6 +409,7 @@ const UploadFileForm = () => {
                   name="form"
                   required
                   className="radio radio-primary"
+                  checked={form === 'Очно-заочная'}
                   onChange={() => setForm('Очно-заочная')}
                 />
                 Очно-заочная
@@ -430,6 +437,7 @@ const UploadFileForm = () => {
                   name="level"
                   required
                   className="radio radio-primary"
+                  checked={level === 'Специалитет'}
                   onChange={() => setLevel('Специалитет')}
                 />
                 Специалитет
@@ -441,6 +449,7 @@ const UploadFileForm = () => {
                   name="level"
                   required
                   className="radio radio-primary"
+                  checked={level === 'Магистратура'}
                   onChange={() => setLevel('Магистратура')}
                 />
                 Магистратура
@@ -452,6 +461,7 @@ const UploadFileForm = () => {
                   name="level"
                   required
                   className="radio radio-primary"
+                  checked={level === 'Аспирантура'}
                   onChange={() => setLevel('Аспирантура')}
                 />
                 Аспирантура
@@ -465,7 +475,7 @@ const UploadFileForm = () => {
       </form>
       <div
         ref={parent}
-        className="relative flex flex-col gap-4 bg-[#F8F8F8] border-[1px] border-[black] rounded-[13px] p-10"
+        className={`relative flex flex-col gap-4 bg-[#F8F8F8] border-[1px] border-[black] rounded-[13px] p-10 ${table && table.notes.length > 0 && 'pb-16'}`}
       >
         <div className="grid grid-cols-7 pl-4 pr-4">
           <h3>Страна</h3>
@@ -477,13 +487,36 @@ const UploadFileForm = () => {
         </div>
         {table &&
           table.notes?.map((note) => (
-            <NoteForm note={note} table={table} setTable={setTable} universities={universities} countries={countries}/>
+            <NoteForm
+              note={note}
+              table={table}
+              setTable={setTable}
+              universities={universities}
+              countries={countries}
+            />
           ))}
-        {/* {table && table.notes.length > 0 && (
-          <button className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg text-nowrap">
+        {table && table.notes.length > 0 && (
+          <button
+            onClick={() => {
+              setTable(undefined)
+              localStorage.removeItem('currentTable')
+              toast.success('Документ успешно выгружен на проверку!', {
+                position: 'bottom-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'light',
+                transition: Bounce
+              })
+            }}
+            className="absolute bottom-0 right-0 btn btn-primary text-xl text-base-100 rounded-lg text-nowrap"
+          >
             Выгрузить документ
           </button>
-        )} */}
+        )}
       </div>
     </div>
   )
