@@ -6,6 +6,7 @@ import { INewsCard } from '../../../types/section.interface'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast, Bounce } from 'react-toastify'
 import { NewsService } from '../../../services/news/news.service'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 interface IUpdateModal {
   news: INewsCard
@@ -45,6 +46,37 @@ const UpdateNewModal: FC<IUpdateModal> = ({ news, isOpen, setIsOpen }) => {
     },
     onSuccess: () => {
       toast.success('Новость успешно обновлена!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+      queryClient.invalidateQueries({ queryKey: ['news'] })
+    }
+  })
+
+  const deletNews = useMutation({
+    mutationFn: NewsService.delNewById,
+    onError: () => {
+      toast.error('Ошибка удаления новости!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce
+      })
+    },
+    onSuccess: () => {
+      toast.success('Новость успешно удалена!', {
         position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -194,7 +226,10 @@ const UpdateNewModal: FC<IUpdateModal> = ({ news, isOpen, setIsOpen }) => {
                       }}
                       required
                     />
-                    <div className="w-full flex justify-end">
+                    <div className="w-full flex justify-between items-center">
+                      <button onClick={() => deletNews.mutate({id: news.id})} className=' btn btn-error p-2 rounded-xl text-base-100'>
+                        <TrashIcon className='w-8 h-8' />
+                      </button>
                       <button
                         type="submit"
                         className="btn btn-primary rounded-[8px] text-base-100"

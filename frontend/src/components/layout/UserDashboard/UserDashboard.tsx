@@ -13,10 +13,11 @@ const UserDashboard = () => {
   const TEMPLATES: Record<TemplateKeys, JSX.Element> = {
     supervisor: <Table />,
     user: <UploadFile />,
-    admin: <Table />
+    admin: <UploadFile />
   }
   return (
     <div className="py-20">
+      {user && user.role === 'admin' && <Table />}
       {user && user.role && TEMPLATES[user.role as TemplateKeys]}
       <NotAccepted />
       <Accepted />

@@ -15,20 +15,18 @@ export const NewsService = {
     return await instance.post<INewsCard>(`/${PATH}`, newData)
   },
   async updateNewById(newData: INewsCard) {
-    return await instance.put<INewsCard>(
-      `/${PATH}/${newData.id}`,
-      newData
-    )
+    return await instance.put<INewsCard>(`/${PATH}/${newData.id}`, newData)
   },
-  async patchNewById({newData, id}: {newData: Partial<INewsCard>, id: string | number}) {
-    return await instance.patch<INewsCard>(
-      `/${PATH}/${id}`,
-      newData
-    )
+  async patchNewById({
+    newData,
+    id
+  }: {
+    newData: Partial<INewsCard>
+    id: string | number
+  }) {
+    return await instance.patch<INewsCard>(`/${PATH}/${id}`, newData)
   },
-  async delNewById(newData: INewsCard) {
-    return await instance.delete<void>(
-      `/${PATH}/${newData.id}`,
-    )
-  },
+  async delNewById({ id }: { id: string | number }) {
+    return await instance.delete<void>(`/${PATH}/${id}`)
+  }
 }
