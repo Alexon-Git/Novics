@@ -12,6 +12,7 @@ import {
 import { getLocal } from '../../utils/getLocal'
 import { removeFromStorage } from '../../services/auth/auth.helper'
 import { Bounce, toast } from 'react-toastify'
+import Cookies from 'js-cookie'
 
 const initialState: IInitialState = {
   user: getLocal('user'),
@@ -45,11 +46,35 @@ export const userSlice = createSlice({
         state.user = payload
         state.error = null
         localStorage.setItem('user', JSON.stringify(state.user))
+        toast.success(`Успешная регистрация ${state.user.first_name} ${state.user.last_name}!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(signup.rejected, (state, { payload }) => {
+        Cookies.remove('csrf_token')
+        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload as ValidationErrors
+        toast.error(`Произошла ошибка регистрации ${state.error}!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(signin.pending, (state) => {
         state.isLoading = true
@@ -58,11 +83,35 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.error = null
         state.user = payload
+        toast.success(`Успешная авторизация ${state.user.first_name} ${state.user.last_name}!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(signin.rejected, (state, { payload }) => {
+        Cookies.remove('csrf_token')
+        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload
+        toast.error(`Ошибка авторизации ${state.error}!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(sendOtp.pending, (state) => {
         state.isLoading = true
@@ -70,6 +119,17 @@ export const userSlice = createSlice({
       .addCase(sendOtp.fulfilled, (state) => {
         state.isLoading = false
         state.error = null
+        toast.info(`На вашу почту отправлен код для подтерждения!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(sendOtp.rejected, (state, { payload }) => {
         state.isLoading = false
@@ -82,6 +142,17 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.error = null
         state.user = payload
+        toast.success(`Ваш email успешно подтвержден!`, {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+          transition: Bounce
+        })
       })
       .addCase(verifyOtp.rejected, (state, { payload }) => {
         state.isLoading = false
@@ -99,6 +170,8 @@ export const userSlice = createSlice({
         localStorage.setItem('user', JSON.stringify(payload))
       })
       .addCase(getCurrentUser.rejected, (state) => {
+        Cookies.remove('csrf_token')
+        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = null
@@ -124,6 +197,8 @@ export const userSlice = createSlice({
         })
       })
       .addCase(updateCurrentUser.rejected, (state, { payload }) => {
+        Cookies.remove('csrf_token')
+        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload
