@@ -7,13 +7,27 @@ import { Fragment } from 'react/jsx-runtime'
 import UserDocCard from '../../../ui/User/UserDocCard/UserDocCard'
 import { TablesService } from '../../../../services/tables/tables.service'
 import { useQuery } from '@tanstack/react-query'
+import { ISort } from '../../../../types/section.interface'
 
 const NotAccepted = () => {
-  const settings: string[] = ['Более новые', 'Более старые', 'От А до Я']
-  const [selectedUnapproved, setSelectedUnapproved] = useState<string>(settings[0])
+  const settings: ISort[] = [
+    {
+      value: 'newer',
+      title: 'Более новые'
+    },
+    {
+      value: 'older',
+      title: 'Более старые'
+    },
+    {
+      value: 'name',
+      title: 'От А до Я'
+    }
+  ]
+  const [selectedSettings, setSelectedSettings] = useState<ISort>(settings[0])
   const query = useQuery({
-    queryKey: ['myNotesUnapproved'],
-    queryFn: () => TablesService.getMyTablesWithFilter('unapproved')
+    queryKey: ['myNotesUnapproved', selectedSettings],
+    queryFn: () => TablesService.getMyTablesWithFilterAndSort({filter: 'unapproved', sort: selectedSettings.value})
   })
   return (
     <section className="my-20">
@@ -23,7 +37,7 @@ const NotAccepted = () => {
           <div className="flex flex-col gap-6 bg-[#FFDFDB] rounded-[15px] p-4 pb-8">
             <div className="flex justify-between items-center">
               <h3 className=" text-2xl font-medium">Не принятые</h3>
-              <Listbox value={selectedUnapproved} onChange={setSelectedUnapproved}>
+              <Listbox value={selectedSettings} onChange={setSelectedSettings}>
                 <div className="relative mt-1">
                   <Listbox.Button className="relative w-full cursor-default rounded-lg bg-base-100 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-base-100/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                     <span className="flex gap-2 items-center truncate pr-8">
@@ -31,7 +45,7 @@ const NotAccepted = () => {
                         className="h-5 w-5 text-gray-400"
                         aria-hidden="true"
                       />
-                      {selectedUnapproved}
+                      {selectedSettings.title}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronDownIcon
@@ -66,7 +80,7 @@ const NotAccepted = () => {
                                   selected ? 'font-medium' : 'font-normal'
                                 }`}
                               >
-                                {setting}
+                                {setting.title}
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">

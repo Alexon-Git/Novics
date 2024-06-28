@@ -20,13 +20,18 @@ export const TablesService = {
       `/${PATH}/list?_limit=${limit}`
     )
   },
+  async getTablesWithFilterAndSort({filter, sort} : {filter: string, sort: string}) {
+    return await instance.get<IModeratorTable[]>(
+      `/${PATH}/list?filter=${filter}&sort=${sort}`
+    )
+  },
   async getTablesWithFilter(filter: string) {
     return await instance.get<IModeratorTable[]>(
       `/${PATH}/list?filter=${filter}`
     )
   },
-  async getMyTablesWithFilter(filter: string) {
-    return await instance.get<ITableResponse[]>(`/${PATH}/my?filter=${filter}`)
+  async getMyTablesWithFilterAndSort({filter, sort} : {filter: string, sort: string}) {
+    return await instance.get<ITableResponse[]>(`/${PATH}/my?filter=${filter}&sort=${sort}`)
   },
   async createTable(data: FormData) {
     return await instance.post<ITableResponse>(`/${PATH}/my`, data)

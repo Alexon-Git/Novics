@@ -40,7 +40,7 @@ const EmailConfirmationModal = () => {
           <div className="fixed inset-0 bg-base-100/40" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden">
+        <div className="fixed inset-0 overflow-auto">
           <div
             ref={parent}
             className="flex min-h-full items-center justify-center"
@@ -53,7 +53,7 @@ const EmailConfirmationModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="modal-box w-auto rounded-2xl text-base-100 overflow-hidden">
+              <Dialog.Panel className="modal-box w-auto min-h-[350px] max-h-full h-full rounded-2xl text-base-100 overflow-hidden">
                 <div className="absolute top-0 left-0 h-full w-full bg-[#797979] z-10 mix-blend-multiply" />
                 <img
                   className="absolute top-0 right-0"

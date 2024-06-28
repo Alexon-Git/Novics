@@ -14,3 +14,8 @@ export interface IPollsCard {
 export interface IDocsCard extends IDoc {
   id: string | number
 }
+
+export interface ISort {
+  value: string
+  title: string
+}

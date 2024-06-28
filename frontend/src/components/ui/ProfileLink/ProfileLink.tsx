@@ -5,7 +5,7 @@ const ProfileLink = () => {
   const currentUser = useTypedSelector((state) => state.user.user)
   return (
     <div className="flex items-center gap-4">
-      <Link to='/profile'>
+      <Link to="/profile">
         <svg
           width="25"
           height="24"
@@ -29,9 +29,9 @@ const ProfileLink = () => {
       </Link>
       <Link
         to={`/dashboard/${currentUser?.role === 'supervisor' ? 'user' : currentUser?.role}`}
-        className="flex items-center gap-4 text-sm text-base-100"
+        className="flex items-center md:gap-4 text-sm text-base-100"
       >
-        <p>Личный кабинет</p>
+        <p className="hidden md:block">Личный кабинет</p>
         <svg
           width="30"
           height="30"

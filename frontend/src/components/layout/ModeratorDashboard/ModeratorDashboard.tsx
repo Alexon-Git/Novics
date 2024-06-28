@@ -1,10 +1,10 @@
 import { useAuth } from '../../../hooks/useAuth'
 import { useCheckRole } from '../../../hooks/useCheckRole'
 import UpdatePolls from '../../section/Admin/UpdatePolls/UpdatePolls'
+import ModeratorAccepted from '../../section/Moderator/ModeratorAccepted'
 import NewCreate from '../../section/Moderator/NewCreate'
 import NewRequests from '../../section/Moderator/NewRequests'
 import NewsUpdate from '../../section/Moderator/NewsUpdate'
-import Accepted from '../../section/User/Accepted/Accepted'
 
 const ModeratorDashboard = () => {
   useAuth()
@@ -15,7 +15,7 @@ const ModeratorDashboard = () => {
       <NewCreate />
       <NewsUpdate />
       <UpdatePolls />
-      <Accepted />
+      <ModeratorAccepted />
     </div>
   )
 }

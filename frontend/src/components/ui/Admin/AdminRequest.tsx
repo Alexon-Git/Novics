@@ -37,12 +37,12 @@ const AdminRequest = ({ props }: { props: IUser }) => {
     }
   })
   return (
-    <div className="w-full flex justify-between items-center px-4 py-4 border-[1px] border-primary rounded-[20px]">
+    <div className="w-full text-xs md:text-base flex gap-4 justify-between items-center px-4 py-4 border-[1px] border-primary rounded-[20px] md:gap-0">
       <div className="flex items-center gap-8">
         <h3 className=" font-medium">{`${props.first_name} ${props.last_name} ${props.patronymic}`}</h3>
         <p className=" font-light">{props.email}</p>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         {mutation.isPending ? (
           <div role="status">
             <span className="loading loading-spinner text-primary"></span>
@@ -54,7 +54,7 @@ const AdminRequest = ({ props }: { props: IUser }) => {
               onClick={() => {
                 mutation.mutate({ id: props.id, role: 'admin' })
               }}
-              className={`btn rounded-[9px] min-h-0 h-full text-base font-normal px-2 py-0.5 ${props.role === 'admin' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
+              className={`btn rounded-[9px] min-h-0 h-full text-xs md:text-base font-normal px-2 py-0.5 ${props.role === 'admin' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
             >
               Администратор
             </button>
@@ -62,7 +62,7 @@ const AdminRequest = ({ props }: { props: IUser }) => {
               onClick={() => {
                 mutation.mutate({ id: props.id, role: 'moderator' })
               }}
-              className={`btn rounded-[9px] min-h-0 h-full text-base font-normal px-2 py-0.5 ${props.role === 'moderator' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
+              className={`btn rounded-[9px] min-h-0 h-full text-xs md:text-base font-normal px-2 py-0.5 ${props.role === 'moderator' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
             >
               Модератор
             </button>
@@ -70,7 +70,7 @@ const AdminRequest = ({ props }: { props: IUser }) => {
               onClick={() => {
                 mutation.mutate({ id: props.id, role: 'user' })
               }}
-              className={`btn rounded-[9px] min-h-0 h-full text-base font-normal px-2 py-0.5 ${props.role === 'user' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
+              className={`btn rounded-[9px] min-h-0 h-full text-xs md:text-base font-normal px-2 py-0.5 ${props.role === 'user' ? 'btn-primary' : 'btn-outline btn-ghost'}`}
             >
               Представитель
             </button>
