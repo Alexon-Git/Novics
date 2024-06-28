@@ -12,7 +12,7 @@ import {
 import { getLocal } from '../../utils/getLocal'
 import { removeFromStorage } from '../../services/auth/auth.helper'
 import { Bounce, toast } from 'react-toastify'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 const initialState: IInitialState = {
   user: getLocal('user'),
@@ -46,21 +46,22 @@ export const userSlice = createSlice({
         state.user = payload
         state.error = null
         localStorage.setItem('user', JSON.stringify(state.user))
-        toast.success(`Успешная регистрация ${state.user.first_name} ${state.user.last_name}!`, {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-          transition: Bounce
-        })
+        toast.success(
+          `Успешная регистрация ${state.user.first_name} ${state.user.last_name}!`,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce
+          }
+        )
       })
       .addCase(signup.rejected, (state, { payload }) => {
-        Cookies.remove('csrftoken')
-        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload as ValidationErrors
@@ -83,21 +84,22 @@ export const userSlice = createSlice({
         state.isLoading = false
         state.error = null
         state.user = payload
-        toast.success(`Успешная авторизация ${state.user.first_name} ${state.user.last_name}!`, {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-          transition: Bounce
-        })
+        toast.success(
+          `Успешная авторизация ${state.user.first_name} ${state.user.last_name}!`,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce
+          }
+        )
       })
       .addCase(signin.rejected, (state, { payload }) => {
-        Cookies.remove('csrftoken')
-        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload
@@ -170,8 +172,6 @@ export const userSlice = createSlice({
         localStorage.setItem('user', JSON.stringify(payload))
       })
       .addCase(getCurrentUser.rejected, (state) => {
-        Cookies.remove('csrftoken')
-        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = null
@@ -197,8 +197,6 @@ export const userSlice = createSlice({
         })
       })
       .addCase(updateCurrentUser.rejected, (state, { payload }) => {
-        Cookies.remove('csrftoken')
-        Cookies.remove('session_id')
         state.isLoading = false
         state.user = null
         state.error = payload

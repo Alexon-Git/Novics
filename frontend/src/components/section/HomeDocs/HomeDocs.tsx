@@ -15,7 +15,7 @@ const HomeDocs = () => {
               <HomeDocsCard key={doc.id} props={doc} />
             ))}
           </div>
-          <Link to="https://vk.com" className="flex justify-end items-center gap-2 opacity-65">
+          <Link target="_blank" rel="noopener noreferrer" to="https://minobr.nso.ru/Documentation/Pages/default.aspx" className="flex justify-end items-center gap-2 opacity-65">
             <p>Все документы</p>
             <svg
               width="14"

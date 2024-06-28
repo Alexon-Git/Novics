@@ -146,6 +146,8 @@ export default function Table() {
                 className="flex gap-2 items-center bg-primary text-base-100 font-medium rounded-md px-2 py-1"
                 to={`https://novis.ddns.net${query.data.data.file}`}
                 download
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Скачать
                 <svg

@@ -125,11 +125,8 @@ const UpdateNewModal: FC<IUpdateModal> = ({ news, isOpen, setIsOpen }) => {
           <div className="fixed inset-0 bg-base-100/40" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-hidden">
-          <div
-            ref={parent}
-            className="flex min-h-full items-center justify-center"
-          >
+        <div className="fixed inset-0 overflow-auto">
+          <div ref={parent} className="flex items-center justify-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -138,7 +135,7 @@ const UpdateNewModal: FC<IUpdateModal> = ({ news, isOpen, setIsOpen }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="modal-box w-auto rounded-2xl overflow-hidden">
+              <Dialog.Panel className="modal-box w-auto min-h-[750px] max-h-full h-full rounded-2xl overflow-hidden">
                 <div className="w-full flex flex-col justify-between">
                   <div className="w-full flex flex-col gap-4">
                     {!file ? (
@@ -227,8 +224,11 @@ const UpdateNewModal: FC<IUpdateModal> = ({ news, isOpen, setIsOpen }) => {
                       required
                     />
                     <div className="w-full flex justify-between items-center">
-                      <button onClick={() => deletNews.mutate({id: news.id})} className=' btn btn-error p-2 rounded-xl text-base-100'>
-                        <TrashIcon className='w-8 h-8' />
+                      <button
+                        onClick={() => deletNews.mutate({ id: news.id })}
+                        className=" btn btn-error p-2 rounded-xl text-base-100"
+                      >
+                        <TrashIcon className="w-8 h-8" />
                       </button>
                       <button
                         type="submit"

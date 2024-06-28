@@ -5,7 +5,7 @@ import { useActions } from '../../../hooks/useActions'
 const SettingForm = ({ props }: { props: IUser }) => {
   const {
     handleSubmit,
-    register,
+    register
     // formState: { errors }
   } = useForm<Partial<IUser>>({
     mode: 'onChange',
@@ -26,9 +26,9 @@ const SettingForm = ({ props }: { props: IUser }) => {
     updateCurrentUser(data)
   }
   return (
-    <div className=' relative'>
+    <div className="relative">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-16">
-        <div className="w-1/4 flex flex-col justify-between gap-6">
+        <div className="xl:w-1/4 flex flex-col justify-between gap-6">
           <label className="flex items-center justify-between font-extralight">
             Имя
             <input
@@ -85,7 +85,7 @@ const SettingForm = ({ props }: { props: IUser }) => {
           </label>
         </div>
         <div className="w-full flex items-center justify-between">
-          <div className="flex items-center gap-8">
+          <div className="w-full md:w-auto flex flex-col xl:flex-row xl:items-center gap-8">
             <button
               className="btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
               type="submit"
@@ -105,7 +105,7 @@ const SettingForm = ({ props }: { props: IUser }) => {
         onClick={() => {
           logout()
         }}
-        className="absolute right-0 bottom-0 btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
+        className="absolute mt-10 w-full md:mt-0 md:w-auto md:right-0 bottom-35 md:bottom-0 btn btn-primary rounded-[4px] h-11 min-h-11 text-base-100 text-xl font-semibold"
       >
         Выйти
       </button>

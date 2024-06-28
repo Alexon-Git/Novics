@@ -25,7 +25,7 @@ const SignModal = () => {
   }, [parent])
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="z-30" onClose={() => dispatch(closeModal())}>
+      <Dialog as="div" className="relative z-30" onClose={() => dispatch(closeModal())}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -39,7 +39,7 @@ const SignModal = () => {
         </Transition.Child>
         <div
           ref={parent}
-          className="fixed inset-0 flex items-center justify-center"
+          className="fixed inset-0 flex items-center justify-center overflow-auto"
         >
           <Transition.Child
             as={Fragment}
@@ -49,7 +49,7 @@ const SignModal = () => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="relative flex flex-col p-10 w-full overflow-auto md:modal-box md:w-auto md:h-auto md:rounded-2xl text-base-100 ">
+            <Dialog.Panel className={`relative flex flex-col p-10 w-full ${isSignUpModalOpen ? 'min-h-[700px]' : 'min-h-[350px]'} max-h-full h-full overflow-hidden md:modal-box md:w-auto md:h-auto md:rounded-2xl text-base-100 `}>
               <div className="absolute bottom-0 left-0 h-full w-full bg-[#797979] z-10 mix-blend-multiply" />
               <img
                 className="absolute top-0 right-0"
