@@ -16,7 +16,9 @@ const HeaderCenter = () => {
     'admin'
   ])
   const [currentDashboard, setCurrentDashboard] = useState<string>(
-    currentUser?.role ? currentUser.role : ''
+    pathname.split('/')[2] !== currentUser?.role
+      ? pathname.split('/')[2]
+      : currentUser?.role
   )
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -43,7 +45,7 @@ const HeaderCenter = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
-        !((containerRef.current as HTMLElement).contains(event.target as Node))
+        !(containerRef.current as HTMLElement).contains(event.target as Node)
       ) {
         setShow(false)
       }
@@ -114,7 +116,8 @@ const HeaderCenter = () => {
                     >
                       {currentDashboard === 'admin'
                         ? 'Администратор'
-                        : currentDashboard === 'user' || currentDashboard === 'supervisor'
+                        : currentDashboard === 'user' ||
+                            currentDashboard === 'supervisor'
                           ? 'Представитель'
                           : 'Модератор'}
                     </Link>
