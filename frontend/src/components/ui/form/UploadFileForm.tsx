@@ -127,10 +127,10 @@ const UploadFileForm = () => {
   }
   const parent = useRef(null)
 
-  useEffect(() => {
-    const currentTable = localStorage.getItem('currentTable')
-    if (currentTable) setTable(JSON.parse(currentTable))
-  }, [table])
+  // useEffect(() => {
+  //   const currentTable = localStorage.getItem('currentTable')
+  //   if (currentTable) setTable(JSON.parse(currentTable))
+  // }, [table])
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current)
@@ -147,12 +147,6 @@ const UploadFileForm = () => {
       education_form: form,
       students_amount: count
     })
-    setUniversity(undefined)
-    setCountry(undefined)
-    setEducation('')
-    setLevel('')
-    setForm('')
-    setCount(0)
   }
   return (
     <div className="flex flex-col gap-12">
@@ -182,11 +176,7 @@ const UploadFileForm = () => {
         onSubmit={handleNotePost}
         className="relative w-full min-h-[319px] bg-[#EBECFF] border-[1px] border-[#C1C1C1] rounded-[13px]"
       >
-        <input
-          type="text"
-          value={table?.title || 'Выберите файл'}
-          className="absolute -top-6 left-0 input input-bordered rounded-[7px]"
-        />
+        <p className="absolute -top-6 left-0 input input-bordered flex items-center rounded-[7px]">{table?.title || 'Выберите файл'} </p>
         <div className="flex justify-between px-6 py-10">
           <div className="flex flex-col gap-8">
             <div>
