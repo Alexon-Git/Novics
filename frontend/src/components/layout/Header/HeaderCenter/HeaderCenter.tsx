@@ -10,6 +10,7 @@ const HeaderCenter = () => {
   const [show, setShow] = useState<boolean>(false)
   const parent = useRef(null)
   const containerRef = useRef(null)
+  const roles: string[] = ['user', 'moderator', 'admin']
   const [unactiveRoles, setUnactiveRoles] = useState<string[]>([
     'user',
     'moderator',
@@ -27,6 +28,18 @@ const HeaderCenter = () => {
   useEffect(() => {
     pathname.split('/')[2] ? setCurrentDashboard(pathname.split('/')[2]) : null
   }, [pathname])
+
+  useEffect(() => {
+    const updatedRoles = roles.filter((i) => i !== currentDashboard)
+    const arraysEqual = (arr1: string[], arr2: string[]) => {
+      if (arr1.length !== arr2.length) return false
+      return arr1.every((item, index) => item === arr2[index])
+    }
+
+    if (!arraysEqual(unactiveRoles, updatedRoles)) {
+      setUnactiveRoles(updatedRoles)
+    }
+  }, [currentDashboard, unactiveRoles, roles])
 
   useEffect(() => {
     setUnactiveRoles((roles) =>
