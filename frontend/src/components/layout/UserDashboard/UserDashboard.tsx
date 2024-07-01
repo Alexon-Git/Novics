@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { useCheckRole } from '../../../hooks/useCheckRole'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import Accepted from '../../section/User/Accepted/Accepted'
@@ -17,6 +18,9 @@ const UserDashboard = () => {
   }
   return (
     <div className="py-20">
+      <Helmet>
+        <title>Представитель</title>
+      </Helmet>
       {user && user.role === 'admin' && <Table />}
       {user && user.role && TEMPLATES[user.role as TemplateKeys]}
       <NotAccepted />

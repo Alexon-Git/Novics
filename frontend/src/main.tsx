@@ -14,7 +14,6 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
   <>
-    <Ripple color="#0E41E9" background="white" />
     <HelmetProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -26,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </PersistGate>
       </Provider>
     </HelmetProvider>
+    <Ripple time={500} color="#0E41E9" background="white" />
   </>
   // </React.StrictMode>
 )

@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../../../hooks/useAuth'
 import { useCheckRole } from '../../../hooks/useCheckRole'
 import UpdatePolls from '../../section/Admin/UpdatePolls/UpdatePolls'
@@ -11,6 +12,9 @@ const ModeratorDashboard = () => {
   useCheckRole(['moderator'])
   return (
     <div className="py-20">
+      <Helmet>
+        <title>Модератор</title>
+      </Helmet>
       <NewRequests />
       <NewCreate />
       <NewsUpdate />
