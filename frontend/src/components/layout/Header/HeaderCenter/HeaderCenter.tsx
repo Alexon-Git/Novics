@@ -24,12 +24,11 @@ const HeaderCenter = () => {
     parent.current && autoAnimate(parent.current)
   }, [parent])
 
-  // useEffect(() => {
-  //   pathname.split('/')[2] ?
-  //   setCurrentDashboard(pathname.split('/')[2]) : null
-  //   console.log(pathname.split('/')[2])
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname])
+  useEffect(() => {
+    pathname.split('/')[2] ? setCurrentDashboard(pathname.split('/')[2]) : null
+    console.log(pathname.split('/')[2])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   useEffect(() => {
     setUnactiveRoles((roles) =>
