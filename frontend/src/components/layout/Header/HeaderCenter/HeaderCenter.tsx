@@ -26,8 +26,6 @@ const HeaderCenter = () => {
 
   useEffect(() => {
     pathname.split('/')[2] ? setCurrentDashboard(pathname.split('/')[2]) : null
-    console.log(pathname.split('/')[2])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   useEffect(() => {
